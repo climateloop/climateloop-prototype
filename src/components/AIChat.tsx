@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Send, Bot, User, Sparkles, X, MessageCircle } from "lucide-react";
+import { Send, Bot, User, Sparkles, X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Message {
@@ -131,10 +131,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
           onClick={onToggle}
           className="fixed bottom-20 right-4 z-[90] w-14 h-14 rounded-full gradient-primary shadow-elevated flex items-center justify-center transition-transform hover:scale-110 active:scale-95 animate-in zoom-in duration-200"
         >
-          <div className="relative">
-            <MessageCircle className="w-6 h-6 text-primary-foreground" />
-            <Sparkles className="w-3 h-3 text-accent absolute -top-1 -right-1" />
-          </div>
+          <Sparkles className="w-6 h-6 text-white" />
         </button>
       )}
     </>
