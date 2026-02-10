@@ -1,13 +1,14 @@
-import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
+import { MapPin, Bell, Map, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
 import logoImg from "@/assets/climateloop-logo.png";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface HeaderProps {
   notificationCount?: number;
   onOpenNotifications?: () => void;
+  onOpenMap?: () => void;
 }
 
-const Header = ({ notificationCount = 3, onOpenNotifications }: HeaderProps) => {
+const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMap }: HeaderProps) => {
   const { t } = useLanguage();
 
   return (
@@ -20,6 +21,12 @@ const Header = ({ notificationCount = 3, onOpenNotifications }: HeaderProps) => 
         </div>
       </div>
       <div className="flex items-center gap-2">
+        <button
+          onClick={onOpenMap}
+          className="relative p-2 rounded-full hover:bg-muted transition-colors"
+        >
+          <Map className="w-5 h-5 text-foreground" />
+        </button>
         <button
           onClick={onOpenNotifications}
           className="relative p-2 rounded-full hover:bg-muted transition-colors"

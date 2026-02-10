@@ -1,4 +1,4 @@
-import { Home, Bell, PlusCircle, Map, Sparkles, User } from "lucide-react";
+import { Home, AlertTriangle, PlusCircle, Sparkles, User } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface BottomNavProps {
@@ -13,9 +13,8 @@ const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomN
 
   const tabs = [
     { id: "inicio", label: t.navHome, icon: Home },
-    { id: "alertas", label: t.navAlerts, icon: Bell },
+    { id: "alertas", label: t.navAlerts, icon: AlertTriangle },
     { id: "reportar", label: t.navReport, icon: PlusCircle },
-    { id: "mapa", label: t.navMap, icon: Map },
     { id: "ai", label: t.navAI, icon: Sparkles, isAI: true },
     { id: "perfil", label: t.navProfile, icon: User },
   ];
