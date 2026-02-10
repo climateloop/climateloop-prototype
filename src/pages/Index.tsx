@@ -15,6 +15,7 @@ import AlertDetail from "@/components/AlertDetail";
 import ForecastDetail from "@/components/ForecastDetail";
 import CommunityReportDetail from "@/components/CommunityReportDetail";
 import MyContributions from "@/components/MyContributions";
+import MyLocationPage from "@/components/MyLocationPage";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 type DetailView =
@@ -22,6 +23,7 @@ type DetailView =
   | { type: "forecast" }
   | { type: "community"; reportId: string }
   | { type: "contributions" }
+  | { type: "location" }
   | null;
 
 const Index = () => {
@@ -78,6 +80,11 @@ const Index = () => {
     setActiveTab("inicio");
   };
 
+  const handleOpenLocation = () => {
+    setDetailView({ type: "location" });
+    setActiveTab("inicio");
+  };
+
   const renderContent = () => {
     if (detailView) {
       switch (detailView.type) {
@@ -106,6 +113,8 @@ const Index = () => {
           );
         case "contributions":
           return <MyContributions onBack={() => setDetailView(null)} onOpenReport={handleOpenCommunityDetail} />;
+        case "location":
+          return <MyLocationPage onBack={() => setDetailView(null)} />;
       }
     }
 
@@ -125,7 +134,7 @@ const Index = () => {
 
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
-    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} />;
+    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} />;
     return null;
   };
 

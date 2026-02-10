@@ -43,11 +43,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
 
-    // Risk zones
-    L.circle([40.42, -3.71], { radius: 600, color: "hsl(0, 72%, 51%)", fillOpacity: 0.2, weight: 1 }).addTo(map);
-    L.circle([40.41, -3.69], { radius: 400, color: "hsl(25, 95%, 53%)", fillOpacity: 0.2, weight: 1 }).addTo(map);
-    L.circle([40.425, -3.685], { radius: 350, color: "hsl(48, 96%, 53%)", fillOpacity: 0.15, weight: 1 }).addTo(map);
-
     // Community report markers with "view" option
     communityMarkers.forEach((m) => {
       const icon = L.divIcon({
@@ -114,11 +109,11 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         <h2 className="text-lg font-bold text-foreground">{t.mapTitle}</h2>
       </div>
 
-      <div className="relative rounded-2xl overflow-hidden border border-border shadow-card" style={{ height: "400px" }}>
-        <div ref={mapRef} className="w-full h-full" />
+      <div className="relative rounded-2xl overflow-hidden border border-border shadow-card z-0" style={{ height: "400px" }}>
+        <div ref={mapRef} className="w-full h-full z-0" />
 
         {/* Legend overlay */}
-        <div className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[1000]">
+        <div className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-destructive" />
             <span className="text-foreground">{t.mapHighRisk}</span>
@@ -134,7 +129,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         </div>
 
         {/* Controls overlay */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2 z-[1000]">
+        <div className="absolute top-3 right-3 flex flex-col gap-2 z-[400]">
           <button className="w-8 h-8 bg-background/90 backdrop-blur-sm rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors">
             <Layers className="w-4 h-4 text-foreground" />
           </button>

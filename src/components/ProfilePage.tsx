@@ -4,15 +4,16 @@ import { useState } from "react";
 
 interface ProfilePageProps {
   onOpenContributions?: () => void;
+  onOpenLocation?: () => void;
 }
 
-const ProfilePage = ({ onOpenContributions }: ProfilePageProps) => {
+const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) => {
   const { t, locale, setLocale } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
 
   const menuItems = [
     { icon: ClipboardList, label: t.menuMyContributions, value: "12", onClick: onOpenContributions },
-    { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue },
+    { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue, onClick: onOpenLocation },
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive },
     { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => setLangOpen(!langOpen) },
     { icon: Shield, label: t.profilePrivacy, value: "" },
