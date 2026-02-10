@@ -8,21 +8,18 @@ const severityStyles = {
     border: "border-accent",
     title: "text-accent",
     icon: "text-accent",
-    headerBg: "bg-accent/10",
   },
   orange: {
     bg: "bg-warning/15",
     border: "border-warning",
     title: "text-warning",
     icon: "text-warning",
-    headerBg: "bg-warning/10",
   },
   red: {
     bg: "bg-destructive/15",
     border: "border-destructive",
     title: "text-destructive",
     icon: "text-destructive",
-    headerBg: "bg-destructive/10",
   },
 };
 
@@ -38,7 +35,6 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
 
   return (
     <div className="px-4 pb-4 animate-in fade-in duration-200">
-      {/* Back button */}
       <button
         onClick={onBack}
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
@@ -92,13 +88,17 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
         </div>
       )}
 
-      {/* Continue with AI */}
+      {/* Continue with AI - styled as informational card, not button */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
+        <p className="text-sm text-muted-foreground">{t.alertDetailContinueChat}</p>
+      </div>
+
       <button
         onClick={onOpenChat}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary/10 hover:bg-primary/15 transition-colors"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm shadow-card transition-all"
       >
-        <MessageCircle className="w-4 h-4 text-primary" />
-        <span className="text-sm font-medium text-primary">{t.alertDetailContinueChat}</span>
+        <MessageCircle className="w-4 h-4" />
+        {t.aiTitle}
       </button>
     </div>
   );

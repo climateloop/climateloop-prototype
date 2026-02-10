@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Send, Bot, User, Sparkles, X, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -10,33 +10,40 @@ interface Message {
 interface AIChatProps {
   isOpen: boolean;
   onToggle: () => void;
-  pendingQuestion?: string | null;
-  onQuestionHandled?: () => void;
+  context?: string | null;
+  onContextHandled?: () => void;
 }
 
-const AIChat = ({ isOpen, onToggle, pendingQuestion, onQuestionHandled }: AIChatProps) => {
+const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) => {
   const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: t.aiInitialMessage },
   ]);
   const [input, setInput] = useState("");
+  const lastContextRef = useRef<string | null>(null);
 
-  // Handle incoming questions from other components
-  const handlePendingQuestion = () => {
-    if (pendingQuestion) {
-      const userMsg: Message = { role: "user", content: pendingQuestion };
-      setMessages((prev) => [
-        ...prev,
-        userMsg,
-        { role: "assistant", content: t.aiResponse },
+  // When context changes and chat opens, reset conversation with new context
+  useEffect(() => {
+    if (isOpen && context && context !== lastContextRef.current) {
+      lastContextRef.current = context;
+      setMessages([
+        { role: "assistant", content: `${t.aiResponse}\n\n${t.aiPlaceholder}` },
       ]);
-      onQuestionHandled?.();
+      onContextHandled?.();
     }
-  };
+  }, [isOpen, context, t, onContextHandled]);
 
-  if (pendingQuestion && isOpen) {
-    handlePendingQuestion();
-  }
+  // When opened without context, start fresh
+  useEffect(() => {
+    if (isOpen && !context && lastContextRef.current === null) {
+      setMessages([{ role: "assistant", content: t.aiInitialMessage }]);
+    }
+  }, [isOpen, context, t]);
+
+  const handleClose = () => {
+    lastContextRef.current = null;
+    onToggle();
+  };
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -61,15 +68,10 @@ const AIChat = ({ isOpen, onToggle, pendingQuestion, onQuestionHandled }: AIChat
                 <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center">
                   <Bot className="w-4 h-4 text-primary-foreground" />
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-foreground">{t.aiTitle}</h3>
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent">
-                    {t.aiPowered}
-                  </span>
-                </div>
+                <h3 className="text-sm font-semibold text-foreground">{t.aiTitle}</h3>
               </div>
               <button
-                onClick={onToggle}
+                onClick={handleClose}
                 className="p-1.5 rounded-full hover:bg-muted transition-colors"
               >
                 <X className="w-4 h-4 text-muted-foreground" />
