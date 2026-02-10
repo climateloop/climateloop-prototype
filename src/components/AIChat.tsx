@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { Send, Bot, User, Sparkles } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const initialMessages: Message[] = [
-  {
-    role: "assistant",
-    content:
-      "Olá! Sou o assistente do ClimateLoop. Com base nos dados oficiais e nas previsões de ML, vejo que sua região tem **55% de chance de chuva intensa** nas próximas 6 horas. A comunidade já reportou 3 alagamentos próximos. Posso explicar mais ou responder perguntas sobre o clima na sua área.",
-  },
-];
-
 const AIChat = () => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const { t } = useLanguage();
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "assistant", content: t.aiInitialMessage },
+  ]);
   const [input, setInput] = useState("");
 
   const handleSend = () => {
@@ -24,11 +20,7 @@ const AIChat = () => {
     setMessages((prev) => [
       ...prev,
       userMsg,
-      {
-        role: "assistant",
-        content:
-          "Baseado nos dados históricos de ML e nos alertas CAP ativos, recomendo que você evite áreas baixas nas próximas horas. A previsão oficial indica 40% de chuva, mas nosso modelo indica 55% — a diferença se deve aos padrões de umidade que o ML detectou nos últimos 3 dias. As fotos enviadas pela comunidade também mostram nuvens de chuva se formando a oeste.",
-      },
+      { role: "assistant", content: t.aiResponse },
     ]);
     setInput("");
   };
@@ -37,7 +29,7 @@ const AIChat = () => {
     <div className="mx-4">
       <div className="flex items-center gap-2 mb-3">
         <Sparkles className="w-4 h-4 text-accent" />
-        <h2 className="text-base font-semibold text-foreground">Assistente IA</h2>
+        <h2 className="text-base font-semibold text-foreground">{t.aiTitle}</h2>
       </div>
 
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden">
@@ -72,7 +64,7 @@ const AIChat = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Pergunte sobre o clima..."
+            placeholder={t.aiPlaceholder}
             className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
           />
           <button

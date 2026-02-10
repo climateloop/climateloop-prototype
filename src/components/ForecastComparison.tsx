@@ -1,7 +1,8 @@
 import { TrendingUp, TrendingDown, Minus, Brain, Cloud } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ForecastItem {
-  source: string;
+  sourceKey: "forecastOfficial" | "forecastML";
   icon: React.ReactNode;
   temp: string;
   rain: string;
@@ -9,9 +10,9 @@ interface ForecastItem {
   confidence: number;
 }
 
-const forecasts: ForecastItem[] = [
+const forecastData: ForecastItem[] = [
   {
-    source: "Previsão Oficial",
+    sourceKey: "forecastOfficial",
     icon: <Cloud className="w-5 h-5 text-primary" />,
     temp: "29°C",
     rain: "40%",
@@ -19,7 +20,7 @@ const forecasts: ForecastItem[] = [
     confidence: 85,
   },
   {
-    source: "Previsão ML",
+    sourceKey: "forecastML",
     icon: <Brain className="w-5 h-5 text-secondary" />,
     temp: "31°C",
     rain: "55%",
@@ -35,36 +36,37 @@ const TrendIcon = ({ trend }: { trend: string }) => {
 };
 
 const ForecastComparison = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="mx-4">
-      <h2 className="text-base font-semibold text-foreground mb-3">Previsão comparada</h2>
+      <h2 className="text-base font-semibold text-foreground mb-3">{t.forecastTitle}</h2>
       <div className="grid grid-cols-2 gap-3">
-        {forecasts.map((f) => (
+        {forecastData.map((f) => (
           <div
-            key={f.source}
+            key={f.sourceKey}
             className="bg-surface-elevated rounded-xl p-4 shadow-card border border-border"
           >
             <div className="flex items-center gap-2 mb-3">
               {f.icon}
-              <span className="text-xs font-medium text-muted-foreground">{f.source}</span>
+              <span className="text-xs font-medium text-muted-foreground">{t[f.sourceKey]}</span>
             </div>
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-2xl font-bold text-foreground">{f.temp}</p>
-                <p className="text-xs text-muted-foreground mt-1">Chuva: {f.rain}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t.forecastRain}: {f.rain}</p>
               </div>
               <div className="flex flex-col items-center gap-1">
                 <TrendIcon trend={f.trend} />
                 <span className="text-[10px] text-muted-foreground">{f.confidence}%</span>
               </div>
             </div>
-            {/* Confidence bar */}
             <div className="mt-3 h-1.5 bg-muted rounded-full overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${f.confidence}%`,
-                  background: f.source.includes("ML")
+                  background: f.sourceKey === "forecastML"
                     ? "hsl(155 67% 32%)"
                     : "hsl(210 61% 29%)",
                 }}
@@ -74,7 +76,7 @@ const ForecastComparison = () => {
         ))}
       </div>
       <p className="text-xs text-muted-foreground mt-2 text-center italic">
-        O modelo ML detecta +15% de chance de chuva intensa nas próximas 6h
+        {t.forecastMLNote}
       </p>
     </div>
   );
