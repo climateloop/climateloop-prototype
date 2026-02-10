@@ -36,8 +36,8 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
         <div className="p-3 rounded-lg bg-muted mb-3">
           <div className="flex items-center gap-3 mb-2">
             <div>
-              <p className="text-2xl font-bold text-foreground">29°C</p>
-              <p className="text-xs text-muted-foreground">{t.forecastRain}: 40%</p>
+              <p className="text-2xl font-bold text-foreground">28°C</p>
+              <p className="text-xs text-muted-foreground">{t.forecastRain}: 40% · 8mm</p>
             </div>
           </div>
           <div className="mt-2">
@@ -97,7 +97,7 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
         <div className="p-3 rounded-lg bg-muted mb-3">
           <div className="flex items-center gap-3 mb-2">
             <div>
-              <p className="text-2xl font-bold text-foreground">29.3°C</p>
+              <p className="text-2xl font-bold text-foreground">29°C</p>
               <p className="text-xs text-muted-foreground">{t.weatherHumidity}: 68%</p>
             </div>
           </div>
