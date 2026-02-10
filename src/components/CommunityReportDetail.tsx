@@ -164,7 +164,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       </div>
 
-      {/* Invite to use floating AI icon */}
+      {/* Invite to use AI icon in bottom bar */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
         <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
         <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
