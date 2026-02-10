@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ArrowLeft, Navigation, MapPin, Star, Search, Loader2, X, Plus } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -33,14 +33,20 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
   const [currentLocation, setCurrentLocation] = useState("Madrid, Spain");
   const [detecting, setDetecting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedLocations, setSavedLocations] = useState<SavedLocation[]>([]);
-
-  useEffect(() => {
+  const [savedLocations, setSavedLocations] = useState<SavedLocation[]>(() => {
+    const defaultSaved: SavedLocation[] = [
+      { id: "dakar", name: "Dakar, Senegal", lat: 14.7167, lng: -17.4677 },
+      { id: "delhi", name: "Delhi, India", lat: 28.6139, lng: 77.209 },
+      { id: "madrid", name: "Madrid, Spain", lat: 40.4168, lng: -3.7038 },
+      { id: "rio", name: "Rio de Janeiro, Brazil", lat: -22.9068, lng: -43.1729 },
+    ];
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      try { setSavedLocations(JSON.parse(stored)); } catch {}
+      try { return JSON.parse(stored); } catch {}
     }
-  }, []);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSaved));
+    return defaultSaved;
+  });
 
   const persistSaved = (locs: SavedLocation[]) => {
     setSavedLocations(locs);
