@@ -129,7 +129,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
       {!isOpen && (
         <button
           onClick={onToggle}
-          className="fixed bottom-20 right-4 z-[90] w-14 h-14 rounded-full gradient-primary shadow-elevated flex items-center justify-center transition-transform hover:scale-110 active:scale-95 animate-in zoom-in duration-200"
+          className="fixed bottom-20 right-4 z-[90] w-14 h-14 rounded-full gradient-heat shadow-elevated flex items-center justify-center transition-transform hover:scale-110 active:scale-95 animate-in zoom-in duration-200"
         >
           <div className="relative">
             <MessageCircle className="w-6 h-6 text-primary-foreground" />

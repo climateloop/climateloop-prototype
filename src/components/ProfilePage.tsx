@@ -1,18 +1,20 @@
 import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe, ClipboardList } from "lucide-react";
-import { useLanguage, localeNames } from "@/i18n/LanguageContext";
+import { useLanguage, localeNames, type Locale } from "@/i18n/LanguageContext";
+import { useState } from "react";
 
 interface ProfilePageProps {
   onOpenContributions?: () => void;
 }
 
 const ProfilePage = ({ onOpenContributions }: ProfilePageProps) => {
-  const { t, locale } = useLanguage();
+  const { t, locale, setLocale } = useLanguage();
+  const [langOpen, setLangOpen] = useState(false);
 
   const menuItems = [
     { icon: ClipboardList, label: t.menuMyContributions, value: "12", onClick: onOpenContributions },
     { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue },
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive },
-    { icon: Globe, label: t.profileLanguage, value: localeNames[locale] },
+    { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => setLangOpen(!langOpen) },
     { icon: Shield, label: t.profilePrivacy, value: "" },
     { icon: Settings, label: t.profileSettings, value: "" },
   ];
@@ -62,6 +64,23 @@ const ProfilePage = ({ onOpenContributions }: ProfilePageProps) => {
           );
         })}
       </div>
+
+      {/* Language selector dropdown */}
+      {langOpen && (
+        <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden mt-2">
+          {(Object.keys(localeNames) as Locale[]).map((loc) => (
+            <button
+              key={loc}
+              onClick={() => { setLocale(loc); setLangOpen(false); }}
+              className={`w-full text-left px-4 py-3 text-sm border-b border-border last:border-b-0 hover:bg-muted transition-colors ${
+                locale === loc ? "text-primary font-medium" : "text-foreground"
+              }`}
+            >
+              {localeNames[loc]}
+            </button>
+          ))}
+        </div>
+      )}
 
       <button className="w-full flex items-center justify-center gap-2 mt-6 py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors">
         <LogOut className="w-4 h-4" />
