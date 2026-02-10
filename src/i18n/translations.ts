@@ -215,6 +215,8 @@ type TranslationKeys = {
   emergencyMedical: string;
   emergencyCivilDefense: string;
   emergencyRedCross: string;
+  // Community - own reports
+  communitySentByMe: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -399,12 +401,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Tap the AI Assistant icon floating on the screen to ask questions about specific patterns or discrepancies.",
     alertDetailAskTitle: "Have questions?",
     alertDetailAskDesc: "Tap the AI Assistant icon floating on the screen for personalized guidance about this alert.",
-    emergencyTitle: "Emergency numbers",
+    emergencyTitle: "Emergency numbers — Spain",
     emergencyPolice: "Police",
     emergencyFire: "Fire department",
     emergencyMedical: "Medical emergency",
     emergencyCivilDefense: "Civil Defense",
     emergencyRedCross: "Red Cross",
+    communitySentByMe: "Sent by me",
   },
   es: {
     location: "Madrid, España",
@@ -587,12 +590,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Toca el ícono del Asistente IA flotante en la pantalla para preguntar sobre patrones específicos o discrepancias.",
     alertDetailAskTitle: "¿Tienes preguntas?",
     alertDetailAskDesc: "Toca el ícono del Asistente IA flotante en la pantalla para orientación personalizada sobre esta alerta.",
-    emergencyTitle: "Teléfonos de emergencia",
+    emergencyTitle: "Teléfonos de emergencia — España",
     emergencyPolice: "Policía",
     emergencyFire: "Bomberos",
     emergencyMedical: "Emergencia médica",
     emergencyCivilDefense: "Protección Civil",
     emergencyRedCross: "Cruz Roja",
+    communitySentByMe: "Enviado por mí",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -775,12 +779,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Toque no ícone do Assistente IA flutuante na tela para perguntar sobre padrões específicos ou discrepâncias.",
     alertDetailAskTitle: "Tem dúvidas?",
     alertDetailAskDesc: "Toque no ícone do Assistente IA flutuante na tela para orientação personalizada sobre este alerta.",
-    emergencyTitle: "Telefones de emergência",
+    emergencyTitle: "Telefones de emergência — Espanha",
     emergencyPolice: "Polícia",
     emergencyFire: "Bombeiros",
     emergencyMedical: "Emergência médica",
     emergencyCivilDefense: "Proteção Civil",
     emergencyRedCross: "Cruz Vermelha",
+    communitySentByMe: "Enviado por mim",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -963,11 +968,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour poser des questions sur des schémas ou divergences spécifiques.",
     alertDetailAskTitle: "Des questions ?",
     alertDetailAskDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour un accompagnement personnalisé sur cette alerte.",
-    emergencyTitle: "Numéros d'urgence",
+    emergencyTitle: "Numéros d'urgence — Espagne",
     emergencyPolice: "Police",
     emergencyFire: "Pompiers",
     emergencyMedical: "Urgence médicale",
     emergencyCivilDefense: "Protection Civile",
     emergencyRedCross: "Croix-Rouge",
+    communitySentByMe: "Envoyé par moi",
   },
 };

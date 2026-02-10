@@ -10,6 +10,7 @@ interface CommunityReport {
   hasPhoto: boolean;
   distance: string;
   photoBlurred?: boolean;
+  isMine?: boolean;
 }
 
 const reports: CommunityReport[] = [
@@ -21,6 +22,7 @@ const reports: CommunityReport[] = [
     time: "15 min",
     hasPhoto: true,
     distance: "1.2 km",
+    isMine: true,
   },
   {
     id: "2",
@@ -39,6 +41,7 @@ const reports: CommunityReport[] = [
     time: "1h",
     hasPhoto: true,
     distance: "0.8 km",
+    isMine: true,
   },
   {
     id: "4",
@@ -108,7 +111,7 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
                   </div>
                   <p className="text-sm text-foreground">{r.description}</p>
                   <div className="flex items-center gap-3 mt-1.5">
-                    <span className="text-xs text-muted-foreground">{r.user}</span>
+                    <span className="text-xs text-muted-foreground">{r.isMine ? t.communitySentByMe : r.user}</span>
                     <span className="text-xs text-muted-foreground">{r.time}</span>
                     <span className="text-xs text-muted-foreground flex items-center gap-0.5">
                       <MapPin className="w-3 h-3" /> {r.distance}

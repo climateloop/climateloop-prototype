@@ -11,6 +11,8 @@ interface ReportData {
   distance: string;
 }
 
+const myReportIds = ["1", "3"];
+
 const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?: string; location: string; photoBlurred?: boolean }> = {
   "1": {
     id: "1",
@@ -154,7 +156,9 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
             <span className="text-sm font-bold text-muted-foreground">{report.user.charAt(0)}</span>
           </div>
           <div>
-            <p className="text-sm font-medium text-foreground">{report.user}</p>
+            <p className="text-sm font-medium text-foreground">
+              {myReportIds.includes(report.id) ? t.communitySentByMe : report.user}
+            </p>
             <p className="text-xs text-muted-foreground">{t.communityDetailTime}: {report.time}</p>
           </div>
         </div>
