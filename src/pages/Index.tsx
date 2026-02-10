@@ -148,7 +148,7 @@ const Index = () => {
         {renderContent()}
       </main>
 
-      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
+      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} isChatOpen={chatOpen} onToggleChat={() => setChatOpen(!chatOpen)} />
       <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} />
       <AIChat
         isOpen={chatOpen}

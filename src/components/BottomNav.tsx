@@ -1,12 +1,14 @@
-import { Home, Bell, PlusCircle, Map, User } from "lucide-react";
+import { Home, Bell, PlusCircle, Map, Sparkles, User } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface BottomNavProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  isChatOpen?: boolean;
+  onToggleChat?: () => void;
 }
 
-const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
+const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomNavProps) => {
   const { t } = useLanguage();
 
   const tabs = [
@@ -14,6 +16,7 @@ const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
     { id: "alertas", label: t.navAlerts, icon: Bell },
     { id: "reportar", label: t.navReport, icon: PlusCircle },
     { id: "mapa", label: t.navMap, icon: Map },
+    { id: "ai", label: t.navAI, icon: Sparkles, isAI: true },
     { id: "perfil", label: t.navProfile, icon: User },
   ];
 
@@ -22,7 +25,8 @@ const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
       <div className="flex items-center justify-around max-w-lg mx-auto py-1">
         {tabs.map((tab) => {
           const isCenter = tab.id === "reportar";
-          const isActive = activeTab === tab.id;
+          const isAI = tab.id === "ai";
+          const isActive = isAI ? !!isChatOpen : activeTab === tab.id;
           const Icon = tab.icon;
 
           if (isCenter) {
@@ -36,6 +40,21 @@ const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                   <Icon className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <span className="text-[10px] font-semibold text-primary">{tab.label}</span>
+              </button>
+            );
+          }
+
+          if (isAI) {
+            return (
+              <button
+                key={tab.id}
+                onClick={onToggleChat}
+                className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors ${
+                  isActive ? "text-primary" : "text-muted-foreground"
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="text-[10px] font-medium">{tab.label}</span>
               </button>
             );
           }
