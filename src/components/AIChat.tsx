@@ -65,8 +65,8 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border gradient-heat">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-primary-foreground" />
+                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center">
+                  <Bot className="w-4 h-4 text-primary" />
                 </div>
                 <h3 className="text-sm font-semibold text-white">{t.aiTitle}</h3>
               </div>

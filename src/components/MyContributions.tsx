@@ -25,9 +25,10 @@ const typeColorMap: Record<string, string> = {
 
 interface MyContributionsProps {
   onBack: () => void;
+  onOpenReport?: (reportId: string) => void;
 }
 
-const MyContributions = ({ onBack }: MyContributionsProps) => {
+const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
   const { t } = useLanguage();
 
   return (
@@ -46,7 +47,7 @@ const MyContributions = ({ onBack }: MyContributionsProps) => {
         {myContributions.map((c) => {
           const typeLabel = (t as any)[c.typeKey] || c.typeKey;
           return (
-            <div key={c.id} className="bg-surface-elevated rounded-xl p-4 shadow-card border border-border">
+            <button key={c.id} onClick={() => onOpenReport?.(c.id)} className="w-full text-left bg-surface-elevated rounded-xl p-4 shadow-card border border-border hover:bg-muted transition-colors">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1.5">
@@ -75,7 +76,7 @@ const MyContributions = ({ onBack }: MyContributionsProps) => {
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground mt-1" />
               </div>
-            </div>
+            </button>
           );
         })}
       </div>

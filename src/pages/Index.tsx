@@ -104,7 +104,7 @@ const Index = () => {
             />
           );
         case "contributions":
-          return <MyContributions onBack={() => setDetailView(null)} />;
+          return <MyContributions onBack={() => setDetailView(null)} onOpenReport={handleOpenCommunityDetail} />;
       }
     }
 
