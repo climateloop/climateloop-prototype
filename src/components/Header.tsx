@@ -1,12 +1,14 @@
-import { MapPin, Bell, Menu, Globe } from "lucide-react";
+import { MapPin, Bell, Menu, Globe, X, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList } from "lucide-react";
 import { useLanguage, localeNames, type Locale } from "@/i18n/LanguageContext";
 import { useState, useRef, useEffect } from "react";
 
 interface HeaderProps {
   notificationCount?: number;
+  onOpenNotifications?: () => void;
+  onOpenMenu?: () => void;
 }
 
-const Header = ({ notificationCount = 3 }: HeaderProps) => {
+const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMenu }: HeaderProps) => {
   const { t, locale, setLocale } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
@@ -36,7 +38,6 @@ const Header = ({ notificationCount = 3 }: HeaderProps) => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        {/* Language selector */}
         <div className="relative" ref={langRef}>
           <button
             onClick={() => setLangOpen(!langOpen)}
@@ -61,7 +62,10 @@ const Header = ({ notificationCount = 3 }: HeaderProps) => {
             </div>
           )}
         </div>
-        <button className="relative p-2 rounded-full hover:bg-muted transition-colors">
+        <button
+          onClick={onOpenNotifications}
+          className="relative p-2 rounded-full hover:bg-muted transition-colors"
+        >
           <Bell className="w-5 h-5 text-foreground" />
           {notificationCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
@@ -69,11 +73,125 @@ const Header = ({ notificationCount = 3 }: HeaderProps) => {
             </span>
           )}
         </button>
-        <button className="p-2 rounded-full hover:bg-muted transition-colors">
+        <button
+          onClick={onOpenMenu}
+          className="p-2 rounded-full hover:bg-muted transition-colors"
+        >
           <Menu className="w-5 h-5 text-foreground" />
         </button>
       </div>
     </header>
+  );
+};
+
+// Notification Panel
+interface NotificationPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+interface Notification {
+  id: string;
+  type: "alert_received" | "report_sent" | "report_verified" | "community_nearby";
+  titleKey: "notifAlertReceived" | "notifReportSent" | "notifReportVerified" | "notifCommunityNearby";
+  detail: string;
+  time: string;
+  read: boolean;
+}
+
+const notifications: Notification[] = [
+  { id: "1", type: "alert_received", titleKey: "notifAlertReceived", detail: "Orange Alert: Heavy rain", time: "5 min", read: false },
+  { id: "2", type: "report_verified", titleKey: "notifReportVerified", detail: "Flooding – Gran Vía", time: "1h", read: false },
+  { id: "3", type: "community_nearby", titleKey: "notifCommunityNearby", detail: "Strong wind – 0.8 km", time: "2h", read: false },
+  { id: "4", type: "report_sent", titleKey: "notifReportSent", detail: "Extreme heat – Zona este", time: "3h", read: true },
+  { id: "5", type: "alert_received", titleKey: "notifAlertReceived", detail: "Yellow Alert: Moderate wind", time: "5h", read: true },
+];
+
+const notifIconColors: Record<string, string> = {
+  alert_received: "bg-warning/15 text-warning",
+  report_sent: "bg-primary/15 text-primary",
+  report_verified: "bg-secondary/15 text-secondary",
+  community_nearby: "bg-accent/15 text-accent",
+};
+
+export const NotificationPanel = ({ isOpen, onClose }: NotificationPanelProps) => {
+  const { t } = useLanguage();
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-start justify-center bg-foreground/40 backdrop-blur-sm">
+      <div className="bg-background w-full max-w-lg mt-14 rounded-b-2xl max-h-[80vh] overflow-y-auto animate-in slide-in-from-top duration-200 shadow-elevated">
+        <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border">
+          <h2 className="text-lg font-bold text-foreground">{t.notifTitle}</h2>
+          <div className="flex items-center gap-2">
+            <button className="text-xs text-primary font-medium">{t.notifMarkAllRead}</button>
+            <button onClick={onClose} className="p-1.5 rounded-full hover:bg-muted transition-colors">
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+          </div>
+        </div>
+        <div className="divide-y divide-border">
+          {notifications.map((n) => (
+            <div key={n.id} className={`flex items-start gap-3 px-4 py-3 ${!n.read ? "bg-primary/5" : ""}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${notifIconColors[n.type]}`}>
+                <Bell className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`text-sm ${!n.read ? "font-semibold" : "font-medium"} text-foreground`}>{t[n.titleKey]}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{n.detail}</p>
+                <p className="text-[10px] text-muted-foreground mt-1">{n.time}</p>
+              </div>
+              {!n.read && <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Menu Panel
+interface MenuPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onOpenContributions?: () => void;
+}
+
+export const MenuPanel = ({ isOpen, onClose, onOpenContributions }: MenuPanelProps) => {
+  const { t } = useLanguage();
+  if (!isOpen) return null;
+
+  const items = [
+    { icon: ClipboardList, label: t.menuMyContributions, onClick: () => { onClose(); onOpenContributions?.(); } },
+    { icon: Info, label: t.menuAbout, onClick: () => {} },
+    { icon: HelpCircle, label: t.menuHelp, onClick: () => {} },
+    { icon: FileText, label: t.menuTerms, onClick: () => {} },
+    { icon: Share2, label: t.menuShare, onClick: () => {} },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-start justify-end bg-foreground/40 backdrop-blur-sm" onClick={onClose}>
+      <div
+        className="bg-background w-64 mt-14 mr-2 rounded-xl shadow-elevated overflow-hidden animate-in slide-in-from-right duration-200 border border-border"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="divide-y divide-border">
+          {items.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.label}
+                onClick={item.onClick}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors"
+              >
+                <Icon className="w-4 h-4 text-primary" />
+                <span className="text-sm text-foreground">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

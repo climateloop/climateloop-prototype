@@ -182,6 +182,27 @@ type TranslationKeys = {
   communityDetailLocation: string;
   communityDetailTime: string;
   backButton: string;
+  // Notifications
+  notifTitle: string;
+  notifAlertReceived: string;
+  notifReportSent: string;
+  notifReportVerified: string;
+  notifCommunityNearby: string;
+  notifMarkAllRead: string;
+  // Menu
+  menuAbout: string;
+  menuHelp: string;
+  menuTerms: string;
+  menuShare: string;
+  menuMyContributions: string;
+  // My Contributions
+  myContribTitle: string;
+  myContribEmpty: string;
+  myContribStatus: string;
+  myContribVerified: string;
+  myContribPending: string;
+  // Photo warning
+  photoBlurWarning: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -343,6 +364,23 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailLocation: "Location",
     communityDetailTime: "Reported",
     backButton: "Back",
+    notifTitle: "Notifications",
+    notifAlertReceived: "Alert received for your area",
+    notifReportSent: "Your report was sent",
+    notifReportVerified: "Your report was verified by AI",
+    notifCommunityNearby: "New community report nearby",
+    notifMarkAllRead: "Mark all as read",
+    menuAbout: "About ClimateLoop",
+    menuHelp: "Help & Support",
+    menuTerms: "Terms of Use",
+    menuShare: "Share App",
+    menuMyContributions: "My Contributions",
+    myContribTitle: "My Contributions",
+    myContribEmpty: "You haven't submitted any reports yet.",
+    myContribStatus: "Status",
+    myContribVerified: "Verified",
+    myContribPending: "Under review",
+    photoBlurWarning: "Image blurred: people detected. Photos must not contain identifiable persons.",
   },
   es: {
     location: "Madrid, España",
@@ -502,6 +540,23 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailLocation: "Ubicación",
     communityDetailTime: "Reportado",
     backButton: "Volver",
+    notifTitle: "Notificaciones",
+    notifAlertReceived: "Alerta recibida para tu zona",
+    notifReportSent: "Tu reporte fue enviado",
+    notifReportVerified: "Tu reporte fue verificado por IA",
+    notifCommunityNearby: "Nuevo reporte comunitario cercano",
+    notifMarkAllRead: "Marcar todo como leído",
+    menuAbout: "Sobre ClimateLoop",
+    menuHelp: "Ayuda y Soporte",
+    menuTerms: "Términos de Uso",
+    menuShare: "Compartir App",
+    menuMyContributions: "Mis Contribuciones",
+    myContribTitle: "Mis Contribuciones",
+    myContribEmpty: "Aún no has enviado ningún reporte.",
+    myContribStatus: "Estado",
+    myContribVerified: "Verificado",
+    myContribPending: "En revisión",
+    photoBlurWarning: "Imagen difuminada: personas detectadas. Las fotos no deben contener personas identificables.",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -661,6 +716,23 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailLocation: "Localização",
     communityDetailTime: "Reportado",
     backButton: "Voltar",
+    notifTitle: "Notificações",
+    notifAlertReceived: "Alerta recebido para sua área",
+    notifReportSent: "Seu relato foi enviado",
+    notifReportVerified: "Seu relato foi verificado pela IA",
+    notifCommunityNearby: "Novo relato da comunidade próximo",
+    notifMarkAllRead: "Marcar tudo como lido",
+    menuAbout: "Sobre o ClimateLoop",
+    menuHelp: "Ajuda e Suporte",
+    menuTerms: "Termos de Uso",
+    menuShare: "Compartilhar App",
+    menuMyContributions: "Minhas Contribuições",
+    myContribTitle: "Minhas Contribuições",
+    myContribEmpty: "Você ainda não enviou nenhum relato.",
+    myContribStatus: "Status",
+    myContribVerified: "Verificado",
+    myContribPending: "Em análise",
+    photoBlurWarning: "Imagem borrada: pessoas detectadas. As fotos não devem conter pessoas identificáveis.",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -820,5 +892,22 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailLocation: "Localisation",
     communityDetailTime: "Signalé",
     backButton: "Retour",
+    notifTitle: "Notifications",
+    notifAlertReceived: "Alerte reçue pour votre zone",
+    notifReportSent: "Votre signalement a été envoyé",
+    notifReportVerified: "Votre signalement a été vérifié par l'IA",
+    notifCommunityNearby: "Nouveau signalement communautaire à proximité",
+    notifMarkAllRead: "Tout marquer comme lu",
+    menuAbout: "À propos de ClimateLoop",
+    menuHelp: "Aide et Support",
+    menuTerms: "Conditions d'utilisation",
+    menuShare: "Partager l'application",
+    menuMyContributions: "Mes Contributions",
+    myContribTitle: "Mes Contributions",
+    myContribEmpty: "Vous n'avez pas encore envoyé de signalement.",
+    myContribStatus: "Statut",
+    myContribVerified: "Vérifié",
+    myContribPending: "En cours de vérification",
+    photoBlurWarning: "Image floutée : personnes détectées. Les photos ne doivent pas contenir de personnes identifiables.",
   },
 };

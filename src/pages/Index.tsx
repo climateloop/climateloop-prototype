@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "@/components/Header";
+import Header, { NotificationPanel, MenuPanel } from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
 import AlertCard, { type Alert } from "@/components/AlertCard";
@@ -13,12 +13,14 @@ import ProfilePage from "@/components/ProfilePage";
 import AlertDetail from "@/components/AlertDetail";
 import ForecastDetail from "@/components/ForecastDetail";
 import CommunityReportDetail from "@/components/CommunityReportDetail";
+import MyContributions from "@/components/MyContributions";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 type DetailView =
   | { type: "alert"; alert: Alert }
   | { type: "forecast" }
   | { type: "community"; reportId: string }
+  | { type: "contributions" }
   | null;
 
 const Index = () => {
@@ -27,6 +29,8 @@ const Index = () => {
   const [chatOpen, setChatOpen] = useState(false);
   const [chatContext, setChatContext] = useState<string | null>(null);
   const [detailView, setDetailView] = useState<DetailView>(null);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { t } = useLanguage();
 
   const activeAlert: Alert = {
@@ -69,8 +73,13 @@ const Index = () => {
     setDetailView({ type: "community", reportId });
   };
 
+  const handleOpenContributions = () => {
+    setDetailView({ type: "contributions" });
+    setActiveTab("inicio");
+  };
+
   const renderContent = () => {
-    if (detailView && activeTab === "inicio") {
+    if (detailView) {
       switch (detailView.type) {
         case "alert":
           return (
@@ -95,6 +104,8 @@ const Index = () => {
               onOpenChat={() => handleOpenChat(`community report #${detailView.reportId}`)}
             />
           );
+        case "contributions":
+          return <MyContributions onBack={() => setDetailView(null)} />;
       }
     }
 
@@ -113,13 +124,16 @@ const Index = () => {
 
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
     if (activeTab === "mapa") return <MapPage />;
-    if (activeTab === "perfil") return <ProfilePage />;
+    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} />;
     return null;
   };
 
   return (
     <div className="min-h-screen bg-background max-w-lg mx-auto relative">
-      <Header />
+      <Header
+        onOpenNotifications={() => setNotifOpen(true)}
+        onOpenMenu={() => setMenuOpen(true)}
+      />
 
       <main className="pt-4 pb-24 space-y-5">
         {renderContent()}
@@ -133,6 +147,8 @@ const Index = () => {
         context={chatContext}
         onContextHandled={() => setChatContext(null)}
       />
+      <NotificationPanel isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
+      <MenuPanel isOpen={menuOpen} onClose={() => setMenuOpen(false)} onOpenContributions={handleOpenContributions} />
     </div>
   );
 };

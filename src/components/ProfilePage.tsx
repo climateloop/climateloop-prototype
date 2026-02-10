@@ -1,10 +1,15 @@
-import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe } from "lucide-react";
+import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe, ClipboardList } from "lucide-react";
 import { useLanguage, localeNames } from "@/i18n/LanguageContext";
 
-const ProfilePage = () => {
+interface ProfilePageProps {
+  onOpenContributions?: () => void;
+}
+
+const ProfilePage = ({ onOpenContributions }: ProfilePageProps) => {
   const { t, locale } = useLanguage();
 
   const menuItems = [
+    { icon: ClipboardList, label: t.menuMyContributions, value: "12", onClick: onOpenContributions },
     { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue },
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive },
     { icon: Globe, label: t.profileLanguage, value: localeNames[locale] },
@@ -44,6 +49,7 @@ const ProfilePage = () => {
           return (
             <button
               key={item.label}
+              onClick={item.onClick}
               className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted transition-colors ${
                 i < menuItems.length - 1 ? "border-b border-border" : ""
               }`}
