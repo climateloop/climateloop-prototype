@@ -1,4 +1,4 @@
-import { ArrowLeft, Brain, Cloud, Sparkles, MessageCircle } from "lucide-react";
+import { ArrowLeft, Brain, Cloud, Sparkles, MessageCircle, Info } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ForecastDetailProps {
@@ -33,20 +33,27 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
           <Cloud className="w-5 h-5 text-primary" />
           <h3 className="text-sm font-semibold text-foreground">{t.forecastOfficial}</h3>
         </div>
-        <div className="flex items-center gap-3 mb-3 p-3 rounded-lg bg-primary/5">
-          <div>
-            <p className="text-2xl font-bold text-foreground">29°C</p>
-            <p className="text-xs text-muted-foreground">{t.forecastRain}: 40%</p>
+        <div className="p-3 rounded-lg bg-primary/5 mb-3">
+          <div className="flex items-center gap-3 mb-2">
+            <div>
+              <p className="text-2xl font-bold text-foreground">29°C</p>
+              <p className="text-xs text-muted-foreground">{t.forecastRain}: 40%</p>
+            </div>
           </div>
-          <div className="h-1.5 flex-1 bg-muted rounded-full overflow-hidden">
-            <div className="h-full rounded-full w-[85%]" style={{ background: "hsl(210 61% 29%)" }} />
+          {/* Confidence bar with background */}
+          <div className="mt-2">
+            <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-500" style={{ width: "85%", background: "hsl(210 61% 29%)" }} />
+            </div>
+            <p className="text-[10px] text-muted-foreground mt-1 text-right">85 / 100%</p>
           </div>
-          <span className="text-xs text-muted-foreground">85%</span>
         </div>
-        <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-          {t.forecastDetailOfficialExplanation.split("**").map((part, i) =>
-            i % 2 === 1 ? <strong key={i}>{part}</strong> : part
-          )}
+        <p className="text-xs text-muted-foreground italic mb-3 flex items-start gap-1.5">
+          <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+          {t.forecastDetailConfidenceLabel}
+        </p>
+        <p className="text-sm text-foreground leading-relaxed">
+          {t.forecastDetailOfficialExplanation}
         </p>
       </div>
 
@@ -56,27 +63,45 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
           <Brain className="w-5 h-5 text-secondary" />
           <h3 className="text-sm font-semibold text-foreground">{t.forecastML}</h3>
         </div>
-        <div className="flex items-center gap-3 mb-3 p-3 rounded-lg bg-secondary/5">
-          <div>
-            <p className="text-2xl font-bold text-foreground">31°C</p>
-            <p className="text-xs text-muted-foreground">{t.forecastRain}: 55%</p>
+        <div className="p-3 rounded-lg bg-secondary/5 mb-3">
+          <div className="flex items-center gap-3 mb-2">
+            <div>
+              <p className="text-2xl font-bold text-foreground">31°C</p>
+              <p className="text-xs text-muted-foreground">{t.forecastRain}: 55%</p>
+            </div>
           </div>
-          <div className="h-1.5 flex-1 bg-muted rounded-full overflow-hidden">
-            <div className="h-full rounded-full w-[78%]" style={{ background: "hsl(155 67% 32%)" }} />
+          {/* Confidence bar with background */}
+          <div className="mt-2">
+            <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-500" style={{ width: "78%", background: "hsl(155 67% 32%)" }} />
+            </div>
+            <p className="text-[10px] text-muted-foreground mt-1 text-right">78 / 100%</p>
           </div>
-          <span className="text-xs text-muted-foreground">78%</span>
         </div>
-        <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-          {t.forecastDetailMLExplanation.split("**").map((part, i) =>
-            i % 2 === 1 ? <strong key={i}>{part}</strong> : part
-          )}
+        <p className="text-xs text-muted-foreground italic mb-3 flex items-start gap-1.5">
+          <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+          {t.forecastDetailConfidenceLabel}
+        </p>
+        <p className="text-sm text-foreground leading-relaxed">
+          {t.forecastDetailMLExplanation}
+        </p>
+      </div>
+
+      {/* Why compare section */}
+      <div className="bg-accent/5 rounded-xl border border-accent/20 shadow-card p-5 mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-accent" />
+          <h3 className="text-sm font-semibold text-foreground">{t.forecastDetailDeeperTitle}</h3>
+        </div>
+        <p className="text-sm text-foreground leading-relaxed">
+          {t.forecastDetailWhyCompare}
         </p>
       </div>
 
       {/* Invite to use floating AI icon */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
         <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
-        <p className="text-sm text-foreground font-medium mb-1">{t.forecastDetailDeeperTitle}</p>
+        <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
         <p className="text-xs text-muted-foreground">{t.forecastDetailDeeperDesc}</p>
       </div>
     </div>
