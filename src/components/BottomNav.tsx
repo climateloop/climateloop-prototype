@@ -32,7 +32,7 @@ const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                 onClick={() => onTabChange(tab.id)}
                 className="flex flex-col items-center gap-0.5 -mt-4"
               >
-                <div className="w-12 h-12 rounded-full gradient-heat flex items-center justify-center shadow-elevated transition-transform hover:scale-105 active:scale-95">
+                <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center shadow-elevated transition-transform hover:scale-105 active:scale-95">
                   <Icon className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <span className="text-[10px] font-semibold text-primary">{tab.label}</span>
