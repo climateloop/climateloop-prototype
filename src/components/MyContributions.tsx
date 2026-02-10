@@ -11,9 +11,9 @@ interface Contribution {
 }
 
 const myContributions: Contribution[] = [
-  { id: "c1", typeKey: "typeFlooding", description: "Calle inundada en Puerta del Sol", time: "2h", verified: true, hasPhoto: true },
-  { id: "c2", typeKey: "typeExtremeHeat", description: "Temperatura extrema en Retiro", time: "1d", verified: true, hasPhoto: false },
-  { id: "c3", typeKey: "typeStrongWind", description: "Ramas caídas en Malasaña", time: "3d", verified: false, hasPhoto: true },
+  { id: "1", typeKey: "typeFlooding", description: "Calle inundada en Puerta del Sol", time: "2h", verified: true, hasPhoto: true },
+  { id: "2", typeKey: "typeExtremeHeat", description: "Temperatura extrema en Retiro", time: "1d", verified: true, hasPhoto: false },
+  { id: "3", typeKey: "typeStrongWind", description: "Ramas caídas en Malasaña", time: "3d", verified: false, hasPhoto: true },
 ];
 
 const typeColorMap: Record<string, string> = {

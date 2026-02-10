@@ -48,39 +48,39 @@ const ProfilePage = ({ onOpenContributions }: ProfilePageProps) => {
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden">
         {menuItems.map((item, i) => {
           const Icon = item.icon;
+          const isLang = item.icon === Globe;
           return (
-            <button
-              key={item.label}
-              onClick={item.onClick}
-              className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted transition-colors ${
-                i < menuItems.length - 1 ? "border-b border-border" : ""
-              }`}
-            >
-              <Icon className="w-5 h-5 text-primary" />
-              <span className="flex-1 text-left text-sm text-foreground">{item.label}</span>
-              {item.value && <span className="text-xs text-muted-foreground">{item.value}</span>}
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-            </button>
+            <div key={item.label}>
+              <button
+                onClick={item.onClick}
+                className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted transition-colors ${
+                  i < menuItems.length - 1 && !isLang ? "border-b border-border" : !langOpen && i < menuItems.length - 1 ? "border-b border-border" : ""
+                }`}
+              >
+                <Icon className="w-5 h-5 text-primary" />
+                <span className="flex-1 text-left text-sm text-foreground">{item.label}</span>
+                {item.value && <span className="text-xs text-muted-foreground">{item.value}</span>}
+                <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${isLang && langOpen ? "rotate-90" : ""}`} />
+              </button>
+              {isLang && langOpen && (
+                <div className="border-b border-border">
+                  {(Object.keys(localeNames) as Locale[]).map((loc) => (
+                    <button
+                      key={loc}
+                      onClick={() => { setLocale(loc); setLangOpen(false); }}
+                      className={`w-full text-left px-12 py-2.5 text-sm hover:bg-muted transition-colors ${
+                        locale === loc ? "text-primary font-medium bg-primary/5" : "text-foreground"
+                      }`}
+                    >
+                      {localeNames[loc]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           );
         })}
       </div>
-
-      {/* Language selector dropdown */}
-      {langOpen && (
-        <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden mt-2">
-          {(Object.keys(localeNames) as Locale[]).map((loc) => (
-            <button
-              key={loc}
-              onClick={() => { setLocale(loc); setLangOpen(false); }}
-              className={`w-full text-left px-4 py-3 text-sm border-b border-border last:border-b-0 hover:bg-muted transition-colors ${
-                locale === loc ? "text-primary font-medium" : "text-foreground"
-              }`}
-            >
-              {localeNames[loc]}
-            </button>
-          ))}
-        </div>
-      )}
 
       <button className="w-full flex items-center justify-center gap-2 mt-6 py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors">
         <LogOut className="w-4 h-4" />
