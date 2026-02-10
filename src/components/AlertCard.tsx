@@ -1,4 +1,5 @@
-import { AlertTriangle, ChevronRight } from "lucide-react";
+import { AlertTriangle, ChevronRight, Sparkles } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Alert {
   id: string;
@@ -36,10 +37,12 @@ const severityStyles = {
 interface AlertCardProps {
   alert: Alert;
   compact?: boolean;
+  onAskAI?: (context: string) => void;
 }
 
-const AlertCard = ({ alert, compact = false }: AlertCardProps) => {
+const AlertCard = ({ alert, compact = false, onAskAI }: AlertCardProps) => {
   const styles = severityStyles[alert.severity];
+  const { t } = useLanguage();
 
   return (
     <div className={`rounded-xl ${styles.bg} border ${styles.border} p-4 transition-all`}>
@@ -55,7 +58,7 @@ const AlertCard = ({ alert, compact = false }: AlertCardProps) => {
           {!compact && alert.actions && alert.actions.length > 0 && (
             <div className="mt-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-2">
-                Ações recomendadas
+                {t.alertRecommendedActions}
               </p>
               <ul className="space-y-1">
                 {alert.actions.map((action, i) => (
@@ -68,11 +71,18 @@ const AlertCard = ({ alert, compact = false }: AlertCardProps) => {
             </div>
           )}
 
-          {!compact && (
-            <button className="flex items-center gap-1 mt-3 text-sm font-medium text-primary hover:underline">
-              Ver mais informações <ChevronRight className="w-4 h-4" />
-            </button>
-          )}
+          {/* AI-powered CTA */}
+          <button
+            onClick={() => onAskAI?.(alert.title)}
+            className="flex items-center gap-1.5 mt-3 text-sm font-medium text-primary hover:underline group"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+            <span>{t.aiUnderstandAlert}</span>
+            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1">
+              {t.aiPowered}
+            </span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </div>

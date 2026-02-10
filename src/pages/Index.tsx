@@ -15,6 +15,8 @@ import { useLanguage } from "@/i18n/LanguageContext";
 const Index = () => {
   const [activeTab, setActiveTab] = useState("inicio");
   const [reportOpen, setReportOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const { t } = useLanguage();
 
   const activeAlert = {
@@ -39,6 +41,11 @@ const Index = () => {
     }
   };
 
+  const handleAskAI = (context: string) => {
+    setPendingQuestion(context);
+    setChatOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-background max-w-lg mx-auto relative">
       <Header />
@@ -47,22 +54,27 @@ const Index = () => {
         {activeTab === "inicio" && (
           <>
             <div className="px-4">
-              <AlertCard alert={activeAlert} compact />
+              <AlertCard alert={activeAlert} compact onAskAI={handleAskAI} />
             </div>
             <WeatherCard />
-            <ForecastComparison />
-            <CommunityReports />
-            <AIChat />
+            <ForecastComparison onAskAI={handleAskAI} />
+            <CommunityReports onOpenReport={(id) => handleAskAI(`community report #${id}`)} />
           </>
         )}
 
-        {activeTab === "alertas" && <AlertsPage />}
+        {activeTab === "alertas" && <AlertsPage onAskAI={handleAskAI} />}
         {activeTab === "mapa" && <MapPage />}
         {activeTab === "perfil" && <ProfilePage />}
       </main>
 
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
       <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} />
+      <AIChat
+        isOpen={chatOpen}
+        onToggle={() => setChatOpen(!chatOpen)}
+        pendingQuestion={pendingQuestion}
+        onQuestionHandled={() => setPendingQuestion(null)}
+      />
     </div>
   );
 };
