@@ -238,6 +238,16 @@ type TranslationKeys = {
   iotLive: string;
   iotLastUpdate: string;
   iotRadiusNote: string;
+  iotInfoTitle: string;
+  iotInfoDesc1: string;
+  iotInfoDesc2: string;
+  iotInfoDesc3: string;
+  // Personalized alert explanations
+  alertExplainOrangeRain: string;
+  alertExplainRedRain: string;
+  alertExplainOrangeHeat: string;
+  alertExplainYellowWind: string;
+  alertExplainMLHail: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -448,6 +458,15 @@ export const translations: Record<Locale, TranslationKeys> = {
     iotLive: "LIVE",
     iotLastUpdate: "Updated",
     iotRadiusNote: "Within 5km radius",
+    iotInfoTitle: "What are IoT sensors?",
+    iotInfoDesc1: "IoT (Internet of Things) sensors are small weather stations installed in strategic locations throughout your city. They measure temperature, humidity, wind speed, and other climate variables in real time.",
+    iotInfoDesc2: "Unlike forecasts (which are predictions), IoT data shows exactly what's happening right now at a specific location. This makes them extremely valuable for validating whether official and ML forecasts are accurate.",
+    iotInfoDesc3: "The ClimateLoop network is growing — the more sensors deployed in your area, the more precise and localized the climate information becomes. Each sensor covers an approximate radius of 5km.",
+    alertExplainOrangeRain: "Hey, heads up — this orange rain alert is serious but manageable. Basically, they're expecting more than 50mm of rain in the next few hours, which is a lot. Think of it like dumping 50 liters of water per square meter. Streets can flood fast, especially in low areas. The good news is it's not the worst level (red), so if you stay alert and avoid risky spots, you'll be fine. Just don't try to cross flooded streets — that's how most accidents happen.",
+    alertExplainRedRain: "This is a red alert, the highest level — take it very seriously. We're talking about rain above 80mm per hour, which can cause flash flooding, landslides, and real danger. This isn't a 'maybe carry an umbrella' situation. If you're near slopes, rivers, or low areas, consider moving to higher ground. Have your documents and emergency kit ready. If authorities say evacuate, do it. This kind of event can escalate very fast.",
+    alertExplainOrangeHeat: "So tomorrow is going to be brutally hot — above 38°C. This isn't just uncomfortable, it's genuinely dangerous for elderly people, kids, and anyone with health conditions. Your body struggles to cool down at these temps. Stay hydrated (way more water than you think), avoid being outside between 10am and 4pm, and keep curtains closed. If you know elderly neighbors, check on them — heat can be a silent killer.",
+    alertExplainYellowWind: "This is a yellow wind alert — not super dangerous, but worth paying attention to. We're expecting gusts up to 60km/h this afternoon. That's strong enough to knock over potted plants, break weak branches, and send lightweight objects flying. If you have anything loose on your balcony or terrace, bring it inside. Also, maybe don't park under trees today. It should calm down by evening.",
+    alertExplainMLHail: "This one is interesting — our ML model spotted a pattern that suggests there's a 35% chance of hail in about 48 hours. This isn't from the official weather service; it's our AI analyzing historical data and current atmospheric conditions. 35% isn't certain, but it's high enough to plan ahead. If you have a car parked outside, consider covering it. Keep an eye on updates — we'll know more as conditions develop.",
   },
   es: {
     location: "Madrid, España",
@@ -656,6 +675,15 @@ export const translations: Record<Locale, TranslationKeys> = {
     iotLive: "EN VIVO",
     iotLastUpdate: "Actualizado",
     iotRadiusNote: "En un radio de 5km",
+    iotInfoTitle: "¿Qué son los sensores IoT?",
+    iotInfoDesc1: "Los sensores IoT (Internet de las Cosas) son pequeñas estaciones meteorológicas instaladas en ubicaciones estratégicas de tu ciudad. Miden temperatura, humedad, velocidad del viento y otras variables climáticas en tiempo real.",
+    iotInfoDesc2: "A diferencia de las previsiones (que son predicciones), los datos IoT muestran exactamente lo que está ocurriendo ahora en una ubicación específica. Esto los hace extremadamente valiosos para validar si las previsiones oficiales y de ML son precisas.",
+    iotInfoDesc3: "La red ClimateLoop está creciendo — cuantos más sensores se desplieguen en tu zona, más precisa y localizada será la información climática. Cada sensor cubre un radio aproximado de 5km.",
+    alertExplainOrangeRain: "Oye, ojo con esto — esta alerta naranja de lluvia es seria pero manejable. Básicamente, se esperan más de 50mm de lluvia en las próximas horas, que es bastante. Imagina 50 litros de agua por metro cuadrado. Las calles se pueden inundar rápido, especialmente en zonas bajas. Lo bueno es que no es el nivel más alto (rojo), así que si te mantienes alerta y evitas zonas de riesgo, estarás bien. Eso sí, no intentes cruzar calles inundadas — así es como ocurren la mayoría de accidentes.",
+    alertExplainRedRain: "Esto es alerta roja, el nivel más alto — tómalo muy en serio. Hablamos de lluvia por encima de 80mm por hora, lo que puede causar inundaciones repentinas, deslizamientos y peligro real. No es una situación de 'quizá llevo paraguas'. Si estás cerca de laderas, ríos o zonas bajas, considera ir a terreno más alto. Ten documentos y kit de emergencia listos. Si las autoridades dicen evacuar, hazlo. Este tipo de evento puede escalar muy rápido.",
+    alertExplainOrangeHeat: "Mañana va a ser brutalmente caluroso — más de 38°C. No es solo incómodo, es genuinamente peligroso para personas mayores, niños y cualquiera con problemas de salud. Tu cuerpo lucha por enfriarse a estas temperaturas. Mantente hidratado (mucha más agua de la que crees), evita estar fuera entre las 10h y las 16h, y mantén las cortinas cerradas. Si conoces vecinos mayores, comprueba cómo están — el calor puede ser un asesino silencioso.",
+    alertExplainYellowWind: "Esta es una alerta amarilla de viento — no es súper peligrosa, pero merece atención. Se esperan ráfagas de hasta 60km/h esta tarde. Es suficiente para tirar macetas, romper ramas débiles y hacer volar objetos ligeros. Si tienes algo suelto en tu balcón o terraza, mételo dentro. Y quizá hoy no estaciones bajo árboles. Debería calmarse por la noche.",
+    alertExplainMLHail: "Esta es interesante — nuestro modelo ML detectó un patrón que sugiere un 35% de probabilidad de granizo en unas 48 horas. No viene del servicio meteorológico oficial; es nuestra IA analizando datos históricos y condiciones atmosféricas actuales. 35% no es seguro, pero es suficiente para planificar. Si tienes el coche aparcado fuera, considera cubrirlo. Estate atento a las actualizaciones — sabremos más a medida que las condiciones evolucionen.",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -864,6 +892,15 @@ export const translations: Record<Locale, TranslationKeys> = {
     iotLive: "AO VIVO",
     iotLastUpdate: "Atualizado",
     iotRadiusNote: "Num raio de 5km",
+    iotInfoTitle: "O que são sensores IoT?",
+    iotInfoDesc1: "Sensores IoT (Internet das Coisas) são pequenas estações meteorológicas instaladas em locais estratégicos da sua cidade. Eles medem temperatura, umidade, velocidade do vento e outras variáveis climáticas em tempo real.",
+    iotInfoDesc2: "Diferente das previsões (que são estimativas), os dados IoT mostram exatamente o que está acontecendo agora em um local específico. Isso os torna extremamente valiosos para validar se as previsões oficiais e de ML estão corretas.",
+    iotInfoDesc3: "A rede ClimateLoop está crescendo — quanto mais sensores na sua região, mais precisa e localizada será a informação climática. Cada sensor cobre um raio aproximado de 5km.",
+    alertExplainOrangeRain: "Ei, atenção — esse alerta laranja de chuva é sério, mas dá pra lidar. Basicamente, estão prevendo mais de 50mm de chuva nas próximas horas, o que é bastante. Imagina 50 litros de água por metro quadrado. As ruas podem alagar rápido, especialmente em áreas baixas. A boa notícia é que não é o nível mais alto (vermelho), então se você ficar atento e evitar pontos de risco, vai ficar bem. Só não tente atravessar ruas alagadas — é assim que a maioria dos acidentes acontece.",
+    alertExplainRedRain: "Isso é alerta vermelho, o nível mais alto — leve muito a sério. Estamos falando de chuva acima de 80mm por hora, o que pode causar enchentes relâmpago, deslizamentos e perigo real. Não é uma situação de 'talvez eu leve um guarda-chuva'. Se você está perto de encostas, rios ou áreas baixas, considere ir para um lugar mais alto. Tenha documentos e kit de emergência prontos. Se as autoridades mandarem evacuar, faça isso. Esse tipo de evento pode escalar muito rápido.",
+    alertExplainOrangeHeat: "Amanhã vai ser brutalmente quente — acima de 38°C. Não é só desconfortável, é genuinamente perigoso para idosos, crianças e qualquer pessoa com problemas de saúde. Seu corpo tem dificuldade para se resfriar nessas temperaturas. Beba muita água (muito mais do que você acha), evite ficar fora entre 10h e 16h, e mantenha as cortinas fechadas. Se você conhece vizinhos idosos, passe para ver como estão — o calor pode ser um assassino silencioso.",
+    alertExplainYellowWind: "Esse é um alerta amarelo de vento — não é super perigoso, mas vale prestar atenção. Estão prevendo rajadas de até 60km/h à tarde. É forte o suficiente para derrubar vasos, quebrar galhos fracos e fazer objetos leves voarem. Se você tem algo solto na varanda ou terraço, guarde. E talvez hoje não estacione embaixo de árvores. Deve acalmar à noite.",
+    alertExplainMLHail: "Essa é interessante — nosso modelo ML detectou um padrão que sugere 35% de chance de granizo em cerca de 48 horas. Não é do serviço meteorológico oficial; é nossa IA analisando dados históricos e condições atmosféricas atuais. 35% não é certeza, mas é alto o suficiente para se planejar. Se seu carro está estacionado fora, considere cobri-lo. Fique de olho nas atualizações — vamos saber mais conforme as condições evoluem.",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -1072,5 +1109,14 @@ export const translations: Record<Locale, TranslationKeys> = {
     iotLive: "EN DIRECT",
     iotLastUpdate: "Mis à jour",
     iotRadiusNote: "Dans un rayon de 5km",
+    iotInfoTitle: "Que sont les capteurs IoT ?",
+    iotInfoDesc1: "Les capteurs IoT (Internet des Objets) sont de petites stations météo installées à des emplacements stratégiques dans votre ville. Ils mesurent la température, l'humidité, la vitesse du vent et d'autres variables climatiques en temps réel.",
+    iotInfoDesc2: "Contrairement aux prévisions (qui sont des estimations), les données IoT montrent exactement ce qui se passe maintenant à un endroit précis. Cela les rend extrêmement précieux pour vérifier si les prévisions officielles et ML sont exactes.",
+    iotInfoDesc3: "Le réseau ClimateLoop grandit — plus il y a de capteurs dans votre zone, plus les informations climatiques seront précises et localisées. Chaque capteur couvre un rayon d'environ 5km.",
+    alertExplainOrangeRain: "Attention — cette alerte orange de pluie est sérieuse mais gérable. En gros, on attend plus de 50mm de pluie dans les prochaines heures, c'est beaucoup. Imagine 50 litres d'eau par mètre carré. Les rues peuvent être inondées rapidement, surtout dans les zones basses. La bonne nouvelle, ce n'est pas le niveau le plus haut (rouge), donc si tu restes vigilant et évites les zones à risque, ça ira. Par contre, n'essaie pas de traverser des rues inondées — c'est comme ça que la plupart des accidents arrivent.",
+    alertExplainRedRain: "C'est une alerte rouge, le niveau le plus élevé — prends ça très au sérieux. On parle de pluie au-dessus de 80mm par heure, ce qui peut provoquer des crues soudaines, des glissements de terrain et un danger réel. Ce n'est pas une situation 'peut-être que je prends un parapluie'. Si tu es près de pentes, rivières ou zones basses, envisage de monter en altitude. Aie tes documents et kit d'urgence prêts. Si les autorités disent d'évacuer, fais-le. Ce genre d'événement peut dégénérer très vite.",
+    alertExplainOrangeHeat: "Demain va être brutalement chaud — au-dessus de 38°C. Ce n'est pas juste inconfortable, c'est vraiment dangereux pour les personnes âgées, les enfants et ceux qui ont des problèmes de santé. Ton corps a du mal à se refroidir à ces températures. Reste hydraté (beaucoup plus d'eau que tu ne penses), évite d'être dehors entre 10h et 16h, et garde les rideaux fermés. Si tu connais des voisins âgés, passe les voir — la chaleur peut être un tueur silencieux.",
+    alertExplainYellowWind: "C'est une alerte jaune de vent — pas super dangereuse, mais ça vaut le coup d'y prêter attention. On attend des rafales jusqu'à 60km/h cet après-midi. C'est assez fort pour renverser des pots de fleurs, casser des branches fragiles et faire voler des objets légers. Si tu as quelque chose de mal fixé sur ton balcon ou ta terrasse, rentre-le. Et peut-être ne te gare pas sous les arbres aujourd'hui. Ça devrait se calmer en soirée.",
+    alertExplainMLHail: "Celle-ci est intéressante — notre modèle ML a repéré un schéma qui suggère 35% de risque de grêle dans environ 48 heures. Ça ne vient pas du service météo officiel ; c'est notre IA qui analyse les données historiques et les conditions atmosphériques actuelles. 35% ce n'est pas certain, mais c'est assez élevé pour anticiper. Si ta voiture est garée dehors, pense à la couvrir. Reste attentif aux mises à jour — on en saura plus à mesure que les conditions évoluent.",
   },
 };

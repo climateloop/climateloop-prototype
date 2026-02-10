@@ -23,6 +23,15 @@ const severityStyles = {
   },
 };
 
+// Personalized AI explanations per alert — as if a friend is explaining
+const alertExplanationKeys: Record<string, keyof typeof import("@/i18n/translations").translations.en> = {
+  main: "alertExplainOrangeRain",
+  "1": "alertExplainRedRain",
+  "2": "alertExplainOrangeHeat",
+  "3": "alertExplainYellowWind",
+  "4": "alertExplainMLHail",
+};
+
 interface AlertDetailProps {
   alert: Alert;
   onBack: () => void;
@@ -32,6 +41,7 @@ interface AlertDetailProps {
 const AlertDetail = ({ alert, onBack }: AlertDetailProps) => {
   const { t } = useLanguage();
   const styles = severityStyles[alert.severity];
+  const explanationKey = alertExplanationKeys[alert.id] || "alertExplainOrangeRain";
 
   return (
     <div className="px-4 pb-4 animate-in fade-in duration-200">
@@ -55,7 +65,7 @@ const AlertDetail = ({ alert, onBack }: AlertDetailProps) => {
         </div>
       </div>
 
-      {/* AI Analysis */}
+      {/* AI Personalized Explanation */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-5 mb-4">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-accent" />
@@ -65,7 +75,7 @@ const AlertDetail = ({ alert, onBack }: AlertDetailProps) => {
           </span>
         </div>
         <p className="text-sm text-foreground leading-relaxed">
-          {t.alertDetailExplanation}
+          {t[explanationKey as keyof typeof t] as string}
         </p>
       </div>
 
