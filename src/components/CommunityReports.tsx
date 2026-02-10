@@ -117,12 +117,10 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
                       <MapPin className="w-3 h-3" /> {r.distance}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 mt-2 text-xs text-primary">
                     {t.communityViewDetails}
-                    <ChevronRight className="w-3 h-3" />
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground mt-2 group-hover:text-primary transition-colors" />
               </div>
             </div>
           </button>
