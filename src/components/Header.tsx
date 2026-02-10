@@ -1,4 +1,4 @@
-import { MapPin, Bell, Map, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
+import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
 import logoImg from "@/assets/climateloop-logo.png";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -15,18 +15,15 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMap }: Heade
     <header className="flex items-center justify-between px-4 py-3 bg-background sticky top-0 z-50 border-b border-border">
       <div className="flex items-center gap-3">
         <img src={logoImg} alt="ClimateLoop" className="h-8 w-auto" />
-        <div className="flex items-center gap-1 text-muted-foreground text-base font-medium">
-          <MapPin className="w-3.5 h-3.5" />
-          <span>{t.location}</span>
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
         <button
           onClick={onOpenMap}
-          className="relative p-2 rounded-full hover:bg-muted transition-colors"
+          className="flex items-center gap-1 text-muted-foreground text-base font-medium hover:text-foreground transition-colors"
         >
-          <Map className="w-5 h-5 text-foreground" />
+          <MapPin className="w-3.5 h-3.5" />
+          <span>{t.location}</span>
         </button>
+      </div>
+      <div className="flex items-center gap-2">
         <button
           onClick={onOpenNotifications}
           className="relative p-2 rounded-full hover:bg-muted transition-colors"
