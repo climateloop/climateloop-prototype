@@ -28,7 +28,7 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
       </div>
 
       {/* Official forecast explanation */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-5 mb-4">
+      <div className="bg-muted rounded-xl border border-border shadow-card p-5 mb-4">
         <div className="flex items-center gap-2 mb-3">
           <Cloud className="w-5 h-5 text-primary" />
           <h3 className="text-sm font-semibold text-foreground">{t.forecastOfficial}</h3>
@@ -42,7 +42,7 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
           </div>
           {/* Confidence bar with background */}
           <div className="mt-2">
-            <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+            <div className="h-2.5 w-full bg-border rounded-full overflow-hidden">
               <div className="h-full rounded-full transition-all duration-500" style={{ width: "85%", background: "hsl(210 61% 29%)" }} />
             </div>
             <p className="text-[10px] text-muted-foreground mt-1 text-right">85 / 100%</p>
@@ -58,7 +58,7 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
       </div>
 
       {/* ML forecast explanation */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-5 mb-4">
+      <div className="bg-muted rounded-xl border border-border shadow-card p-5 mb-4">
         <div className="flex items-center gap-2 mb-3">
           <Brain className="w-5 h-5 text-secondary" />
           <h3 className="text-sm font-semibold text-foreground">{t.forecastML}</h3>
@@ -72,7 +72,7 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
           </div>
           {/* Confidence bar with background */}
           <div className="mt-2">
-            <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+            <div className="h-2.5 w-full bg-border rounded-full overflow-hidden">
               <div className="h-full rounded-full transition-all duration-500" style={{ width: "78%", background: "hsl(155 67% 32%)" }} />
             </div>
             <p className="text-[10px] text-muted-foreground mt-1 text-right">78 / 100%</p>
