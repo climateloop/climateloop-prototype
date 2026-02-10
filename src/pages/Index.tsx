@@ -25,7 +25,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState("inicio");
   const [reportOpen, setReportOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
+  const [chatContext, setChatContext] = useState<string | null>(null);
   const [detailView, setDetailView] = useState<DetailView>(null);
   const { t } = useLanguage();
 
@@ -52,7 +52,8 @@ const Index = () => {
     }
   };
 
-  const handleOpenChat = () => {
+  const handleOpenChat = (context?: string) => {
+    setChatContext(context || null);
     setChatOpen(true);
   };
 
@@ -69,7 +70,6 @@ const Index = () => {
   };
 
   const renderContent = () => {
-    // Detail views take priority
     if (detailView && activeTab === "inicio") {
       switch (detailView.type) {
         case "alert":
@@ -77,14 +77,14 @@ const Index = () => {
             <AlertDetail
               alert={detailView.alert}
               onBack={() => setDetailView(null)}
-              onOpenChat={handleOpenChat}
+              onOpenChat={() => handleOpenChat(detailView.alert.title)}
             />
           );
         case "forecast":
           return (
             <ForecastDetail
               onBack={() => setDetailView(null)}
-              onOpenChat={handleOpenChat}
+              onOpenChat={() => handleOpenChat("forecast")}
             />
           );
         case "community":
@@ -92,7 +92,7 @@ const Index = () => {
             <CommunityReportDetail
               reportId={detailView.reportId}
               onBack={() => setDetailView(null)}
-              onOpenChat={handleOpenChat}
+              onOpenChat={() => handleOpenChat(`community report #${detailView.reportId}`)}
             />
           );
       }
@@ -130,8 +130,8 @@ const Index = () => {
       <AIChat
         isOpen={chatOpen}
         onToggle={() => setChatOpen(!chatOpen)}
-        pendingQuestion={pendingQuestion}
-        onQuestionHandled={() => setPendingQuestion(null)}
+        context={chatContext}
+        onContextHandled={() => setChatContext(null)}
       />
     </div>
   );

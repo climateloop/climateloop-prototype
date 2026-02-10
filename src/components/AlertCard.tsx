@@ -45,15 +45,15 @@ const AlertCard = ({ alert, compact = false, onAskAI }: AlertCardProps) => {
   const { t } = useLanguage();
 
   return (
-    <div className={`rounded-xl ${styles.bg} border ${styles.border} p-4 transition-all`}>
-      <div className="flex items-start gap-3">
+    <div className={`rounded-xl ${styles.bg} border ${styles.border} p-3 transition-all`}>
+      <div className="flex items-start gap-2.5">
         <div className={`mt-0.5 ${styles.icon}`}>
           <AlertTriangle className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className={`font-semibold ${styles.title}`}>{alert.title}</h3>
-          <p className={`text-sm ${styles.text} mt-1 opacity-80`}>{alert.description}</p>
-          <p className="text-xs text-muted-foreground mt-1">⏱ {alert.time}</p>
+          <h3 className={`font-semibold text-sm ${styles.title}`}>{alert.title}</h3>
+          <p className={`text-xs ${styles.text} mt-0.5 opacity-80`}>{alert.description}</p>
+          <p className="text-[10px] text-muted-foreground mt-1">⏱ {alert.time}</p>
 
           {!compact && alert.actions && alert.actions.length > 0 && (
             <div className="mt-3">

@@ -5,30 +5,30 @@ const WeatherCard = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="mx-4 rounded-2xl gradient-primary p-5 text-primary-foreground shadow-card">
+    <div className="mx-4 rounded-2xl gradient-primary p-4 text-primary-foreground shadow-card">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm opacity-80 font-medium">{t.weatherLocation}</p>
-          <p className="text-5xl font-bold mt-1 tracking-tight">28°</p>
-          <p className="text-sm opacity-70 mt-1">{t.weatherPartlyCloudy}</p>
+          <p className="text-xs opacity-80 font-medium">{t.weatherLocation}</p>
+          <p className="text-4xl font-bold mt-1 tracking-tight">28°</p>
+          <p className="text-xs opacity-70 mt-1">{t.weatherPartlyCloudy}</p>
         </div>
-        <CloudRain className="w-14 h-14 opacity-80" />
+        <CloudRain className="w-12 h-12 opacity-80" />
       </div>
-      <div className="flex items-center gap-6 mt-5 pt-4 border-t border-primary-foreground/20">
-        <div className="flex flex-col items-center gap-1">
-          <Thermometer className="w-4 h-4 opacity-70" />
-          <span className="text-xs opacity-70">{t.weatherFeelsLike}</span>
-          <span className="text-sm font-semibold">30°</span>
+      <div className="flex items-center gap-6 mt-3 pt-3 border-t border-primary-foreground/20">
+        <div className="flex flex-col items-center gap-0.5">
+          <Thermometer className="w-3.5 h-3.5 opacity-70" />
+          <span className="text-[10px] opacity-70">{t.weatherFeelsLike}</span>
+          <span className="text-xs font-semibold">30°</span>
         </div>
-        <div className="flex flex-col items-center gap-1">
-          <Droplets className="w-4 h-4 opacity-70" />
-          <span className="text-xs opacity-70">{t.weatherHumidity}</span>
-          <span className="text-sm font-semibold">72%</span>
+        <div className="flex flex-col items-center gap-0.5">
+          <Droplets className="w-3.5 h-3.5 opacity-70" />
+          <span className="text-[10px] opacity-70">{t.weatherHumidity}</span>
+          <span className="text-xs font-semibold">72%</span>
         </div>
-        <div className="flex flex-col items-center gap-1">
-          <Wind className="w-4 h-4 opacity-70" />
-          <span className="text-xs opacity-70">{t.weatherWind}</span>
-          <span className="text-sm font-semibold">15 km/h</span>
+        <div className="flex flex-col items-center gap-0.5">
+          <Wind className="w-3.5 h-3.5 opacity-70" />
+          <span className="text-[10px] opacity-70">{t.weatherWind}</span>
+          <span className="text-xs font-semibold">15 km/h</span>
         </div>
       </div>
     </div>
