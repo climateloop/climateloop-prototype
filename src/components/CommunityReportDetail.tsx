@@ -1,4 +1,4 @@
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, AlertCircle, MessageCircle } from "lucide-react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, AlertCircle, MessageCircle, EyeOff } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ReportData {
@@ -11,7 +11,7 @@ interface ReportData {
   distance: string;
 }
 
-const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?: string; location: string }> = {
+const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?: string; location: string; photoBlurred?: boolean }> = {
   "1": {
     id: "1",
     user: "María S.",
@@ -46,6 +46,19 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
     verified: true,
     location: "Calle Alcalá 85, Madrid",
     photoUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&h=400&fit=crop",
+  },
+  "4": {
+    id: "4",
+    user: "Pedro M.",
+    typeKey: "typeFlooding",
+    description: "Paso subterráneo inundado en Atocha",
+    time: "2h",
+    hasPhoto: true,
+    distance: "2.1 km",
+    verified: true,
+    location: "Estación de Atocha, Madrid",
+    photoUrl: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=400&fit=crop",
+    photoBlurred: true,
   },
 };
 
@@ -84,12 +97,18 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
 
       {/* Photo */}
       {report.photoUrl ? (
-        <div className="rounded-xl overflow-hidden mb-4 border border-border shadow-card">
+        <div className="rounded-xl overflow-hidden mb-4 border border-border shadow-card relative">
           <img
             src={report.photoUrl}
             alt={report.description}
-            className="w-full h-48 object-cover"
+            className={`w-full h-48 object-cover ${report.photoBlurred ? "blur-xl" : ""}`}
           />
+          {report.photoBlurred && (
+            <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center gap-2 px-4">
+              <EyeOff className="w-5 h-5 text-background flex-shrink-0" />
+              <span className="text-xs font-medium text-background text-center">{t.photoBlurWarning}</span>
+            </div>
+          )}
         </div>
       ) : (
         <div className="rounded-xl bg-muted border border-border mb-4 h-48 flex items-center justify-center">
@@ -115,30 +134,22 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         )}
       </div>
 
-      {/* Description */}
       <p className="text-base text-foreground font-medium mb-4">{report.description}</p>
 
       {/* Metadata */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 space-y-3 mb-4">
         <div className="flex items-center gap-3">
-          <MapPin className="w-4 h-4 text-primary" />
+          <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
           <div>
             <p className="text-xs text-muted-foreground">{t.communityDetailLocation}</p>
             <p className="text-sm text-foreground">{report.location}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Clock className="w-4 h-4 text-primary" />
+          <Clock className="w-4 h-4 text-primary flex-shrink-0" />
           <div>
             <p className="text-xs text-muted-foreground">{t.communityDetailTime}</p>
             <p className="text-sm text-foreground">{report.time}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <MapPin className="w-4 h-4 text-primary" />
-          <div>
-            <p className="text-xs text-muted-foreground">{t.communitySubtitle.split(" ")[0]}</p>
-            <p className="text-sm text-foreground">{report.distance}</p>
           </div>
         </div>
       </div>
@@ -157,12 +168,15 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
       </div>
 
       {/* Ask AI */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
+        <p className="text-sm text-muted-foreground">{t.alertDetailContinueChat}</p>
+      </div>
       <button
         onClick={onOpenChat}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary/10 hover:bg-primary/15 transition-colors"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm shadow-card transition-all"
       >
-        <MessageCircle className="w-4 h-4 text-primary" />
-        <span className="text-sm font-medium text-primary">{t.alertDetailContinueChat}</span>
+        <MessageCircle className="w-4 h-4" />
+        {t.aiTitle}
       </button>
     </div>
   );

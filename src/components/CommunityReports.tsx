@@ -1,4 +1,4 @@
-import { Users, FileText, TrendingUp, Camera, MapPin, ChevronRight } from "lucide-react";
+import { Users, FileText, TrendingUp, Camera, MapPin, ChevronRight, EyeOff } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface CommunityReport {
@@ -9,6 +9,7 @@ interface CommunityReport {
   time: string;
   hasPhoto: boolean;
   distance: string;
+  photoBlurred?: boolean;
 }
 
 const reports: CommunityReport[] = [
@@ -38,6 +39,16 @@ const reports: CommunityReport[] = [
     time: "1h",
     hasPhoto: true,
     distance: "0.8 km",
+  },
+  {
+    id: "4",
+    user: "Pedro M.",
+    typeKey: "typeFlooding",
+    description: "Paso subterráneo inundado en Atocha",
+    time: "2h",
+    hasPhoto: true,
+    distance: "2.1 km",
+    photoBlurred: true,
   },
 ];
 
@@ -83,30 +94,46 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
           <button
             key={r.id}
             onClick={() => onOpenReport?.(r.id)}
-            className="w-full text-left bg-surface-elevated rounded-xl p-3 shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
+            className="w-full text-left bg-surface-elevated rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
           >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColorMap[r.typeKey] || "bg-muted text-muted-foreground"}`}>
-                    {t[r.typeKey]}
-                  </span>
-                  {r.hasPhoto && <Camera className="w-3.5 h-3.5 text-muted-foreground" />}
-                </div>
-                <p className="text-sm text-foreground">{r.description}</p>
-                <div className="flex items-center gap-3 mt-1.5">
-                  <span className="text-xs text-muted-foreground">{r.user}</span>
-                  <span className="text-xs text-muted-foreground">{r.time}</span>
-                  <span className="text-xs text-muted-foreground flex items-center gap-0.5">
-                    <MapPin className="w-3 h-3" /> {r.distance}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  {t.communityViewDetails}
-                  <ChevronRight className="w-3 h-3" />
+            {/* Blurred photo warning card */}
+            {r.photoBlurred && (
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=200&fit=crop"
+                  alt=""
+                  className="w-full h-28 object-cover blur-xl"
+                />
+                <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center gap-2">
+                  <EyeOff className="w-4 h-4 text-background" />
+                  <span className="text-xs font-medium text-background">{t.photoBlurWarning}</span>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground mt-2 group-hover:text-primary transition-colors" />
+            )}
+            <div className="p-3">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColorMap[r.typeKey] || "bg-muted text-muted-foreground"}`}>
+                      {t[r.typeKey]}
+                    </span>
+                    {r.hasPhoto && !r.photoBlurred && <Camera className="w-3.5 h-3.5 text-muted-foreground" />}
+                  </div>
+                  <p className="text-sm text-foreground">{r.description}</p>
+                  <div className="flex items-center gap-3 mt-1.5">
+                    <span className="text-xs text-muted-foreground">{r.user}</span>
+                    <span className="text-xs text-muted-foreground">{r.time}</span>
+                    <span className="text-xs text-muted-foreground flex items-center gap-0.5">
+                      <MapPin className="w-3 h-3" /> {r.distance}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    {t.communityViewDetails}
+                    <ChevronRight className="w-3 h-3" />
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground mt-2 group-hover:text-primary transition-colors" />
+              </div>
             </div>
           </button>
         ))}
