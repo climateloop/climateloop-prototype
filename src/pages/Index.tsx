@@ -5,6 +5,7 @@ import WeatherCard from "@/components/WeatherCard";
 import AlertCard, { type Alert } from "@/components/AlertCard";
 import ForecastComparison from "@/components/ForecastComparison";
 import CommunityReports from "@/components/CommunityReports";
+import EmergencyNumbers from "@/components/EmergencyNumbers";
 import AIChat from "@/components/AIChat";
 import ReportModal from "@/components/ReportModal";
 import AlertsPage from "@/components/AlertsPage";
@@ -117,6 +118,7 @@ const Index = () => {
           <WeatherCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} />
+          <EmergencyNumbers />
         </>
       );
     }
