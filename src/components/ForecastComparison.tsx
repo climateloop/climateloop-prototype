@@ -1,8 +1,8 @@
-import { TrendingUp, TrendingDown, Minus, Brain, Cloud, Sparkles, ChevronRight } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Brain, Cloud, Radio, Sparkles, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ForecastItem {
-  sourceKey: "forecastOfficial" | "forecastML";
+  sourceKey: "forecastOfficial" | "forecastML" | "forecastIoT";
   icon: React.ReactNode;
   temp: string;
   rain: string;
@@ -13,7 +13,7 @@ interface ForecastItem {
 const forecastData: ForecastItem[] = [
   {
     sourceKey: "forecastOfficial",
-    icon: <Cloud className="w-5 h-5 text-primary" />,
+    icon: <Cloud className="w-4 h-4 text-primary" />,
     temp: "29°C",
     rain: "40%",
     trend: "up",
@@ -21,18 +21,26 @@ const forecastData: ForecastItem[] = [
   },
   {
     sourceKey: "forecastML",
-    icon: <Brain className="w-5 h-5 text-secondary" />,
+    icon: <Brain className="w-4 h-4 text-secondary" />,
     temp: "31°C",
     rain: "55%",
     trend: "up",
     confidence: 78,
   },
+  {
+    sourceKey: "forecastIoT",
+    icon: <Radio className="w-4 h-4 text-accent" />,
+    temp: "29.3°C",
+    rain: "—",
+    trend: "stable",
+    confidence: 95,
+  },
 ];
 
 const TrendIcon = ({ trend }: { trend: string }) => {
-  if (trend === "up") return <TrendingUp className="w-4 h-4 text-destructive" />;
-  if (trend === "down") return <TrendingDown className="w-4 h-4 text-secondary" />;
-  return <Minus className="w-4 h-4 text-muted-foreground" />;
+  if (trend === "up") return <TrendingUp className="w-3.5 h-3.5 text-destructive" />;
+  if (trend === "down") return <TrendingDown className="w-3.5 h-3.5 text-secondary" />;
+  return <Minus className="w-3.5 h-3.5 text-muted-foreground" />;
 };
 
 interface ForecastComparisonProps {
@@ -45,27 +53,23 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
   return (
     <div className="mx-4">
       <h2 className="text-base font-semibold text-foreground mb-3">{t.forecastTitle}</h2>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-3 gap-2">
         {forecastData.map((f) => (
             <div
               key={f.sourceKey}
-              className="bg-surface-elevated rounded-xl p-4 shadow-card border border-border"
+              className="bg-surface-elevated rounded-xl p-3 shadow-card border border-border"
             >
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-1.5 mb-2">
                 {f.icon}
-                <span className="text-xs font-medium text-muted-foreground">{t[f.sourceKey]}</span>
+                <span className="text-[10px] font-medium text-muted-foreground leading-tight">{t[f.sourceKey]}</span>
               </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-2xl font-bold text-foreground">{f.temp}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{t.forecastRain}: {f.rain}</p>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <TrendIcon trend={f.trend} />
-                  <span className="text-[10px] text-muted-foreground">{f.confidence}%</span>
-                </div>
+              <p className="text-xl font-bold text-foreground">{f.temp}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">{t.forecastRain}: {f.rain}</p>
+              <div className="flex items-center gap-1 mt-2">
+                <TrendIcon trend={f.trend} />
+                <span className="text-[10px] text-muted-foreground">{f.confidence}%</span>
               </div>
-              <div className="mt-3 h-1.5 bg-border rounded-full overflow-hidden">
+              <div className="mt-2 h-1 bg-border rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full gradient-heat transition-all duration-500"
                   style={{ width: `${f.confidence}%` }}

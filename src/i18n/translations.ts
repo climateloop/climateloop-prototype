@@ -27,6 +27,7 @@ type TranslationKeys = {
   forecastTitle: string;
   forecastOfficial: string;
   forecastML: string;
+  forecastIoT: string;
   forecastRain: string;
   forecastMLNote: string;
   // Community
@@ -179,6 +180,7 @@ type TranslationKeys = {
   forecastDetailOfficialExplanation: string;
   forecastDetailMLExplanation: string;
   forecastDetailContinueChat: string;
+  forecastDetailIoTExplanation: string;
   forecastDetailDeeperTitle: string;
   forecastDetailWhyCompare: string;
   forecastDetailConfidenceLabel: string;
@@ -231,6 +233,11 @@ type TranslationKeys = {
   myLocationSave: string;
   myLocationCurrent: string;
   myLocationDetecting: string;
+  // IoT
+  iotTitle: string;
+  iotLive: string;
+  iotLastUpdate: string;
+  iotRadiusNote: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -250,6 +257,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastTitle: "Forecast comparison",
     forecastOfficial: "Official Forecast",
     forecastML: "ML Forecast",
+    forecastIoT: "IoT Sensors",
     forecastRain: "Rain",
     forecastMLNote: "ML model detects +15% chance of heavy rain in the next 6h",
     communityTitle: "Community nearby",
@@ -389,7 +397,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailOfficialExplanation: "The Official Forecast comes from national meteorological agencies (like AEMET in Spain) using physics-based weather models run on supercomputers. These models divide the atmosphere into grids of about 10 km and calculate how temperature, pressure and humidity will change over time. They are updated every 6 to 12 hours and are very reliable for the next 24 to 48 hours, but become less accurate beyond 5 days.",
     forecastDetailMLExplanation: "The ML Forecast uses artificial intelligence trained on over 30 years of local weather history. It learns patterns specific to your area that the large-scale models miss, such as how buildings trap heat in a city, how wind behaves in valleys, or how the coast affects rain. When the ML and official forecasts show different numbers, it usually means there is a local effect worth paying attention to.",
     forecastDetailContinueChat: "Want to dive deeper? Ask the AI assistant about specific patterns or discrepancies.",
-    forecastDetailWhyCompare: "Comparing both forecasts helps you make better decisions. The official forecast gives you the big picture while the ML forecast captures local details. When they agree, you can be very confident. When they disagree, the ML forecast often catches something the official one missed, like sudden local rain or a heat pocket in your neighbourhood.",
+    forecastDetailIoTExplanation: "IoT Sensors are physical devices deployed across the region that measure real-time conditions like temperature, humidity, and wind speed. Because they capture what is actually happening right now (not predictions), they have the highest confidence level. When IoT data aligns with forecasts, you can trust them. When it diverges, the sensors are showing a local microclimate effect the models didn't predict.",
+    forecastDetailWhyCompare: "Comparing all three sources helps you make better decisions. The official forecast gives you the big picture, the ML forecast captures local patterns, and IoT sensors show what's actually happening right now. When all three agree, you can be very confident. When they diverge, the real-time IoT data is the ground truth — it often reveals microclimates or rapid changes the models didn't predict.",
     forecastDetailConfidenceLabel: "Confidence — how sure the model is about this forecast (100% = maximum certainty)",
     communityDetailTitle: "Community report",
     communityDetailVerified: "Verified by AI",
@@ -435,6 +444,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myLocationSave: "Save this location",
     myLocationCurrent: "Current location",
     myLocationDetecting: "Detecting location...",
+    iotTitle: "Nearest IoT Station",
+    iotLive: "LIVE",
+    iotLastUpdate: "Updated",
+    iotRadiusNote: "Within 5km radius",
   },
   es: {
     location: "Madrid, España",
@@ -452,6 +465,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastTitle: "Previsión comparada",
     forecastOfficial: "Previsión Oficial",
     forecastML: "Previsión ML",
+    forecastIoT: "Sensores IoT",
     forecastRain: "Lluvia",
     forecastMLNote: "El modelo ML detecta +15% de probabilidad de lluvia intensa en las próximas 6h",
     communityTitle: "Comunidad cercana",
@@ -591,7 +605,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailOfficialExplanation: "La Previsión Oficial proviene de agencias meteorológicas nacionales (como AEMET en España) que utilizan modelos físicos ejecutados en supercomputadores. Estos modelos dividen la atmósfera en cuadrículas de unos 10 km y calculan cómo cambiarán la temperatura, la presión y la humedad. Se actualizan cada 6 a 12 horas y son muy fiables para las próximas 24 a 48 horas, pero pierden precisión más allá de 5 días.",
     forecastDetailMLExplanation: "La Previsión ML usa inteligencia artificial entrenada con más de 30 años de historial climático local. Aprende patrones específicos de tu zona que los modelos globales no captan, como el calor atrapado en la ciudad, el comportamiento del viento en valles o cómo la costa afecta la lluvia. Cuando la previsión ML y la oficial muestran números diferentes, normalmente significa que hay un efecto local al que conviene prestar atención.",
     forecastDetailContinueChat: "¿Quieres profundizar? Pregunta al asistente de IA sobre patrones específicos o discrepancias.",
-    forecastDetailWhyCompare: "Comparar ambas previsiones te ayuda a tomar mejores decisiones. La oficial te da el panorama general y la ML captura detalles locales. Cuando coinciden, puedes tener mucha confianza. Cuando difieren, la ML suele detectar algo que la oficial no captó, como una lluvia repentina o una bolsa de calor en tu barrio.",
+    forecastDetailIoTExplanation: "Los Sensores IoT son dispositivos físicos desplegados en la región que miden condiciones en tiempo real como temperatura, humedad y velocidad del viento. Como capturan lo que realmente está ocurriendo (no predicciones), tienen el nivel de confianza más alto. Cuando los datos IoT coinciden con las previsiones, puedes confiar en ellas. Cuando divergen, los sensores muestran un efecto microclimático local que los modelos no predijeron.",
+    forecastDetailWhyCompare: "Comparar las tres fuentes te ayuda a tomar mejores decisiones. La oficial te da el panorama general, la ML captura patrones locales y los sensores IoT muestran lo que realmente está pasando ahora. Cuando las tres coinciden, puedes tener mucha confianza. Cuando divergen, los datos IoT en tiempo real son la verdad del terreno — a menudo revelan microclimas o cambios rápidos que los modelos no predijeron.",
     forecastDetailConfidenceLabel: "Confianza — cuán seguro está el modelo sobre esta previsión (100% = certeza máxima)",
     communityDetailTitle: "Reporte comunitario",
     communityDetailVerified: "Verificado por IA",
@@ -637,6 +652,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myLocationSave: "Guardar esta ubicación",
     myLocationCurrent: "Ubicación actual",
     myLocationDetecting: "Detectando ubicación...",
+    iotTitle: "Estación IoT más cercana",
+    iotLive: "EN VIVO",
+    iotLastUpdate: "Actualizado",
+    iotRadiusNote: "En un radio de 5km",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -654,6 +673,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastTitle: "Previsão comparada",
     forecastOfficial: "Previsão Oficial",
     forecastML: "Previsão ML",
+    forecastIoT: "Sensores IoT",
     forecastRain: "Chuva",
     forecastMLNote: "O modelo ML detecta +15% de chance de chuva intensa nas próximas 6h",
     communityTitle: "Comunidade ao redor",
@@ -793,7 +813,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailOfficialExplanation: "A Previsão Oficial vem de agências meteorológicas nacionais (como a AEMET na Espanha) que usam modelos físicos rodando em supercomputadores. Esses modelos dividem a atmosfera em grades de cerca de 10 km e calculam como temperatura, pressão e umidade vão mudar ao longo do tempo. São atualizados a cada 6 a 12 horas e são muito confiáveis para as próximas 24 a 48 horas, mas perdem precisão além de 5 dias.",
     forecastDetailMLExplanation: "A Previsão ML usa inteligência artificial treinada com mais de 30 anos de histórico climático local. Ela aprende padrões específicos da sua região que os modelos globais não captam, como o calor preso nas cidades, o comportamento do vento em vales ou como a costa afeta a chuva. Quando a ML e a oficial mostram números diferentes, normalmente significa que há um efeito local que merece atenção.",
     forecastDetailContinueChat: "Quer se aprofundar? Pergunte ao assistente de IA sobre padrões específicos ou discrepâncias.",
-    forecastDetailWhyCompare: "Comparar as duas previsões ajuda você a tomar decisões melhores. A oficial traz o panorama geral e a ML captura detalhes locais. Quando concordam, você pode ter muita confiança. Quando divergem, a ML geralmente detecta algo que a oficial não captou, como uma chuva repentina ou uma bolsa de calor no seu bairro.",
+    forecastDetailIoTExplanation: "Os Sensores IoT são dispositivos físicos espalhados pela região que medem condições em tempo real como temperatura, umidade e velocidade do vento. Como capturam o que realmente está acontecendo agora (não previsões), possuem o nível de confiança mais alto. Quando os dados IoT coincidem com as previsões, você pode confiar nelas. Quando divergem, os sensores revelam um efeito microclimático local que os modelos não previram.",
+    forecastDetailWhyCompare: "Comparar as três fontes ajuda você a tomar decisões melhores. A oficial traz o panorama geral, a ML captura padrões locais e os sensores IoT mostram o que realmente está acontecendo agora. Quando as três concordam, você pode ter muita confiança. Quando divergem, os dados IoT em tempo real são a verdade do terreno — frequentemente revelam microclimas ou mudanças rápidas que os modelos não previram.",
     forecastDetailConfidenceLabel: "Confiança — o quanto o modelo tem certeza sobre esta previsão (100% = certeza máxima)",
     communityDetailTitle: "Relato da comunidade",
     communityDetailVerified: "Verificado por IA",
@@ -839,6 +860,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myLocationSave: "Salvar esta localização",
     myLocationCurrent: "Localização atual",
     myLocationDetecting: "Detectando localização...",
+    iotTitle: "Estação IoT mais próxima",
+    iotLive: "AO VIVO",
+    iotLastUpdate: "Atualizado",
+    iotRadiusNote: "Num raio de 5km",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -856,6 +881,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastTitle: "Prévision comparée",
     forecastOfficial: "Prévision Officielle",
     forecastML: "Prévision ML",
+    forecastIoT: "Capteurs IoT",
     forecastRain: "Pluie",
     forecastMLNote: "Le modèle ML détecte +15% de risque de pluie intense dans les 6 prochaines heures",
     communityTitle: "Communauté à proximité",
@@ -995,7 +1021,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailOfficialExplanation: "La Prévision Officielle provient d'agences météorologiques nationales (comme AEMET en Espagne) qui utilisent des modèles physiques exécutés sur des supercalculateurs. Ces modèles divisent l'atmosphère en grilles d'environ 10 km et calculent comment la température, la pression et l'humidité vont évoluer. Ils sont mis à jour toutes les 6 à 12 heures et sont très fiables pour les 24 à 48 prochaines heures, mais perdent en précision au-delà de 5 jours.",
     forecastDetailMLExplanation: "La Prévision ML utilise l'intelligence artificielle entraînée sur plus de 30 ans d'historique météo local. Elle apprend des schémas spécifiques à votre zone que les modèles globaux ne captent pas, comme la chaleur piégée en ville, le comportement du vent dans les vallées ou l'effet de la côte sur la pluie. Quand la ML et l'officielle montrent des chiffres différents, cela signifie généralement qu'il y a un effet local qui mérite attention.",
     forecastDetailContinueChat: "Envie d'approfondir ? Demandez à l'assistant IA des précisions sur des schémas ou divergences spécifiques.",
-    forecastDetailWhyCompare: "Comparer les deux prévisions vous aide à prendre de meilleures décisions. L'officielle donne une vue d'ensemble et la ML capture les détails locaux. Quand elles concordent, vous pouvez être très confiant. Quand elles divergent, la ML détecte souvent quelque chose que l'officielle a manqué, comme une pluie soudaine ou une poche de chaleur dans votre quartier.",
+    forecastDetailIoTExplanation: "Les Capteurs IoT sont des dispositifs physiques déployés dans la région qui mesurent les conditions en temps réel comme la température, l'humidité et la vitesse du vent. Comme ils capturent ce qui se passe réellement (pas des prédictions), ils ont le niveau de confiance le plus élevé. Quand les données IoT concordent avec les prévisions, vous pouvez leur faire confiance. Quand elles divergent, les capteurs révèlent un effet microclimatique local que les modèles n'avaient pas prédit.",
+    forecastDetailWhyCompare: "Comparer les trois sources vous aide à prendre de meilleures décisions. L'officielle donne une vue d'ensemble, la ML capture les détails locaux et les capteurs IoT montrent ce qui se passe réellement maintenant. Quand les trois concordent, vous pouvez être très confiant. Quand elles divergent, les données IoT en temps réel sont la vérité du terrain — elles révèlent souvent des microclimats ou des changements rapides que les modèles n'avaient pas prédits.",
     forecastDetailConfidenceLabel: "Confiance — à quel point le modèle est sûr de cette prévision (100% = certitude maximale)",
     communityDetailTitle: "Signalement communautaire",
     communityDetailVerified: "Vérifié par IA",
@@ -1041,5 +1068,9 @@ export const translations: Record<Locale, TranslationKeys> = {
     myLocationSave: "Enregistrer cette position",
     myLocationCurrent: "Position actuelle",
     myLocationDetecting: "Détection de la position...",
+    iotTitle: "Station IoT la plus proche",
+    iotLive: "EN DIRECT",
+    iotLastUpdate: "Mis à jour",
+    iotRadiusNote: "Dans un rayon de 5km",
   },
 };

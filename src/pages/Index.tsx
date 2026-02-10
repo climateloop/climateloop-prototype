@@ -4,6 +4,7 @@ import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
 import AlertCard, { type Alert } from "@/components/AlertCard";
 import ForecastComparison from "@/components/ForecastComparison";
+import IoTStationCard from "@/components/IoTStationCard";
 import CommunityReports from "@/components/CommunityReports";
 import EmergencyNumbers from "@/components/EmergencyNumbers";
 import AIChat from "@/components/AIChat";
@@ -125,6 +126,7 @@ const Index = () => {
             <AlertCard alert={activeAlert} compact onAskAI={handleOpenAlertDetail} />
           </div>
           <WeatherCard />
+          <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} />
           <EmergencyNumbers />

@@ -1,4 +1,4 @@
-import { ArrowLeft, Brain, Cloud, Sparkles, MessageCircle, Info } from "lucide-react";
+import { ArrowLeft, Brain, Cloud, Radio, Sparkles, MessageCircle, Info } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ForecastDetailProps {
@@ -40,7 +40,6 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
               <p className="text-xs text-muted-foreground">{t.forecastRain}: 40%</p>
             </div>
           </div>
-          {/* Confidence bar with background */}
           <div className="mt-2">
             <div className="h-2.5 w-full bg-border rounded-full overflow-hidden">
               <div className="h-full rounded-full gradient-heat transition-all duration-500" style={{ width: "85%" }} />
@@ -70,7 +69,6 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
               <p className="text-xs text-muted-foreground">{t.forecastRain}: 55%</p>
             </div>
           </div>
-          {/* Confidence bar with background */}
           <div className="mt-2">
             <div className="h-2.5 w-full bg-border rounded-full overflow-hidden">
               <div className="h-full rounded-full gradient-heat transition-all duration-500" style={{ width: "78%" }} />
@@ -84,6 +82,34 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
         </p>
         <p className="text-sm text-foreground leading-relaxed">
           {t.forecastDetailMLExplanation}
+        </p>
+      </div>
+
+      {/* IoT data explanation */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-5 mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Radio className="w-5 h-5 text-accent" />
+          <h3 className="text-sm font-semibold text-foreground">{t.forecastIoT}</h3>
+          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-secondary/15 text-secondary font-semibold">
+            {t.iotLive}
+          </span>
+        </div>
+        <div className="p-3 rounded-lg bg-muted mb-3">
+          <div className="flex items-center gap-3 mb-2">
+            <div>
+              <p className="text-2xl font-bold text-foreground">29.3°C</p>
+              <p className="text-xs text-muted-foreground">{t.weatherHumidity}: 68%</p>
+            </div>
+          </div>
+          <div className="mt-2">
+            <div className="h-2.5 w-full bg-border rounded-full overflow-hidden">
+              <div className="h-full rounded-full gradient-heat transition-all duration-500" style={{ width: "95%" }} />
+            </div>
+            <p className="text-[10px] text-muted-foreground mt-1 text-right">95 / 100%</p>
+          </div>
+        </div>
+        <p className="text-sm text-foreground leading-relaxed">
+          {t.forecastDetailIoTExplanation}
         </p>
       </div>
 
