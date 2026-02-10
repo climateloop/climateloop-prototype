@@ -63,18 +63,18 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
         <div className="fixed bottom-20 right-2 left-2 max-w-lg mx-auto z-[90] animate-in slide-in-from-bottom-4 duration-200">
           <div className="bg-background rounded-2xl border border-border shadow-elevated overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface-elevated">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border gradient-heat">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center">
                   <Bot className="w-4 h-4 text-primary-foreground" />
                 </div>
-                <h3 className="text-sm font-semibold text-foreground">{t.aiTitle}</h3>
+                <h3 className="text-sm font-semibold text-white">{t.aiTitle}</h3>
               </div>
               <button
                 onClick={handleClose}
-                className="p-1.5 rounded-full hover:bg-muted transition-colors"
+                className="p-1.5 rounded-full hover:bg-white/20 transition-colors"
               >
-                <X className="w-4 h-4 text-muted-foreground" />
+                <X className="w-4 h-4 text-white" />
               </button>
             </div>
 
