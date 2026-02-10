@@ -1,41 +1,43 @@
-import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight } from "lucide-react";
+import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe } from "lucide-react";
+import { useLanguage, localeNames } from "@/i18n/LanguageContext";
 
 const ProfilePage = () => {
+  const { t, locale } = useLanguage();
+
   const menuItems = [
-    { icon: MapPin, label: "Minha localização", value: "São Paulo, SP" },
-    { icon: Bell, label: "Notificações", value: "Ativas" },
-    { icon: Shield, label: "Privacidade", value: "" },
-    { icon: Settings, label: "Configurações", value: "" },
+    { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue },
+    { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive },
+    { icon: Globe, label: t.profileLanguage, value: localeNames[locale] },
+    { icon: Shield, label: t.profilePrivacy, value: "" },
+    { icon: Settings, label: t.profileSettings, value: "" },
   ];
 
   return (
     <div className="px-4 pb-4">
-      {/* Profile header */}
       <div className="flex flex-col items-center py-6">
         <div className="w-20 h-20 rounded-full gradient-primary flex items-center justify-center mb-3">
           <User className="w-10 h-10 text-primary-foreground" />
         </div>
-        <h2 className="text-lg font-bold text-foreground">Usuário Demo</h2>
+        <h2 className="text-lg font-bold text-foreground">{t.profileDemoUser}</h2>
         <p className="text-sm text-muted-foreground">usuario@climateloop.app</p>
         <div className="flex items-center gap-4 mt-4">
           <div className="text-center">
             <p className="text-lg font-bold text-foreground">12</p>
-            <p className="text-xs text-muted-foreground">Relatos</p>
+            <p className="text-xs text-muted-foreground">{t.profileReports}</p>
           </div>
           <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-foreground">45</p>
-            <p className="text-xs text-muted-foreground">Dias ativo</p>
+            <p className="text-xs text-muted-foreground">{t.profileDaysActive}</p>
           </div>
           <div className="w-px h-8 bg-border" />
           <div className="text-center">
             <p className="text-lg font-bold text-secondary">92%</p>
-            <p className="text-xs text-muted-foreground">Precisão</p>
+            <p className="text-xs text-muted-foreground">{t.profileAccuracy}</p>
           </div>
         </div>
       </div>
 
-      {/* Menu */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden">
         {menuItems.map((item, i) => {
           const Icon = item.icon;
@@ -57,7 +59,7 @@ const ProfilePage = () => {
 
       <button className="w-full flex items-center justify-center gap-2 mt-6 py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors">
         <LogOut className="w-4 h-4" />
-        Sair da conta
+        {t.profileLogout}
       </button>
     </div>
   );
