@@ -1,5 +1,5 @@
-import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe, ClipboardList } from "lucide-react";
-import { useLanguage, localeNames, type Locale } from "@/i18n/LanguageContext";
+import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe, ClipboardList, Ruler } from "lucide-react";
+import { useLanguage, localeNames, type Locale, type UnitSystem } from "@/i18n/LanguageContext";
 import { useState } from "react";
 
 interface ProfilePageProps {
@@ -7,17 +7,24 @@ interface ProfilePageProps {
   onOpenLocation?: () => void;
 }
 
+const unitSystemLabels: Record<UnitSystem, Record<string, string>> = {
+  metric: { en: "Metric (°C, km/h)", es: "Métrico (°C, km/h)", pt: "Métrico (°C, km/h)", fr: "Métrique (°C, km/h)" },
+  imperial: { en: "Imperial (°F, mph)", es: "Imperial (°F, mph)", pt: "Imperial (°F, mph)", fr: "Impérial (°F, mph)" },
+};
+
 const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) => {
-  const { t, locale, setLocale } = useLanguage();
+  const { t, locale, setLocale, unitSystem, setUnitSystem } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
+  const [unitsOpen, setUnitsOpen] = useState(false);
 
   const menuItems = [
-    { icon: ClipboardList, label: t.menuMyContributions, value: "12", onClick: onOpenContributions },
-    { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue, onClick: onOpenLocation },
-    { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive },
-    { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => setLangOpen(!langOpen) },
-    { icon: Shield, label: t.profilePrivacy, value: "" },
-    { icon: Settings, label: t.profileSettings, value: "" },
+    { icon: ClipboardList, label: t.menuMyContributions, value: "12", onClick: onOpenContributions, id: "contributions" },
+    { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue, onClick: onOpenLocation, id: "location" },
+    { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive, id: "notifications" },
+    { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => { setLangOpen(!langOpen); setUnitsOpen(false); }, id: "language" },
+    { icon: Ruler, label: t.profileUnits, value: unitSystemLabels[unitSystem][locale], onClick: () => { setUnitsOpen(!unitsOpen); setLangOpen(false); }, id: "units" },
+    { icon: Shield, label: t.profilePrivacy, value: "", id: "privacy" },
+    { icon: Settings, label: t.profileSettings, value: "", id: "settings" },
   ];
 
   return (
@@ -50,19 +57,22 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) 
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden">
         {menuItems.map((item, i) => {
           const Icon = item.icon;
-          const isLang = item.icon === Globe;
+          const isLang = item.id === "language";
+          const isUnits = item.id === "units";
+          const hasSubmenu = isLang || isUnits;
+          const isSubmenuOpen = (isLang && langOpen) || (isUnits && unitsOpen);
           return (
-            <div key={item.label}>
+            <div key={item.id}>
               <button
                 onClick={item.onClick}
                 className={`w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted transition-colors ${
-                  i < menuItems.length - 1 && !isLang ? "border-b border-border" : !langOpen && i < menuItems.length - 1 ? "border-b border-border" : ""
+                  i < menuItems.length - 1 && !isSubmenuOpen ? "border-b border-border" : ""
                 }`}
               >
                 <Icon className="w-5 h-5 text-primary" />
                 <span className="flex-1 text-left text-sm text-foreground">{item.label}</span>
                 {item.value && <span className="text-xs text-muted-foreground">{item.value}</span>}
-                <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${isLang && langOpen ? "rotate-90" : ""}`} />
+                <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${hasSubmenu && isSubmenuOpen ? "rotate-90" : ""}`} />
               </button>
               {isLang && langOpen && (
                 <div className="border-b border-border">
@@ -75,6 +85,21 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) 
                       }`}
                     >
                       {localeNames[loc]}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {isUnits && unitsOpen && (
+                <div className="border-b border-border">
+                  {(["metric", "imperial"] as UnitSystem[]).map((sys) => (
+                    <button
+                      key={sys}
+                      onClick={() => { setUnitSystem(sys); setUnitsOpen(false); }}
+                      className={`w-full text-left px-12 py-2.5 text-sm hover:bg-muted transition-colors ${
+                        unitSystem === sys ? "text-primary font-medium bg-primary/5" : "text-foreground"
+                      }`}
+                    >
+                      {unitSystemLabels[sys][locale]}
                     </button>
                   ))}
                 </div>
