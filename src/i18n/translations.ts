@@ -217,6 +217,16 @@ type TranslationKeys = {
   emergencyRedCross: string;
   // Community - own reports
   communitySentByMe: string;
+  // My Location
+  myLocationTitle: string;
+  myLocationUseGPS: string;
+  myLocationGPSDesc: string;
+  myLocationSearchPlaceholder: string;
+  myLocationSaved: string;
+  myLocationNoSaved: string;
+  myLocationSave: string;
+  myLocationCurrent: string;
+  myLocationDetecting: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -244,7 +254,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityAccuracy: "Accuracy",
     aiTitle: "AI Assistant",
     aiPlaceholder: "Ask about the weather...",
-    aiInitialMessage: "Hello! I'm the ClimateLoop assistant. Based on official data and ML forecasts, your area has a **55% chance of heavy rain** in the next 6 hours. The community has already reported 3 nearby floods. I can explain more or answer questions about the weather in your area.",
+    aiInitialMessage: "Hello! I'm the ClimateLoop assistant. Based on official data and ML forecasts, your area has a 55% chance of heavy rain in the next 6 hours. The community has already reported 3 nearby floods. I can explain more or answer questions about the weather in your area.",
     aiResponse: "Based on ML historical data and active CAP alerts, I recommend avoiding low-lying areas in the coming hours. The official forecast indicates 40% rain, but our model indicates 55% — the difference is due to humidity patterns the ML detected over the last 3 days. Community photos also show rain clouds forming to the west.",
     alertsTitle: "Active alerts",
     alertsFilter: "Filter",
@@ -408,6 +418,15 @@ export const translations: Record<Locale, TranslationKeys> = {
     emergencyCivilDefense: "Civil Defense",
     emergencyRedCross: "Red Cross",
     communitySentByMe: "Sent by me",
+    myLocationTitle: "My Location",
+    myLocationUseGPS: "Use GPS",
+    myLocationGPSDesc: "Detect your current location automatically",
+    myLocationSearchPlaceholder: "Search for a city or address...",
+    myLocationSaved: "Saved locations",
+    myLocationNoSaved: "No saved locations yet",
+    myLocationSave: "Save this location",
+    myLocationCurrent: "Current location",
+    myLocationDetecting: "Detecting location...",
   },
   es: {
     location: "Madrid, España",
@@ -433,7 +452,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityAccuracy: "Precisión",
     aiTitle: "Asistente IA",
     aiPlaceholder: "Pregunta sobre el clima...",
-    aiInitialMessage: "¡Hola! Soy el asistente de ClimateLoop. Según los datos oficiales y las previsiones de ML, tu zona tiene un **55% de probabilidad de lluvia intensa** en las próximas 6 horas. La comunidad ya ha reportado 3 inundaciones cercanas. Puedo explicarte más o responder preguntas sobre el clima en tu zona.",
+    aiInitialMessage: "¡Hola! Soy el asistente de ClimateLoop. Según los datos oficiales y las previsiones de ML, tu zona tiene un 55% de probabilidad de lluvia intensa en las próximas 6 horas. La comunidad ya ha reportado 3 inundaciones cercanas. Puedo explicarte más o responder preguntas sobre el clima en tu zona.",
     aiResponse: "Basado en datos históricos de ML y alertas CAP activas, recomiendo evitar zonas bajas en las próximas horas. La previsión oficial indica 40% de lluvia, pero nuestro modelo indica 55% — la diferencia se debe a patrones de humedad que el ML detectó en los últimos 3 días. Las fotos de la comunidad también muestran nubes de lluvia formándose al oeste.",
     alertsTitle: "Alertas activas",
     alertsFilter: "Filtrar",
@@ -597,6 +616,15 @@ export const translations: Record<Locale, TranslationKeys> = {
     emergencyCivilDefense: "Protección Civil",
     emergencyRedCross: "Cruz Roja",
     communitySentByMe: "Enviado por mí",
+    myLocationTitle: "Mi ubicación",
+    myLocationUseGPS: "Usar GPS",
+    myLocationGPSDesc: "Detectar tu ubicación actual automáticamente",
+    myLocationSearchPlaceholder: "Buscar ciudad o dirección...",
+    myLocationSaved: "Ubicaciones guardadas",
+    myLocationNoSaved: "Aún no hay ubicaciones guardadas",
+    myLocationSave: "Guardar esta ubicación",
+    myLocationCurrent: "Ubicación actual",
+    myLocationDetecting: "Detectando ubicación...",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -622,7 +650,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityAccuracy: "Precisão",
     aiTitle: "Assistente IA",
     aiPlaceholder: "Pergunte sobre o clima...",
-    aiInitialMessage: "Olá! Sou o assistente do ClimateLoop. Com base nos dados oficiais e nas previsões de ML, vejo que sua região tem **55% de chance de chuva intensa** nas próximas 6 horas. A comunidade já reportou 3 alagamentos próximos. Posso explicar mais ou responder perguntas sobre o clima na sua área.",
+    aiInitialMessage: "Olá! Sou o assistente do ClimateLoop. Com base nos dados oficiais e nas previsões de ML, vejo que sua região tem 55% de chance de chuva intensa nas próximas 6 horas. A comunidade já reportou 3 alagamentos próximos. Posso explicar mais ou responder perguntas sobre o clima na sua área.",
     aiResponse: "Baseado nos dados históricos de ML e nos alertas CAP ativos, recomendo que você evite áreas baixas nas próximas horas. A previsão oficial indica 40% de chuva, mas nosso modelo indica 55% — a diferença se deve aos padrões de umidade que o ML detectou nos últimos 3 dias. As fotos enviadas pela comunidade também mostram nuvens de chuva se formando a oeste.",
     alertsTitle: "Alertas ativos",
     alertsFilter: "Filtrar",
@@ -786,6 +814,15 @@ export const translations: Record<Locale, TranslationKeys> = {
     emergencyCivilDefense: "Proteção Civil",
     emergencyRedCross: "Cruz Vermelha",
     communitySentByMe: "Enviado por mim",
+    myLocationTitle: "Minha localização",
+    myLocationUseGPS: "Usar GPS",
+    myLocationGPSDesc: "Detectar sua localização atual automaticamente",
+    myLocationSearchPlaceholder: "Buscar cidade ou endereço...",
+    myLocationSaved: "Localizações salvas",
+    myLocationNoSaved: "Nenhuma localização salva ainda",
+    myLocationSave: "Salvar esta localização",
+    myLocationCurrent: "Localização atual",
+    myLocationDetecting: "Detectando localização...",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -811,7 +848,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityAccuracy: "Précision",
     aiTitle: "Assistant IA",
     aiPlaceholder: "Posez une question sur la météo...",
-    aiInitialMessage: "Bonjour ! Je suis l'assistant ClimateLoop. Selon les données officielles et les prévisions ML, votre zone a **55% de risque de pluie intense** dans les 6 prochaines heures. La communauté a déjà signalé 3 inondations à proximité. Je peux vous en dire plus ou répondre à vos questions sur la météo.",
+    aiInitialMessage: "Bonjour ! Je suis l'assistant ClimateLoop. Selon les données officielles et les prévisions ML, votre zone a 55% de risque de pluie intense dans les 6 prochaines heures. La communauté a déjà signalé 3 inondations à proximité. Je peux vous en dire plus ou répondre à vos questions sur la météo.",
     aiResponse: "D'après les données historiques ML et les alertes CAP actives, je recommande d'éviter les zones basses dans les prochaines heures. La prévision officielle indique 40% de pluie, mais notre modèle indique 55% — la différence est due aux schémas d'humidité détectés par le ML ces 3 derniers jours. Les photos de la communauté montrent aussi des nuages de pluie se formant à l'ouest.",
     alertsTitle: "Alertes actives",
     alertsFilter: "Filtrer",
@@ -975,5 +1012,14 @@ export const translations: Record<Locale, TranslationKeys> = {
     emergencyCivilDefense: "Protection Civile",
     emergencyRedCross: "Croix-Rouge",
     communitySentByMe: "Envoyé par moi",
+    myLocationTitle: "Ma position",
+    myLocationUseGPS: "Utiliser le GPS",
+    myLocationGPSDesc: "Détecter votre position actuelle automatiquement",
+    myLocationSearchPlaceholder: "Rechercher une ville ou adresse...",
+    myLocationSaved: "Positions enregistrées",
+    myLocationNoSaved: "Aucune position enregistrée",
+    myLocationSave: "Enregistrer cette position",
+    myLocationCurrent: "Position actuelle",
+    myLocationDetecting: "Détection de la position...",
   },
 };

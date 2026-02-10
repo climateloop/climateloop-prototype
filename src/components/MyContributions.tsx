@@ -1,4 +1,4 @@
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, AlertCircle, ChevronRight } from "lucide-react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Contribution {
@@ -13,7 +13,7 @@ interface Contribution {
 const myContributions: Contribution[] = [
   { id: "1", typeKey: "typeFlooding", description: "Calle inundada en Puerta del Sol", time: "2h", verified: true, hasPhoto: true },
   { id: "2", typeKey: "typeExtremeHeat", description: "Temperatura extrema en Retiro", time: "1d", verified: true, hasPhoto: false },
-  { id: "3", typeKey: "typeStrongWind", description: "Ramas caídas en Malasaña", time: "3d", verified: false, hasPhoto: true },
+  { id: "3", typeKey: "typeStrongWind", description: "Ramas caídas en Malasaña", time: "3d", verified: true, hasPhoto: true },
 ];
 
 const typeColorMap: Record<string, string> = {
@@ -61,17 +61,10 @@ const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <Clock className="w-3 h-3" /> {c.time}
                     </span>
-                    {c.verified ? (
-                      <span className="flex items-center gap-1 text-xs text-secondary font-medium">
-                        <CheckCircle className="w-3 h-3" />
-                        {t.myContribVerified}
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
-                        <AlertCircle className="w-3 h-3" />
-                        {t.myContribPending}
-                      </span>
-                    )}
+                    <span className="flex items-center gap-1 text-xs text-secondary font-medium">
+                      <CheckCircle className="w-3 h-3" />
+                      {t.myContribVerified}
+                    </span>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground mt-1" />
