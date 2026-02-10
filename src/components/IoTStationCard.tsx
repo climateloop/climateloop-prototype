@@ -2,16 +2,19 @@ import { useState } from "react";
 import { Radio, Thermometer, Droplets, Wind, Clock, MapPin, Info, X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
+const cToF = (c: number) => Math.round(c * 9 / 5 + 32);
+
 const IoTStationCard = () => {
-  const { t } = useLanguage();
+  const { t, unitSystem } = useLanguage();
   const [showInfo, setShowInfo] = useState(false);
+  const isImperial = unitSystem === "imperial";
 
   const station = {
     name: "EST-MAD-017",
-    distance: "1.2 km",
-    temp: "29°C",
+    distance: isImperial ? "0.7 mi" : "1.2 km",
+    temp: isImperial ? `${cToF(29)}°F` : "29°C",
     humidity: "68%",
-    wind: "12 km/h",
+    wind: isImperial ? "7 mph" : "12 km/h",
     lastUpdate: "2 min",
     online: true,
   };

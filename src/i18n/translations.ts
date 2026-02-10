@@ -248,6 +248,21 @@ type TranslationKeys = {
   alertExplainOrangeHeat: string;
   alertExplainYellowWind: string;
   alertExplainMLHail: string;
+  // Units
+  profileUnits: string;
+  // Forecast precip
+  forecastPrecip: string;
+  // Alert categories
+  alertCategoryNow: string;
+  alertCategoryFuture: string;
+  alertCategoryPast: string;
+  alertFutureHeatTitle: string;
+  alertFutureHeatDesc: string;
+  alertFutureHeatTime: string;
+  alertPastRainTitle: string;
+  alertPastRainDesc: string;
+  alertPastYesterday: string;
+  alertPast2Days: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -467,6 +482,18 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertExplainOrangeHeat: "So tomorrow is going to be brutally hot — above 38°C. This isn't just uncomfortable, it's genuinely dangerous for elderly people, kids, and anyone with health conditions. Your body struggles to cool down at these temps. Stay hydrated (way more water than you think), avoid being outside between 10am and 4pm, and keep curtains closed. If you know elderly neighbors, check on them — heat can be a silent killer.",
     alertExplainYellowWind: "This is a yellow wind alert — not super dangerous, but worth paying attention to. We're expecting gusts up to 60km/h this afternoon. That's strong enough to knock over potted plants, break weak branches, and send lightweight objects flying. If you have anything loose on your balcony or terrace, bring it inside. Also, maybe don't park under trees today. It should calm down by evening.",
     alertExplainMLHail: "This one is interesting — our ML model spotted a pattern that suggests there's a 35% chance of hail in about 48 hours. This isn't from the official weather service; it's our AI analyzing historical data and current atmospheric conditions. 35% isn't certain, but it's high enough to plan ahead. If you have a car parked outside, consider covering it. Keep an eye on updates — we'll know more as conditions develop.",
+    profileUnits: "Units",
+    forecastPrecip: "Precip",
+    alertCategoryNow: "Active now",
+    alertCategoryFuture: "Upcoming",
+    alertCategoryPast: "Recent (past)",
+    alertFutureHeatTitle: "Orange alert: Extreme heat D+1",
+    alertFutureHeatDesc: "Temperatures above 40°C expected the day after tomorrow. Prepare in advance.",
+    alertFutureHeatTime: "Forecast D+1",
+    alertPastRainTitle: "Orange alert: Heavy rain (ended)",
+    alertPastRainDesc: "Rain of 45mm recorded 2 days ago. Alert has been deactivated.",
+    alertPastYesterday: "Yesterday",
+    alertPast2Days: "2 days ago",
   },
   es: {
     location: "Madrid, España",
@@ -684,6 +711,18 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertExplainOrangeHeat: "Mañana va a ser brutalmente caluroso — más de 38°C. No es solo incómodo, es genuinamente peligroso para personas mayores, niños y cualquiera con problemas de salud. Tu cuerpo lucha por enfriarse a estas temperaturas. Mantente hidratado (mucha más agua de la que crees), evita estar fuera entre las 10h y las 16h, y mantén las cortinas cerradas. Si conoces vecinos mayores, comprueba cómo están — el calor puede ser un asesino silencioso.",
     alertExplainYellowWind: "Esta es una alerta amarilla de viento — no es súper peligrosa, pero merece atención. Se esperan ráfagas de hasta 60km/h esta tarde. Es suficiente para tirar macetas, romper ramas débiles y hacer volar objetos ligeros. Si tienes algo suelto en tu balcón o terraza, mételo dentro. Y quizá hoy no estaciones bajo árboles. Debería calmarse por la noche.",
     alertExplainMLHail: "Esta es interesante — nuestro modelo ML detectó un patrón que sugiere un 35% de probabilidad de granizo en unas 48 horas. No viene del servicio meteorológico oficial; es nuestra IA analizando datos históricos y condiciones atmosféricas actuales. 35% no es seguro, pero es suficiente para planificar. Si tienes el coche aparcado fuera, considera cubrirlo. Estate atento a las actualizaciones — sabremos más a medida que las condiciones evolucionen.",
+    profileUnits: "Unidades",
+    forecastPrecip: "Precipitación",
+    alertCategoryNow: "Activos ahora",
+    alertCategoryFuture: "Próximos",
+    alertCategoryPast: "Recientes (pasados)",
+    alertFutureHeatTitle: "Alerta naranja: Calor extremo D+1",
+    alertFutureHeatDesc: "Temperaturas superiores a 40°C esperadas pasado mañana. Prepárate con antelación.",
+    alertFutureHeatTime: "Previsión D+1",
+    alertPastRainTitle: "Alerta naranja: Lluvia fuerte (finalizada)",
+    alertPastRainDesc: "Lluvia de 45mm registrada hace 2 días. La alerta ha sido desactivada.",
+    alertPastYesterday: "Ayer",
+    alertPast2Days: "Hace 2 días",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -901,6 +940,18 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertExplainOrangeHeat: "Amanhã vai ser brutalmente quente — acima de 38°C. Não é só desconfortável, é genuinamente perigoso para idosos, crianças e qualquer pessoa com problemas de saúde. Seu corpo tem dificuldade para se resfriar nessas temperaturas. Beba muita água (muito mais do que você acha), evite ficar fora entre 10h e 16h, e mantenha as cortinas fechadas. Se você conhece vizinhos idosos, passe para ver como estão — o calor pode ser um assassino silencioso.",
     alertExplainYellowWind: "Esse é um alerta amarelo de vento — não é super perigoso, mas vale prestar atenção. Estão prevendo rajadas de até 60km/h à tarde. É forte o suficiente para derrubar vasos, quebrar galhos fracos e fazer objetos leves voarem. Se você tem algo solto na varanda ou terraço, guarde. E talvez hoje não estacione embaixo de árvores. Deve acalmar à noite.",
     alertExplainMLHail: "Essa é interessante — nosso modelo ML detectou um padrão que sugere 35% de chance de granizo em cerca de 48 horas. Não é do serviço meteorológico oficial; é nossa IA analisando dados históricos e condições atmosféricas atuais. 35% não é certeza, mas é alto o suficiente para se planejar. Se seu carro está estacionado fora, considere cobri-lo. Fique de olho nas atualizações — vamos saber mais conforme as condições evoluem.",
+    profileUnits: "Unidades",
+    forecastPrecip: "Precipitação",
+    alertCategoryNow: "Ativos agora",
+    alertCategoryFuture: "Próximos",
+    alertCategoryPast: "Recentes (passados)",
+    alertFutureHeatTitle: "Alerta laranja: Calor extremo D+1",
+    alertFutureHeatDesc: "Temperaturas acima de 40°C esperadas depois de amanhã. Prepare-se com antecedência.",
+    alertFutureHeatTime: "Previsão D+1",
+    alertPastRainTitle: "Alerta laranja: Chuva forte (encerrado)",
+    alertPastRainDesc: "Chuva de 45mm registrada há 2 dias. O alerta foi desativado.",
+    alertPastYesterday: "Ontem",
+    alertPast2Days: "Há 2 dias",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -1118,5 +1169,17 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertExplainOrangeHeat: "Demain va être brutalement chaud — au-dessus de 38°C. Ce n'est pas juste inconfortable, c'est vraiment dangereux pour les personnes âgées, les enfants et ceux qui ont des problèmes de santé. Ton corps a du mal à se refroidir à ces températures. Reste hydraté (beaucoup plus d'eau que tu ne penses), évite d'être dehors entre 10h et 16h, et garde les rideaux fermés. Si tu connais des voisins âgés, passe les voir — la chaleur peut être un tueur silencieux.",
     alertExplainYellowWind: "C'est une alerte jaune de vent — pas super dangereuse, mais ça vaut le coup d'y prêter attention. On attend des rafales jusqu'à 60km/h cet après-midi. C'est assez fort pour renverser des pots de fleurs, casser des branches fragiles et faire voler des objets légers. Si tu as quelque chose de mal fixé sur ton balcon ou ta terrasse, rentre-le. Et peut-être ne te gare pas sous les arbres aujourd'hui. Ça devrait se calmer en soirée.",
     alertExplainMLHail: "Celle-ci est intéressante — notre modèle ML a repéré un schéma qui suggère 35% de risque de grêle dans environ 48 heures. Ça ne vient pas du service météo officiel ; c'est notre IA qui analyse les données historiques et les conditions atmosphériques actuelles. 35% ce n'est pas certain, mais c'est assez élevé pour anticiper. Si ta voiture est garée dehors, pense à la couvrir. Reste attentif aux mises à jour — on en saura plus à mesure que les conditions évoluent.",
+    profileUnits: "Unités",
+    forecastPrecip: "Précipitations",
+    alertCategoryNow: "Actives maintenant",
+    alertCategoryFuture: "À venir",
+    alertCategoryPast: "Récentes (passées)",
+    alertFutureHeatTitle: "Alerte orange : Chaleur extrême J+1",
+    alertFutureHeatDesc: "Températures supérieures à 40°C attendues après-demain. Préparez-vous à l'avance.",
+    alertFutureHeatTime: "Prévision J+1",
+    alertPastRainTitle: "Alerte orange : Pluie forte (terminée)",
+    alertPastRainDesc: "Pluie de 45mm enregistrée il y a 2 jours. L'alerte a été désactivée.",
+    alertPastYesterday: "Hier",
+    alertPast2Days: "Il y a 2 jours",
   },
 };
