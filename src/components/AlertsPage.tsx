@@ -57,7 +57,9 @@ const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
       </div>
       <div className="space-y-3">
         {alerts.map((alert) => (
-          <AlertCard key={alert.id} alert={alert} onAskAI={onAskAI} />
+          <div key={alert.id} onClick={() => onAskAI?.(alert)} className="cursor-pointer">
+            <AlertCard alert={alert} onAskAI={onAskAI} />
+          </div>
         ))}
       </div>
     </div>

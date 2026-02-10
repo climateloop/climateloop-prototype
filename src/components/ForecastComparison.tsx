@@ -89,10 +89,10 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
       >
         <Sparkles className="w-3.5 h-3.5 text-accent" />
         <span className="text-sm font-medium text-foreground">{t.aiUnderstandForecast}</span>
-        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1 pointer-events-none">
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1 pointer-events-none select-none">
           {t.aiPowered}
         </span>
-        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
       </button>
     </div>
   );

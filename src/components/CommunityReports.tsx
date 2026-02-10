@@ -1,4 +1,4 @@
-import { Users, FileText, TrendingUp, Camera, MapPin, ChevronRight, EyeOff } from "lucide-react";
+import { Users, FileText, TrendingUp, Camera, MapPin, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface CommunityReport {
@@ -96,20 +96,7 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
             onClick={() => onOpenReport?.(r.id)}
             className="w-full text-left bg-surface-elevated rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
           >
-            {/* Blurred photo warning card */}
-            {r.photoBlurred && (
-              <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=200&fit=crop"
-                  alt=""
-                  className="w-full h-28 object-cover blur-xl"
-                />
-                <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center gap-2">
-                  <EyeOff className="w-4 h-4 text-background" />
-                  <span className="text-xs font-medium text-background">{t.photoBlurWarning}</span>
-                </div>
-              </div>
-            )}
+            {/* No images shown on home feed - only on detail page */}
             <div className="p-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
