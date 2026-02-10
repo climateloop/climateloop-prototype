@@ -161,6 +161,13 @@ type TranslationKeys = {
   typeExtremeHeat: string;
   typeStrongWind: string;
   typeFire: string;
+  // AI-powered CTAs
+  aiUnderstandAlert: string;
+  aiUnderstandForecast: string;
+  aiPowered: string;
+  alertRecommendedActions: string;
+  alertMoreInfo: string;
+  communityViewDetails: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -303,6 +310,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Extreme heat",
     typeStrongWind: "Strong wind",
     typeFire: "Fire",
+    aiUnderstandAlert: "Understand this alert",
+    aiUnderstandForecast: "Understand the difference",
+    aiPowered: "AI Powered",
+    alertRecommendedActions: "Recommended actions",
+    alertMoreInfo: "More information",
+    communityViewDetails: "View details",
   },
   es: {
     location: "Madrid, España",
@@ -443,6 +456,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Calor extremo",
     typeStrongWind: "Viento fuerte",
     typeFire: "Incendio",
+    aiUnderstandAlert: "Entender esta alerta",
+    aiUnderstandForecast: "Entender la diferencia",
+    aiPowered: "IA Powered",
+    alertRecommendedActions: "Acciones recomendadas",
+    alertMoreInfo: "Más información",
+    communityViewDetails: "Ver detalles",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -583,6 +602,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Calor extremo",
     typeStrongWind: "Vento forte",
     typeFire: "Incêndio",
+    aiUnderstandAlert: "Entenda este alerta",
+    aiUnderstandForecast: "Entenda a diferença",
+    aiPowered: "IA Powered",
+    alertRecommendedActions: "Ações recomendadas",
+    alertMoreInfo: "Mais informações",
+    communityViewDetails: "Ver detalhes",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -723,5 +748,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Chaleur extrême",
     typeStrongWind: "Vent fort",
     typeFire: "Incendie",
+    aiUnderstandAlert: "Comprendre cette alerte",
+    aiUnderstandForecast: "Comprendre la différence",
+    aiPowered: "IA Powered",
+    alertRecommendedActions: "Actions recommandées",
+    alertMoreInfo: "Plus d'informations",
+    communityViewDetails: "Voir les détails",
   },
 };

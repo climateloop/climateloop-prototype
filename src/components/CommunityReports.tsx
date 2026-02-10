@@ -1,4 +1,4 @@
-import { Users, FileText, TrendingUp, Camera, MapPin } from "lucide-react";
+import { Users, FileText, TrendingUp, Camera, MapPin, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface CommunityReport {
@@ -48,7 +48,11 @@ const typeColorMap: Record<string, string> = {
   typeFire: "bg-destructive/10 text-destructive",
 };
 
-const CommunityReports = () => {
+interface CommunityReportsProps {
+  onOpenReport?: (reportId: string) => void;
+}
+
+const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
   const { t } = useLanguage();
 
   return (
@@ -76,7 +80,11 @@ const CommunityReports = () => {
 
       <div className="space-y-3">
         {reports.map((r) => (
-          <div key={r.id} className="bg-surface-elevated rounded-xl p-3 shadow-card border border-border">
+          <button
+            key={r.id}
+            onClick={() => onOpenReport?.(r.id)}
+            className="w-full text-left bg-surface-elevated rounded-xl p-3 shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
+          >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
@@ -93,9 +101,14 @@ const CommunityReports = () => {
                     <MapPin className="w-3 h-3" /> {r.distance}
                   </span>
                 </div>
+                <div className="flex items-center gap-1 mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  {t.communityViewDetails}
+                  <ChevronRight className="w-3 h-3" />
+                </div>
               </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground mt-2 group-hover:text-primary transition-colors" />
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>

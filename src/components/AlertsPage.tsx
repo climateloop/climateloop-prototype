@@ -2,7 +2,11 @@ import AlertCard, { type Alert } from "./AlertCard";
 import { Bell, Filter } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
-const AlertsPage = () => {
+interface AlertsPageProps {
+  onAskAI?: (context: string) => void;
+}
+
+const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
   const { t } = useLanguage();
 
   const alerts: Alert[] = [
@@ -53,7 +57,7 @@ const AlertsPage = () => {
       </div>
       <div className="space-y-3">
         {alerts.map((alert) => (
-          <AlertCard key={alert.id} alert={alert} />
+          <AlertCard key={alert.id} alert={alert} onAskAI={onAskAI} />
         ))}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, Minus, Brain, Cloud } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Brain, Cloud, Sparkles, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ForecastItem {
@@ -35,7 +35,11 @@ const TrendIcon = ({ trend }: { trend: string }) => {
   return <Minus className="w-4 h-4 text-muted-foreground" />;
 };
 
-const ForecastComparison = () => {
+interface ForecastComparisonProps {
+  onAskAI?: (context: string) => void;
+}
+
+const ForecastComparison = ({ onAskAI }: ForecastComparisonProps) => {
   const { t } = useLanguage();
 
   return (
@@ -78,6 +82,18 @@ const ForecastComparison = () => {
       <p className="text-xs text-muted-foreground mt-2 text-center italic">
         {t.forecastMLNote}
       </p>
+      {/* AI-powered CTA */}
+      <button
+        onClick={() => onAskAI?.("forecast comparison")}
+        className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 rounded-lg bg-accent/10 hover:bg-accent/20 transition-colors group"
+      >
+        <Sparkles className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+        <span className="text-sm font-medium text-foreground">{t.aiUnderstandForecast}</span>
+        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1">
+          {t.aiPowered}
+        </span>
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+      </button>
     </div>
   );
 };

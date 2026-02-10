@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send, Bot, User, Sparkles } from "lucide-react";
+import { Send, Bot, User, Sparkles, X, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Message {
@@ -7,12 +7,36 @@ interface Message {
   content: string;
 }
 
-const AIChat = () => {
+interface AIChatProps {
+  isOpen: boolean;
+  onToggle: () => void;
+  pendingQuestion?: string | null;
+  onQuestionHandled?: () => void;
+}
+
+const AIChat = ({ isOpen, onToggle, pendingQuestion, onQuestionHandled }: AIChatProps) => {
   const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: t.aiInitialMessage },
   ]);
   const [input, setInput] = useState("");
+
+  // Handle incoming questions from other components
+  const handlePendingQuestion = () => {
+    if (pendingQuestion) {
+      const userMsg: Message = { role: "user", content: pendingQuestion };
+      setMessages((prev) => [
+        ...prev,
+        userMsg,
+        { role: "assistant", content: t.aiResponse },
+      ]);
+      onQuestionHandled?.();
+    }
+  };
+
+  if (pendingQuestion && isOpen) {
+    handlePendingQuestion();
+  }
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -26,56 +50,92 @@ const AIChat = () => {
   };
 
   return (
-    <div className="mx-4">
-      <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="w-4 h-4 text-accent" />
-        <h2 className="text-base font-semibold text-foreground">{t.aiTitle}</h2>
-      </div>
-
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card overflow-hidden">
-        <div className="max-h-64 overflow-y-auto p-4 space-y-3">
-          {messages.map((msg, i) => (
-            <div key={i} className={`flex gap-2 ${msg.role === "user" ? "justify-end" : ""}`}>
-              {msg.role === "assistant" && (
-                <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+    <>
+      {/* Floating chat panel */}
+      {isOpen && (
+        <div className="fixed bottom-20 right-2 left-2 max-w-lg mx-auto z-[90] animate-in slide-in-from-bottom-4 duration-200">
+          <div className="bg-background rounded-2xl border border-border shadow-elevated overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface-elevated">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center">
                   <Bot className="w-4 h-4 text-primary-foreground" />
                 </div>
-              )}
-              <div
-                className={`rounded-xl px-3 py-2 max-w-[80%] text-sm ${
-                  msg.role === "user"
-                    ? "gradient-primary text-primary-foreground"
-                    : "bg-muted text-foreground"
-                }`}
-              >
-                {msg.content}
-              </div>
-              {msg.role === "user" && (
-                <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <User className="w-4 h-4 text-muted-foreground" />
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">{t.aiTitle}</h3>
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent">
+                    {t.aiPowered}
+                  </span>
                 </div>
-              )}
+              </div>
+              <button
+                onClick={onToggle}
+                className="p-1.5 rounded-full hover:bg-muted transition-colors"
+              >
+                <X className="w-4 h-4 text-muted-foreground" />
+              </button>
             </div>
-          ))}
-        </div>
 
-        <div className="border-t border-border p-3 flex items-center gap-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder={t.aiPlaceholder}
-            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
-          />
-          <button
-            onClick={handleSend}
-            className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center transition-transform hover:scale-105 active:scale-95"
-          >
-            <Send className="w-4 h-4 text-primary-foreground" />
-          </button>
+            {/* Messages */}
+            <div className="max-h-72 overflow-y-auto p-4 space-y-3">
+              {messages.map((msg, i) => (
+                <div key={i} className={`flex gap-2 ${msg.role === "user" ? "justify-end" : ""}`}>
+                  {msg.role === "assistant" && (
+                    <div className="w-6 h-6 rounded-full gradient-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Bot className="w-3.5 h-3.5 text-primary-foreground" />
+                    </div>
+                  )}
+                  <div
+                    className={`rounded-xl px-3 py-2 max-w-[80%] text-sm ${
+                      msg.role === "user"
+                        ? "gradient-primary text-primary-foreground"
+                        : "bg-muted text-foreground"
+                    }`}
+                  >
+                    {msg.content}
+                  </div>
+                  {msg.role === "user" && (
+                    <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <User className="w-3.5 h-3.5 text-muted-foreground" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Input */}
+            <div className="border-t border-border p-3 flex items-center gap-2">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                placeholder={t.aiPlaceholder}
+                className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+              />
+              <button
+                onClick={handleSend}
+                className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center transition-transform hover:scale-105 active:scale-95"
+              >
+                <Send className="w-4 h-4 text-primary-foreground" />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+
+      {/* FAB button */}
+      {!isOpen && (
+        <button
+          onClick={onToggle}
+          className="fixed bottom-20 right-4 z-[90] w-14 h-14 rounded-full gradient-primary shadow-elevated flex items-center justify-center transition-transform hover:scale-110 active:scale-95 animate-in zoom-in duration-200"
+        >
+          <div className="relative">
+            <MessageCircle className="w-6 h-6 text-primary-foreground" />
+            <Sparkles className="w-3 h-3 text-accent absolute -top-1 -right-1" />
+          </div>
+        </button>
+      )}
+    </>
   );
 };
 
