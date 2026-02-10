@@ -1,43 +1,67 @@
-import { Map, Layers, Navigation } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Layers, Navigation } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 const MapPage = () => {
   const { t } = useLanguage();
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+
+  useEffect(() => {
+    if (!mapRef.current || mapInstanceRef.current) return;
+
+    const map = L.map(mapRef.current, {
+      zoomControl: false,
+    }).setView([40.4168, -3.7038], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    // Risk zones
+    L.circle([40.42, -3.71], { radius: 600, color: "hsl(0, 72%, 51%)", fillOpacity: 0.2, weight: 1 }).addTo(map);
+    L.circle([40.41, -3.69], { radius: 400, color: "hsl(25, 95%, 53%)", fillOpacity: 0.2, weight: 1 }).addTo(map);
+    L.circle([40.425, -3.685], { radius: 350, color: "hsl(48, 96%, 53%)", fillOpacity: 0.15, weight: 1 }).addTo(map);
+
+    // Community report markers
+    const redIcon = L.divIcon({ className: "", html: '<div style="width:12px;height:12px;border-radius:50%;background:hsl(0,72%,51%);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>' });
+    const orangeIcon = L.divIcon({ className: "", html: '<div style="width:12px;height:12px;border-radius:50%;background:hsl(25,95%,53%);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>' });
+    const yellowIcon = L.divIcon({ className: "", html: '<div style="width:12px;height:12px;border-radius:50%;background:hsl(48,96%,53%);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>' });
+
+    L.marker([40.4195, -3.7065], { icon: redIcon }).addTo(map).bindPopup("Calle inundada — María S.");
+    L.marker([40.4140, -3.6930], { icon: orangeIcon }).addTo(map).bindPopup("Asfalto derritiéndose — Juan P.");
+    L.marker([40.4230, -3.6880], { icon: yellowIcon }).addTo(map).bindPopup("Árbol caído — Ana L.");
+    L.marker([40.4070, -3.6940], { icon: redIcon }).addTo(map).bindPopup("Paso subterráneo inundado — Pedro M.");
+
+    // User location
+    const userIcon = L.divIcon({
+      className: "",
+      html: '<div style="width:14px;height:14px;border-radius:50%;background:hsl(210,61%,29%);border:3px solid white;box-shadow:0 0 0 4px hsla(210,61%,29%,0.3)"></div>',
+    });
+    L.marker([40.4168, -3.7038], { icon: userIcon }).addTo(map).bindPopup("You are here");
+
+    mapInstanceRef.current = map;
+
+    return () => {
+      map.remove();
+      mapInstanceRef.current = null;
+    };
+  }, []);
 
   return (
     <div className="px-4 pb-4">
       <div className="flex items-center gap-2 mb-4">
-        <Map className="w-5 h-5 text-primary" />
+        <Navigation className="w-5 h-5 text-primary" />
         <h2 className="text-lg font-bold text-foreground">{t.mapTitle}</h2>
       </div>
 
-      <div className="relative rounded-2xl overflow-hidden bg-surface-elevated border border-border shadow-card aspect-square">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/10 to-warning/10" />
-        
-        <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-foreground" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
+      <div className="relative rounded-2xl overflow-hidden border border-border shadow-card" style={{ height: "400px" }}>
+        <div ref={mapRef} className="w-full h-full" />
 
-        <div className="absolute top-1/4 left-1/3 w-20 h-20 rounded-full bg-destructive/20 blur-xl animate-pulse" />
-        <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full bg-warning/20 blur-xl animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-1/3 left-1/4 w-14 h-14 rounded-full bg-accent/20 blur-xl animate-pulse" style={{ animationDelay: "0.5s" }} />
-        <div className="absolute bottom-1/4 right-1/3 w-12 h-12 rounded-full bg-secondary/20 blur-xl animate-pulse" style={{ animationDelay: "1.5s" }} />
-
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="w-4 h-4 rounded-full bg-primary shadow-elevated ring-4 ring-primary/20" />
-          <div className="w-24 h-24 rounded-full border-2 border-dashed border-primary/30 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        </div>
-
-        <div className="absolute top-[30%] left-[40%] w-3 h-3 rounded-full bg-destructive shadow-sm" />
-        <div className="absolute top-[55%] right-[30%] w-3 h-3 rounded-full bg-warning shadow-sm" />
-        <div className="absolute bottom-[35%] left-[25%] w-3 h-3 rounded-full bg-accent shadow-sm" />
-
-        <div className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border">
+        {/* Legend overlay */}
+        <div className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[1000]">
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-destructive" />
             <span className="text-foreground">{t.mapHighRisk}</span>
@@ -52,12 +76,10 @@ const MapPage = () => {
           </div>
         </div>
 
-        <div className="absolute top-3 right-3 flex flex-col gap-2">
+        {/* Controls overlay */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2 z-[1000]">
           <button className="w-8 h-8 bg-background/90 backdrop-blur-sm rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors">
             <Layers className="w-4 h-4 text-foreground" />
-          </button>
-          <button className="w-8 h-8 bg-background/90 backdrop-blur-sm rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors">
-            <Navigation className="w-4 h-4 text-foreground" />
           </button>
         </div>
       </div>

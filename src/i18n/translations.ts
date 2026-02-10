@@ -22,7 +22,7 @@ type TranslationKeys = {
   weatherFeelsLike: string;
   weatherHumidity: string;
   weatherWind: string;
-  // Forecast
+  weatherRainChance: string;
   forecastTitle: string;
   forecastOfficial: string;
   forecastML: string;
@@ -176,6 +176,10 @@ type TranslationKeys = {
   forecastDetailOfficialExplanation: string;
   forecastDetailMLExplanation: string;
   forecastDetailContinueChat: string;
+  forecastDetailDeeperTitle: string;
+  forecastDetailDeeperDesc: string;
+  alertDetailAskTitle: string;
+  alertDetailAskDesc: string;
   communityDetailTitle: string;
   communityDetailVerified: string;
   communityDetailPending: string;
@@ -381,6 +385,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribVerified: "Verified",
     myContribPending: "Under review",
     photoBlurWarning: "Image blurred: people detected. Photos must not contain identifiable persons.",
+    weatherRainChance: "Rain",
+    forecastDetailDeeperTitle: "Want to dive deeper?",
+    forecastDetailDeeperDesc: "Tap the AI Assistant icon floating on the screen to ask questions about specific patterns or discrepancies.",
+    alertDetailAskTitle: "Have questions?",
+    alertDetailAskDesc: "Tap the AI Assistant icon floating on the screen for personalized guidance about this alert.",
   },
   es: {
     location: "Madrid, España",
@@ -557,6 +566,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribVerified: "Verificado",
     myContribPending: "En revisión",
     photoBlurWarning: "Imagen difuminada: personas detectadas. Las fotos no deben contener personas identificables.",
+    weatherRainChance: "Lluvia",
+    forecastDetailDeeperTitle: "¿Quieres profundizar?",
+    forecastDetailDeeperDesc: "Toca el ícono del Asistente IA flotante en la pantalla para preguntar sobre patrones específicos o discrepancias.",
+    alertDetailAskTitle: "¿Tienes preguntas?",
+    alertDetailAskDesc: "Toca el ícono del Asistente IA flotante en la pantalla para orientación personalizada sobre esta alerta.",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -733,6 +747,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribVerified: "Verificado",
     myContribPending: "Em análise",
     photoBlurWarning: "Imagem borrada: pessoas detectadas. As fotos não devem conter pessoas identificáveis.",
+    weatherRainChance: "Chuva",
+    forecastDetailDeeperTitle: "Quer se aprofundar?",
+    forecastDetailDeeperDesc: "Toque no ícone do Assistente IA flutuante na tela para perguntar sobre padrões específicos ou discrepâncias.",
+    alertDetailAskTitle: "Tem dúvidas?",
+    alertDetailAskDesc: "Toque no ícone do Assistente IA flutuante na tela para orientação personalizada sobre este alerta.",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -909,5 +928,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribVerified: "Vérifié",
     myContribPending: "En cours de vérification",
     photoBlurWarning: "Image floutée : personnes détectées. Les photos ne doivent pas contenir de personnes identifiables.",
+    weatherRainChance: "Pluie",
+    forecastDetailDeeperTitle: "Envie d'approfondir ?",
+    forecastDetailDeeperDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour poser des questions sur des schémas ou divergences spécifiques.",
+    alertDetailAskTitle: "Des questions ?",
+    alertDetailAskDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour un accompagnement personnalisé sur cette alerte.",
   },
 };

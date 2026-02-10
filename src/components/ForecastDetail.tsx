@@ -6,7 +6,7 @@ interface ForecastDetailProps {
   onOpenChat: () => void;
 }
 
-const ForecastDetail = ({ onBack, onOpenChat }: ForecastDetailProps) => {
+const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
   const { t } = useLanguage();
 
   return (
@@ -22,7 +22,7 @@ const ForecastDetail = ({ onBack, onOpenChat }: ForecastDetailProps) => {
       <div className="flex items-center gap-2 mb-4">
         <Sparkles className="w-5 h-5 text-accent" />
         <h2 className="text-lg font-bold text-foreground">{t.forecastDetailTitle}</h2>
-        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent">
+        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent pointer-events-none select-none">
           {t.aiPowered}
         </span>
       </div>
@@ -73,14 +73,12 @@ const ForecastDetail = ({ onBack, onOpenChat }: ForecastDetailProps) => {
         </p>
       </div>
 
-      {/* Continue with AI */}
-      <button
-        onClick={onOpenChat}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary/10 hover:bg-primary/15 transition-colors"
-      >
-        <MessageCircle className="w-4 h-4 text-primary" />
-        <span className="text-sm font-medium text-primary">{t.forecastDetailContinueChat}</span>
-      </button>
+      {/* Invite to use floating AI icon */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
+        <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
+        <p className="text-sm text-foreground font-medium mb-1">{t.forecastDetailDeeperTitle}</p>
+        <p className="text-xs text-muted-foreground">{t.forecastDetailDeeperDesc}</p>
+      </div>
     </div>
   );
 };

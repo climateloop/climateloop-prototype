@@ -29,7 +29,7 @@ interface AlertDetailProps {
   onOpenChat: () => void;
 }
 
-const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
+const AlertDetail = ({ alert, onBack }: AlertDetailProps) => {
   const { t } = useLanguage();
   const styles = severityStyles[alert.severity];
 
@@ -60,7 +60,7 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-accent" />
           <h3 className="text-sm font-semibold text-foreground">{t.alertDetailTitle}</h3>
-          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent">
+          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent pointer-events-none select-none">
             {t.aiPowered}
           </span>
         </div>
@@ -88,18 +88,12 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
         </div>
       )}
 
-      {/* Continue with AI - styled as informational card, not button */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
-        <p className="text-sm text-muted-foreground">{t.alertDetailContinueChat}</p>
+      {/* Invite to use floating AI icon */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
+        <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
+        <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
+        <p className="text-xs text-muted-foreground">{t.alertDetailAskDesc}</p>
       </div>
-
-      <button
-        onClick={onOpenChat}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm shadow-card transition-all"
-      >
-        <MessageCircle className="w-4 h-4" />
-        {t.aiTitle}
-      </button>
     </div>
   );
 };

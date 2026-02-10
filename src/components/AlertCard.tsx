@@ -74,17 +74,19 @@ const AlertCard = ({ alert, compact = false, onAskAI }: AlertCardProps) => {
       )}
 
       {/* AI-powered CTA */}
-      <button
-        onClick={() => onAskAI?.(alert)}
-        className="flex items-center gap-1.5 mt-2 text-xs font-medium text-primary hover:underline"
-      >
-        <Sparkles className="w-3.5 h-3.5 text-accent" />
-        <span>{t.aiUnderstandAlert}</span>
-        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1 pointer-events-none">
+      <div className="flex items-center gap-1.5 mt-2">
+        <button
+          onClick={() => onAskAI?.(alert)}
+          className="flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-accent" />
+          <span>{t.aiUnderstandAlert}</span>
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent pointer-events-none select-none">
           {t.aiPowered}
         </span>
-        <ChevronRight className="w-3.5 h-3.5" />
-      </button>
+      </div>
     </div>
   );
 };

@@ -5,16 +5,16 @@ const WeatherCard = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="mx-4 rounded-2xl gradient-primary p-4 text-primary-foreground shadow-card">
+    <div className="mx-4 rounded-2xl gradient-primary p-3 text-primary-foreground shadow-card">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs opacity-80 font-medium">{t.weatherLocation}</p>
-          <p className="text-4xl font-bold mt-1 tracking-tight">28°</p>
-          <p className="text-xs opacity-70 mt-1">{t.weatherPartlyCloudy}</p>
+          <p className="text-3xl font-bold mt-0.5 tracking-tight">28°</p>
+          <p className="text-xs opacity-70 mt-0.5">{t.weatherPartlyCloudy}</p>
         </div>
-        <CloudRain className="w-12 h-12 opacity-80" />
+        <CloudRain className="w-10 h-10 opacity-80" />
       </div>
-      <div className="flex items-center gap-6 mt-3 pt-3 border-t border-primary-foreground/20">
+      <div className="flex items-center gap-4 mt-2 pt-2 border-t border-primary-foreground/20">
         <div className="flex flex-col items-center gap-0.5">
           <Thermometer className="w-3.5 h-3.5 opacity-70" />
           <span className="text-[10px] opacity-70">{t.weatherFeelsLike}</span>
@@ -29,6 +29,11 @@ const WeatherCard = () => {
           <Wind className="w-3.5 h-3.5 opacity-70" />
           <span className="text-[10px] opacity-70">{t.weatherWind}</span>
           <span className="text-xs font-semibold">15 km/h</span>
+        </div>
+        <div className="flex flex-col items-center gap-0.5">
+          <CloudRain className="w-3.5 h-3.5 opacity-70" />
+          <span className="text-[10px] opacity-70">{t.weatherRainChance}</span>
+          <span className="text-xs font-semibold">40% · 8mm</span>
         </div>
       </div>
     </div>
