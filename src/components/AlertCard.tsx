@@ -37,7 +37,7 @@ const severityStyles = {
 interface AlertCardProps {
   alert: Alert;
   compact?: boolean;
-  onAskAI?: (context: string) => void;
+  onAskAI?: (alert: Alert) => void;
 }
 
 const AlertCard = ({ alert, compact = false, onAskAI }: AlertCardProps) => {
@@ -73,12 +73,12 @@ const AlertCard = ({ alert, compact = false, onAskAI }: AlertCardProps) => {
 
           {/* AI-powered CTA */}
           <button
-            onClick={() => onAskAI?.(alert.title)}
-            className="flex items-center gap-1.5 mt-3 text-sm font-medium text-primary hover:underline group"
+            onClick={() => onAskAI?.(alert)}
+            className="flex items-center gap-1.5 mt-3 text-sm font-medium text-primary hover:underline"
           >
-            <Sparkles className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+            <Sparkles className="w-3.5 h-3.5 text-accent" />
             <span>{t.aiUnderstandAlert}</span>
-            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1">
+            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1 pointer-events-none">
               {t.aiPowered}
             </span>
             <ChevronRight className="w-3.5 h-3.5" />

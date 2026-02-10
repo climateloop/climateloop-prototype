@@ -36,10 +36,10 @@ const TrendIcon = ({ trend }: { trend: string }) => {
 };
 
 interface ForecastComparisonProps {
-  onAskAI?: (context: string) => void;
+  onOpenDetail?: () => void;
 }
 
-const ForecastComparison = ({ onAskAI }: ForecastComparisonProps) => {
+const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
   const { t } = useLanguage();
 
   return (
@@ -84,12 +84,12 @@ const ForecastComparison = ({ onAskAI }: ForecastComparisonProps) => {
       </p>
       {/* AI-powered CTA */}
       <button
-        onClick={() => onAskAI?.("forecast comparison")}
-        className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 rounded-lg bg-accent/10 hover:bg-accent/20 transition-colors group"
+        onClick={onOpenDetail}
+        className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 rounded-lg bg-accent/10 hover:bg-accent/20 transition-colors"
       >
-        <Sparkles className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform" />
+        <Sparkles className="w-3.5 h-3.5 text-accent" />
         <span className="text-sm font-medium text-foreground">{t.aiUnderstandForecast}</span>
-        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1">
+        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent ml-1 pointer-events-none">
           {t.aiPowered}
         </span>
         <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
