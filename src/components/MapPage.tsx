@@ -1,20 +1,43 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layers, Navigation } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MapPage = () => {
+const USER_LAT = 40.4168;
+const USER_LNG = -3.7038;
+
+const radiusOptions = [
+  { label: "1 km", meters: 1000 },
+  { label: "5 km", meters: 5000 },
+  { label: "10 km", meters: 10000 },
+  { label: "25 km", meters: 25000 },
+];
+
+const communityMarkers = [
+  { id: "1", lat: 40.4195, lng: -3.7065, label: "Calle inundada — María S.", color: "hsl(0,72%,51%)" },
+  { id: "2", lat: 40.4140, lng: -3.6930, label: "Asfalto derritiéndose — Juan P.", color: "hsl(25,95%,53%)" },
+  { id: "3", lat: 40.4230, lng: -3.6880, label: "Árbol caído — Ana L.", color: "hsl(48,96%,53%)" },
+  { id: "4", lat: 40.4070, lng: -3.6940, label: "Paso subterráneo inundado — Pedro M.", color: "hsl(0,72%,51%)" },
+];
+
+interface MapPageProps {
+  onOpenCommunityDetail?: (reportId: string) => void;
+}
+
+const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
   const { t } = useLanguage();
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const radiusCircleRef = useRef<L.Circle | null>(null);
+  const [selectedRadius, setSelectedRadius] = useState(1);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
     const map = L.map(mapRef.current, {
       zoomControl: false,
-    }).setView([40.4168, -3.7038], 13);
+    }).setView([USER_LAT, USER_LNG], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -25,30 +48,64 @@ const MapPage = () => {
     L.circle([40.41, -3.69], { radius: 400, color: "hsl(25, 95%, 53%)", fillOpacity: 0.2, weight: 1 }).addTo(map);
     L.circle([40.425, -3.685], { radius: 350, color: "hsl(48, 96%, 53%)", fillOpacity: 0.15, weight: 1 }).addTo(map);
 
-    // Community report markers
-    const redIcon = L.divIcon({ className: "", html: '<div style="width:12px;height:12px;border-radius:50%;background:hsl(0,72%,51%);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>' });
-    const orangeIcon = L.divIcon({ className: "", html: '<div style="width:12px;height:12px;border-radius:50%;background:hsl(25,95%,53%);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>' });
-    const yellowIcon = L.divIcon({ className: "", html: '<div style="width:12px;height:12px;border-radius:50%;background:hsl(48,96%,53%);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>' });
-
-    L.marker([40.4195, -3.7065], { icon: redIcon }).addTo(map).bindPopup("Calle inundada — María S.");
-    L.marker([40.4140, -3.6930], { icon: orangeIcon }).addTo(map).bindPopup("Asfalto derritiéndose — Juan P.");
-    L.marker([40.4230, -3.6880], { icon: yellowIcon }).addTo(map).bindPopup("Árbol caído — Ana L.");
-    L.marker([40.4070, -3.6940], { icon: redIcon }).addTo(map).bindPopup("Paso subterráneo inundado — Pedro M.");
+    // Community report markers with "view" option
+    communityMarkers.forEach((m) => {
+      const icon = L.divIcon({
+        className: "",
+        html: `<div style="width:12px;height:12px;border-radius:50%;background:${m.color};border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>`,
+      });
+      const marker = L.marker([m.lat, m.lng], { icon }).addTo(map);
+      marker.bindPopup(
+        `<div style="text-align:center"><p style="margin:0 0 6px;font-size:12px">${m.label}</p><button onclick="window.__openReport__('${m.id}')" style="background:hsl(210,61%,29%);color:white;border:none;padding:4px 12px;border-radius:6px;font-size:11px;cursor:pointer">${t.mapViewReport}</button></div>`
+      );
+    });
 
     // User location
     const userIcon = L.divIcon({
       className: "",
       html: '<div style="width:14px;height:14px;border-radius:50%;background:hsl(210,61%,29%);border:3px solid white;box-shadow:0 0 0 4px hsla(210,61%,29%,0.3)"></div>',
     });
-    L.marker([40.4168, -3.7038], { icon: userIcon }).addTo(map).bindPopup("You are here");
+    L.marker([USER_LAT, USER_LNG], { icon: userIcon }).addTo(map);
+
+    // Radius circle
+    const circle = L.circle([USER_LAT, USER_LNG], {
+      radius: radiusOptions[1].meters,
+      color: "hsl(210, 61%, 29%)",
+      fillOpacity: 0.06,
+      weight: 1.5,
+      dashArray: "6 4",
+    }).addTo(map);
+    radiusCircleRef.current = circle;
 
     mapInstanceRef.current = map;
 
     return () => {
       map.remove();
       mapInstanceRef.current = null;
+      radiusCircleRef.current = null;
     };
   }, []);
+
+  // Global callback for popup buttons
+  useEffect(() => {
+    (window as any).__openReport__ = (id: string) => {
+      onOpenCommunityDetail?.(id);
+    };
+    return () => {
+      delete (window as any).__openReport__;
+    };
+  }, [onOpenCommunityDetail]);
+
+  // Update radius circle when selection changes
+  useEffect(() => {
+    const circle = radiusCircleRef.current;
+    const map = mapInstanceRef.current;
+    if (!circle || !map) return;
+
+    const meters = radiusOptions[selectedRadius].meters;
+    circle.setRadius(meters);
+    map.fitBounds(circle.getBounds(), { padding: [20, 20] });
+  }, [selectedRadius]);
 
   return (
     <div className="px-4 pb-4">
@@ -87,16 +144,17 @@ const MapPage = () => {
       <div className="mt-4 bg-surface-elevated rounded-xl border border-border p-4 shadow-card">
         <p className="text-sm font-medium text-foreground mb-2">{t.mapRadius}</p>
         <div className="flex gap-2">
-          {["1 km", "5 km", "10 km", "25 km"].map((r, i) => (
+          {radiusOptions.map((r, i) => (
             <button
-              key={r}
+              key={r.label}
+              onClick={() => setSelectedRadius(i)}
               className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                i === 1
+                i === selectedRadius
                   ? "gradient-primary text-primary-foreground shadow-card"
                   : "bg-muted text-muted-foreground hover:text-foreground"
               }`}
             >
-              {r}
+              {r.label}
             </button>
           ))}
         </div>

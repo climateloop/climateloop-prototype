@@ -1,4 +1,4 @@
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, AlertCircle, MessageCircle, EyeOff } from "lucide-react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, EyeOff } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ReportData {
@@ -121,17 +121,10 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${typeColorMap[report.typeKey] || "bg-muted text-muted-foreground"}`}>
           {typeLabel}
         </span>
-        {report.verified ? (
-          <span className="flex items-center gap-1 text-xs text-secondary font-medium">
-            <CheckCircle className="w-3.5 h-3.5" />
-            {t.communityDetailVerified}
-          </span>
-        ) : (
-          <span className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
-            <AlertCircle className="w-3.5 h-3.5" />
-            {t.communityDetailPending}
-          </span>
-        )}
+        <span className="flex items-center gap-1 text-xs text-secondary font-medium">
+          <CheckCircle className="w-3.5 h-3.5" />
+          {t.communityDetailVerified}
+        </span>
       </div>
 
       <p className="text-base text-foreground font-medium mb-4">{report.description}</p>
@@ -167,17 +160,12 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       </div>
 
-      {/* Ask AI */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
-        <p className="text-sm text-muted-foreground">{t.alertDetailContinueChat}</p>
+      {/* Invite to use floating AI icon */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
+        <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
+        <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
+        <p className="text-xs text-muted-foreground">{t.alertDetailAskDesc}</p>
       </div>
-      <button
-        onClick={onOpenChat}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm shadow-card transition-all"
-      >
-        <MessageCircle className="w-4 h-4" />
-        {t.aiTitle}
-      </button>
     </div>
   );
 };

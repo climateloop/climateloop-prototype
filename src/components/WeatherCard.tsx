@@ -14,7 +14,7 @@ const WeatherCard = () => {
         </div>
         <CloudRain className="w-10 h-10 opacity-80" />
       </div>
-      <div className="flex items-center gap-4 mt-2 pt-2 border-t border-primary-foreground/20">
+      <div className="flex items-center justify-around mt-2 pt-2 border-t border-primary-foreground/20">
         <div className="flex flex-col items-center gap-0.5">
           <Thermometer className="w-3.5 h-3.5 opacity-70" />
           <span className="text-[10px] opacity-70">{t.weatherFeelsLike}</span>

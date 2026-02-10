@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header, { NotificationPanel, MenuPanel } from "@/components/Header";
+import Header, { NotificationPanel } from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
 import AlertCard, { type Alert } from "@/components/AlertCard";
@@ -30,7 +30,6 @@ const Index = () => {
   const [chatContext, setChatContext] = useState<string | null>(null);
   const [detailView, setDetailView] = useState<DetailView>(null);
   const [notifOpen, setNotifOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const { t } = useLanguage();
 
   const activeAlert: Alert = {
@@ -123,7 +122,7 @@ const Index = () => {
     }
 
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
-    if (activeTab === "mapa") return <MapPage />;
+    if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
     if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} />;
     return null;
   };
@@ -132,7 +131,6 @@ const Index = () => {
     <div className="min-h-screen bg-background max-w-lg mx-auto relative">
       <Header
         onOpenNotifications={() => setNotifOpen(true)}
-        onOpenMenu={() => setMenuOpen(true)}
       />
 
       <main className="pt-4 pb-24 space-y-5">
@@ -148,7 +146,6 @@ const Index = () => {
         onContextHandled={() => setChatContext(null)}
       />
       <NotificationPanel isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
-      <MenuPanel isOpen={menuOpen} onClose={() => setMenuOpen(false)} onOpenContributions={handleOpenContributions} />
     </div>
   );
 };

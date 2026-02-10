@@ -78,6 +78,7 @@ type TranslationKeys = {
   mapHighRisk: string;
   mapModerateRisk: string;
   mapLowRisk: string;
+  mapViewReport: string;
   // Profile
   profileDemoUser: string;
   profileReports: string;
@@ -271,6 +272,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     mapHighRisk: "High risk",
     mapModerateRisk: "Moderate risk",
     mapLowRisk: "Low risk",
+    mapViewReport: "View report",
     profileDemoUser: "Demo User",
     profileReports: "Reports",
     profileDaysActive: "Days active",
@@ -452,6 +454,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     mapHighRisk: "Alto riesgo",
     mapModerateRisk: "Riesgo moderado",
     mapLowRisk: "Bajo riesgo",
+    mapViewReport: "Ver reporte",
     profileDemoUser: "Usuario Demo",
     profileReports: "Reportes",
     profileDaysActive: "Días activo",
@@ -633,6 +636,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     mapHighRisk: "Alto risco",
     mapModerateRisk: "Risco moderado",
     mapLowRisk: "Baixo risco",
+    mapViewReport: "Ver contribuição",
     profileDemoUser: "Usuário Demo",
     profileReports: "Relatos",
     profileDaysActive: "Dias ativo",
@@ -814,6 +818,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     mapHighRisk: "Risque élevé",
     mapModerateRisk: "Risque modéré",
     mapLowRisk: "Risque faible",
+    mapViewReport: "Voir le rapport",
     profileDemoUser: "Utilisateur Démo",
     profileReports: "Signalements",
     profileDaysActive: "Jours actif",

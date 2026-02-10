@@ -1,14 +1,14 @@
-import { MapPin, Bell, Menu, Globe, X, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList } from "lucide-react";
+import { MapPin, Bell, Globe, X, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList } from "lucide-react";
 import { useLanguage, localeNames, type Locale } from "@/i18n/LanguageContext";
 import { useState, useRef, useEffect } from "react";
 
 interface HeaderProps {
   notificationCount?: number;
   onOpenNotifications?: () => void;
-  onOpenMenu?: () => void;
+  
 }
 
-const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMenu }: HeaderProps) => {
+const Header = ({ notificationCount = 3, onOpenNotifications }: HeaderProps) => {
   const { t, locale, setLocale } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
@@ -73,12 +73,6 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMenu }: Head
             </span>
           )}
         </button>
-        <button
-          onClick={onOpenMenu}
-          className="p-2 rounded-full hover:bg-muted transition-colors"
-        >
-          <Menu className="w-5 h-5 text-foreground" />
-        </button>
       </div>
     </header>
   );
@@ -119,32 +113,30 @@ export const NotificationPanel = ({ isOpen, onClose }: NotificationPanelProps) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center bg-foreground/40 backdrop-blur-sm">
-      <div className="bg-background w-full max-w-lg mt-14 rounded-b-2xl max-h-[80vh] overflow-y-auto animate-in slide-in-from-top duration-200 shadow-elevated">
-        <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border">
+    <div className="fixed inset-0 z-[100] bg-background animate-in fade-in duration-200">
+      <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center gap-2">
+          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-muted transition-colors">
+            <ArrowLeft className="w-5 h-5 text-foreground" />
+          </button>
           <h2 className="text-lg font-bold text-foreground">{t.notifTitle}</h2>
-          <div className="flex items-center gap-2">
-            <button className="text-xs text-primary font-medium">{t.notifMarkAllRead}</button>
-            <button onClick={onClose} className="p-1.5 rounded-full hover:bg-muted transition-colors">
-              <X className="w-4 h-4 text-muted-foreground" />
-            </button>
-          </div>
         </div>
-        <div className="divide-y divide-border">
-          {notifications.map((n) => (
-            <div key={n.id} className={`flex items-start gap-3 px-4 py-3 ${!n.read ? "bg-primary/5" : ""}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${notifIconColors[n.type]}`}>
-                <Bell className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className={`text-sm ${!n.read ? "font-semibold" : "font-medium"} text-foreground`}>{t[n.titleKey]}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{n.detail}</p>
-                <p className="text-[10px] text-muted-foreground mt-1">{n.time}</p>
-              </div>
-              {!n.read && <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />}
+        <button className="text-xs text-primary font-medium">{t.notifMarkAllRead}</button>
+      </div>
+      <div className="divide-y divide-border overflow-y-auto" style={{ maxHeight: "calc(100vh - 60px)" }}>
+        {notifications.map((n) => (
+          <div key={n.id} className={`flex items-start gap-3 px-4 py-3 ${!n.read ? "bg-primary/5" : ""}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${notifIconColors[n.type]}`}>
+              <Bell className="w-4 h-4" />
             </div>
-          ))}
-        </div>
+            <div className="flex-1 min-w-0">
+              <p className={`text-sm ${!n.read ? "font-semibold" : "font-medium"} text-foreground`}>{t[n.titleKey]}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{n.detail}</p>
+              <p className="text-[10px] text-muted-foreground mt-1">{n.time}</p>
+            </div>
+            {!n.read && <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />}
+          </div>
+        ))}
       </div>
     </div>
   );
