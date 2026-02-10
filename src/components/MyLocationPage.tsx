@@ -40,10 +40,7 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
       { id: "madrid", name: "Madrid, Spain", lat: 40.4168, lng: -3.7038 },
       { id: "rio", name: "Rio de Janeiro, Brazil", lat: -22.9068, lng: -43.1729 },
     ];
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try { return JSON.parse(stored); } catch {}
-    }
+    // Always reset to defaults on first load to ensure correct saved locations
     localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSaved));
     return defaultSaved;
   });

@@ -42,6 +42,7 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) 
           <div className="text-center">
             <p className="text-lg font-bold text-secondary">92%</p>
             <p className="text-xs text-muted-foreground">{t.profileAccuracy}</p>
+            <p className="text-[9px] text-muted-foreground/70 mt-0.5">{t.profileAccuracyHint}</p>
           </div>
         </div>
       </div>

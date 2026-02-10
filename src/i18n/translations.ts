@@ -84,6 +84,7 @@ type TranslationKeys = {
   profileReports: string;
   profileDaysActive: string;
   profileAccuracy: string;
+  profileAccuracyHint: string;
   profileMyLocation: string;
   profileLocationValue: string;
   profileNotifications: string;
@@ -297,7 +298,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileDemoUser: "Demo User",
     profileReports: "Reports",
     profileDaysActive: "Days active",
-    profileAccuracy: "Accuracy",
+    profileAccuracy: "Verified",
+    profileAccuracyHint: "Reports confirmed by AI",
     profileMyLocation: "My location",
     profileLocationValue: "Madrid, Spain",
     profileNotifications: "Notifications",
@@ -497,7 +499,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileDemoUser: "Usuario Demo",
     profileReports: "Reportes",
     profileDaysActive: "Días activo",
-    profileAccuracy: "Precisión",
+    profileAccuracy: "Verificados",
+    profileAccuracyHint: "Relatos confirmados por IA",
     profileMyLocation: "Mi ubicación",
     profileLocationValue: "Madrid, España",
     profileNotifications: "Notificaciones",
@@ -697,7 +700,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileDemoUser: "Usuário Demo",
     profileReports: "Relatos",
     profileDaysActive: "Dias ativo",
-    profileAccuracy: "Precisão",
+    profileAccuracy: "Verificados",
+    profileAccuracyHint: "Relatos confirmados pela IA",
     profileMyLocation: "Minha localização",
     profileLocationValue: "Madrid, Espanha",
     profileNotifications: "Notificações",
@@ -897,7 +901,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileDemoUser: "Utilisateur Démo",
     profileReports: "Signalements",
     profileDaysActive: "Jours actif",
-    profileAccuracy: "Précision",
+    profileAccuracy: "Vérifiés",
+    profileAccuracyHint: "Signalements confirmés par l'IA",
     profileMyLocation: "Ma position",
     profileLocationValue: "Madrid, Espagne",
     profileNotifications: "Notifications",
