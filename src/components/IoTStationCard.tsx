@@ -7,7 +7,7 @@ const IoTStationCard = () => {
   const station = {
     name: "EST-MAD-017",
     distance: "1.2 km",
-    temp: "29.3°C",
+    temp: "29°C",
     humidity: "68%",
     wind: "12 km/h",
     lastUpdate: "2 min",

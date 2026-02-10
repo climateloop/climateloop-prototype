@@ -14,8 +14,8 @@ const forecastData: ForecastItem[] = [
   {
     sourceKey: "forecastOfficial",
     icon: <Cloud className="w-4 h-4 text-primary" />,
-    temp: "29°C",
-    rain: "40%",
+    temp: "28°C",
+    rain: "40% · 8mm",
     trend: "up",
     confidence: 85,
   },
@@ -30,7 +30,7 @@ const forecastData: ForecastItem[] = [
   {
     sourceKey: "forecastIoT",
     icon: <Radio className="w-4 h-4 text-accent" />,
-    temp: "29.3°C",
+    temp: "29°C",
     rain: "—",
     trend: "stable",
     confidence: 95,
