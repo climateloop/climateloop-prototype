@@ -168,6 +168,20 @@ type TranslationKeys = {
   alertRecommendedActions: string;
   alertMoreInfo: string;
   communityViewDetails: string;
+  // Detail screens
+  alertDetailTitle: string;
+  alertDetailExplanation: string;
+  alertDetailContinueChat: string;
+  forecastDetailTitle: string;
+  forecastDetailOfficialExplanation: string;
+  forecastDetailMLExplanation: string;
+  forecastDetailContinueChat: string;
+  communityDetailTitle: string;
+  communityDetailVerified: string;
+  communityDetailPending: string;
+  communityDetailLocation: string;
+  communityDetailTime: string;
+  backButton: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -316,6 +330,19 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertRecommendedActions: "Recommended actions",
     alertMoreInfo: "More information",
     communityViewDetails: "View details",
+    alertDetailTitle: "Alert analysis",
+    alertDetailExplanation: "This alert was issued based on data from official meteorological agencies (AEMET) combined with real-time CAP (Common Alerting Protocol) feeds. Our AI system cross-referenced this information with historical patterns and community reports within a 25km radius to assess the local impact. The severity level reflects the probability and intensity of the event based on multiple data sources.",
+    alertDetailContinueChat: "Have questions? Continue chatting with the AI assistant for personalized guidance.",
+    forecastDetailTitle: "Understanding forecasts",
+    forecastDetailOfficialExplanation: "The **Official Forecast** comes from national meteorological agencies (AEMET) using numerical weather prediction models (NWP). These models solve atmospheric physics equations on supercomputer grids with ~10km resolution, updated every 6-12 hours. They are highly reliable for 24-48h but lose accuracy beyond 5 days.",
+    forecastDetailMLExplanation: "The **ML Forecast** uses machine learning models trained on 30+ years of historical data specific to your region. It identifies local microclimate patterns that global models miss — such as urban heat islands, valley wind tunnels, and coastal effects. When ML and official forecasts diverge, it often indicates a localized phenomenon worth monitoring.",
+    forecastDetailContinueChat: "Want to dive deeper? Ask the AI assistant about specific patterns or discrepancies.",
+    communityDetailTitle: "Community report",
+    communityDetailVerified: "Verified by AI",
+    communityDetailPending: "Pending verification",
+    communityDetailLocation: "Location",
+    communityDetailTime: "Reported",
+    backButton: "Back",
   },
   es: {
     location: "Madrid, España",
@@ -462,6 +489,19 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertRecommendedActions: "Acciones recomendadas",
     alertMoreInfo: "Más información",
     communityViewDetails: "Ver detalles",
+    alertDetailTitle: "Análisis de la alerta",
+    alertDetailExplanation: "Esta alerta fue emitida con base en datos de agencias meteorológicas oficiales (AEMET) combinados con feeds CAP (Common Alerting Protocol) en tiempo real. Nuestro sistema de IA cruzó esta información con patrones históricos e informes de la comunidad en un radio de 25km para evaluar el impacto local. El nivel de severidad refleja la probabilidad e intensidad del evento según múltiples fuentes de datos.",
+    alertDetailContinueChat: "¿Tienes preguntas? Continúa conversando con el asistente de IA para orientación personalizada.",
+    forecastDetailTitle: "Entendiendo las previsiones",
+    forecastDetailOfficialExplanation: "La **Previsión Oficial** proviene de agencias meteorológicas nacionales (AEMET) usando modelos de predicción numérica del tiempo (NWP). Estos modelos resuelven ecuaciones de física atmosférica en cuadrículas de supercomputadores con ~10km de resolución, actualizados cada 6-12 horas. Son muy fiables para 24-48h pero pierden precisión más allá de 5 días.",
+    forecastDetailMLExplanation: "La **Previsión ML** usa modelos de aprendizaje automático entrenados con más de 30 años de datos históricos específicos de tu región. Identifica patrones de microclima local que los modelos globales no captan — como islas de calor urbanas, túneles de viento en valles y efectos costeros. Cuando las previsiones ML y oficial divergen, a menudo indica un fenómeno localizado que vale la pena monitorear.",
+    forecastDetailContinueChat: "¿Quieres profundizar? Pregunta al asistente de IA sobre patrones específicos o discrepancias.",
+    communityDetailTitle: "Reporte comunitario",
+    communityDetailVerified: "Verificado por IA",
+    communityDetailPending: "Pendiente de verificación",
+    communityDetailLocation: "Ubicación",
+    communityDetailTime: "Reportado",
+    backButton: "Volver",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -608,6 +648,19 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertRecommendedActions: "Ações recomendadas",
     alertMoreInfo: "Mais informações",
     communityViewDetails: "Ver detalhes",
+    alertDetailTitle: "Análise do alerta",
+    alertDetailExplanation: "Este alerta foi emitido com base em dados de agências meteorológicas oficiais (AEMET) combinados com feeds CAP (Common Alerting Protocol) em tempo real. Nosso sistema de IA cruzou essas informações com padrões históricos e relatos da comunidade num raio de 25km para avaliar o impacto local. O nível de severidade reflete a probabilidade e intensidade do evento com base em múltiplas fontes de dados.",
+    alertDetailContinueChat: "Tem dúvidas? Continue conversando com o assistente de IA para orientação personalizada.",
+    forecastDetailTitle: "Entendendo as previsões",
+    forecastDetailOfficialExplanation: "A **Previsão Oficial** vem de agências meteorológicas nacionais (AEMET) usando modelos de previsão numérica do tempo (NWP). Esses modelos resolvem equações de física atmosférica em grids de supercomputadores com ~10km de resolução, atualizados a cada 6-12 horas. São muito confiáveis para 24-48h mas perdem precisão além de 5 dias.",
+    forecastDetailMLExplanation: "A **Previsão ML** usa modelos de machine learning treinados com mais de 30 anos de dados históricos específicos da sua região. Identifica padrões de microclima local que modelos globais não captam — como ilhas de calor urbanas, túneis de vento em vales e efeitos costeiros. Quando as previsões ML e oficial divergem, frequentemente indica um fenômeno localizado que vale monitorar.",
+    forecastDetailContinueChat: "Quer se aprofundar? Pergunte ao assistente de IA sobre padrões específicos ou discrepâncias.",
+    communityDetailTitle: "Relato da comunidade",
+    communityDetailVerified: "Verificado por IA",
+    communityDetailPending: "Pendente de verificação",
+    communityDetailLocation: "Localização",
+    communityDetailTime: "Reportado",
+    backButton: "Voltar",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -754,5 +807,18 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertRecommendedActions: "Actions recommandées",
     alertMoreInfo: "Plus d'informations",
     communityViewDetails: "Voir les détails",
+    alertDetailTitle: "Analyse de l'alerte",
+    alertDetailExplanation: "Cette alerte a été émise sur la base de données d'agences météorologiques officielles (AEMET) combinées avec des flux CAP (Common Alerting Protocol) en temps réel. Notre système d'IA a croisé ces informations avec des schémas historiques et des signalements communautaires dans un rayon de 25km pour évaluer l'impact local. Le niveau de sévérité reflète la probabilité et l'intensité de l'événement selon de multiples sources de données.",
+    alertDetailContinueChat: "Des questions ? Continuez à discuter avec l'assistant IA pour un accompagnement personnalisé.",
+    forecastDetailTitle: "Comprendre les prévisions",
+    forecastDetailOfficialExplanation: "La **Prévision Officielle** provient d'agences météorologiques nationales (AEMET) utilisant des modèles de prédiction numérique du temps (PNT). Ces modèles résolvent des équations de physique atmosphérique sur des grilles de supercalculateurs avec ~10km de résolution, mis à jour toutes les 6-12 heures. Ils sont très fiables pour 24-48h mais perdent en précision au-delà de 5 jours.",
+    forecastDetailMLExplanation: "La **Prévision ML** utilise des modèles d'apprentissage automatique entraînés sur plus de 30 ans de données historiques spécifiques à votre région. Elle identifie des schémas de microclimat local que les modèles globaux manquent — comme les îlots de chaleur urbains, les tunnels de vent dans les vallées et les effets côtiers. Quand les prévisions ML et officielle divergent, cela indique souvent un phénomène localisé à surveiller.",
+    forecastDetailContinueChat: "Envie d'approfondir ? Demandez à l'assistant IA des précisions sur des schémas ou divergences spécifiques.",
+    communityDetailTitle: "Signalement communautaire",
+    communityDetailVerified: "Vérifié par IA",
+    communityDetailPending: "En attente de vérification",
+    communityDetailLocation: "Localisation",
+    communityDetailTime: "Signalé",
+    backButton: "Retour",
   },
 };

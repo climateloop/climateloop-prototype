@@ -3,7 +3,7 @@ import { Bell, Filter } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface AlertsPageProps {
-  onAskAI?: (context: string) => void;
+  onAskAI?: (alert: Alert) => void;
 }
 
 const AlertsPage = ({ onAskAI }: AlertsPageProps) => {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
-import AlertCard from "@/components/AlertCard";
+import AlertCard, { type Alert } from "@/components/AlertCard";
 import ForecastComparison from "@/components/ForecastComparison";
 import CommunityReports from "@/components/CommunityReports";
 import AIChat from "@/components/AIChat";
@@ -10,18 +10,28 @@ import ReportModal from "@/components/ReportModal";
 import AlertsPage from "@/components/AlertsPage";
 import MapPage from "@/components/MapPage";
 import ProfilePage from "@/components/ProfilePage";
+import AlertDetail from "@/components/AlertDetail";
+import ForecastDetail from "@/components/ForecastDetail";
+import CommunityReportDetail from "@/components/CommunityReportDetail";
 import { useLanguage } from "@/i18n/LanguageContext";
+
+type DetailView =
+  | { type: "alert"; alert: Alert }
+  | { type: "forecast" }
+  | { type: "community"; reportId: string }
+  | null;
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("inicio");
   const [reportOpen, setReportOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
+  const [detailView, setDetailView] = useState<DetailView>(null);
   const { t } = useLanguage();
 
-  const activeAlert = {
+  const activeAlert: Alert = {
     id: "main",
-    severity: "orange" as const,
+    severity: "orange",
     title: t.activeAlertTitle,
     description: t.activeAlertDesc,
     time: t.activeAlertTime,
@@ -38,12 +48,73 @@ const Index = () => {
       setReportOpen(true);
     } else {
       setActiveTab(tab);
+      setDetailView(null);
     }
   };
 
-  const handleAskAI = (context: string) => {
-    setPendingQuestion(context);
+  const handleOpenChat = () => {
     setChatOpen(true);
+  };
+
+  const handleOpenAlertDetail = (alert: Alert) => {
+    setDetailView({ type: "alert", alert });
+  };
+
+  const handleOpenForecastDetail = () => {
+    setDetailView({ type: "forecast" });
+  };
+
+  const handleOpenCommunityDetail = (reportId: string) => {
+    setDetailView({ type: "community", reportId });
+  };
+
+  const renderContent = () => {
+    // Detail views take priority
+    if (detailView && activeTab === "inicio") {
+      switch (detailView.type) {
+        case "alert":
+          return (
+            <AlertDetail
+              alert={detailView.alert}
+              onBack={() => setDetailView(null)}
+              onOpenChat={handleOpenChat}
+            />
+          );
+        case "forecast":
+          return (
+            <ForecastDetail
+              onBack={() => setDetailView(null)}
+              onOpenChat={handleOpenChat}
+            />
+          );
+        case "community":
+          return (
+            <CommunityReportDetail
+              reportId={detailView.reportId}
+              onBack={() => setDetailView(null)}
+              onOpenChat={handleOpenChat}
+            />
+          );
+      }
+    }
+
+    if (activeTab === "inicio") {
+      return (
+        <>
+          <div className="px-4">
+            <AlertCard alert={activeAlert} compact onAskAI={handleOpenAlertDetail} />
+          </div>
+          <WeatherCard />
+          <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
+          <CommunityReports onOpenReport={handleOpenCommunityDetail} />
+        </>
+      );
+    }
+
+    if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
+    if (activeTab === "mapa") return <MapPage />;
+    if (activeTab === "perfil") return <ProfilePage />;
+    return null;
   };
 
   return (
@@ -51,20 +122,7 @@ const Index = () => {
       <Header />
 
       <main className="pt-4 pb-24 space-y-5">
-        {activeTab === "inicio" && (
-          <>
-            <div className="px-4">
-              <AlertCard alert={activeAlert} compact onAskAI={handleAskAI} />
-            </div>
-            <WeatherCard />
-            <ForecastComparison onAskAI={handleAskAI} />
-            <CommunityReports onOpenReport={(id) => handleAskAI(`community report #${id}`)} />
-          </>
-        )}
-
-        {activeTab === "alertas" && <AlertsPage onAskAI={handleAskAI} />}
-        {activeTab === "mapa" && <MapPage />}
-        {activeTab === "perfil" && <ProfilePage />}
+        {renderContent()}
       </main>
 
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
