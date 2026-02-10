@@ -1,63 +1,26 @@
-import { MapPin, Bell, Globe, X, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList } from "lucide-react";
+import { MapPin, Bell, Menu, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
 import logoImg from "@/assets/climateloop-logo.png";
-import { useLanguage, localeNames, type Locale } from "@/i18n/LanguageContext";
-import { useState, useRef, useEffect } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface HeaderProps {
   notificationCount?: number;
   onOpenNotifications?: () => void;
-  
+  onOpenMenu?: () => void;
 }
 
-const Header = ({ notificationCount = 3, onOpenNotifications }: HeaderProps) => {
-  const { t, locale, setLocale } = useLanguage();
-  const [langOpen, setLangOpen] = useState(false);
-  const langRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setLangOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
+const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMenu }: HeaderProps) => {
+  const { t } = useLanguage();
 
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-background sticky top-0 z-50 border-b border-border">
       <div className="flex items-center gap-3">
         <img src={logoImg} alt="ClimateLoop" className="h-8 w-auto" />
-        <div className="flex items-center gap-1 text-muted-foreground text-xs">
-          <MapPin className="w-3 h-3" />
+        <div className="flex items-center gap-1 text-muted-foreground text-sm">
+          <MapPin className="w-3.5 h-3.5" />
           <span>{t.location}</span>
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <div className="relative" ref={langRef}>
-          <button
-            onClick={() => setLangOpen(!langOpen)}
-            className="flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-muted transition-colors text-xs font-medium text-muted-foreground"
-          >
-            <Globe className="w-4 h-4" />
-            <span className="uppercase">{locale}</span>
-          </button>
-          {langOpen && (
-            <div className="absolute right-0 top-full mt-1 bg-background border border-border rounded-xl shadow-elevated overflow-hidden z-50 min-w-[140px]">
-              {(Object.keys(localeNames) as Locale[]).map((loc) => (
-                <button
-                  key={loc}
-                  onClick={() => { setLocale(loc); setLangOpen(false); }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors ${
-                    locale === loc ? "text-primary font-medium" : "text-foreground"
-                  }`}
-                >
-                  {localeNames[loc]}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
         <button
           onClick={onOpenNotifications}
           className="relative p-2 rounded-full hover:bg-muted transition-colors"
@@ -68,6 +31,12 @@ const Header = ({ notificationCount = 3, onOpenNotifications }: HeaderProps) => 
               {notificationCount}
             </span>
           )}
+        </button>
+        <button
+          onClick={onOpenMenu}
+          className="p-2 rounded-full hover:bg-muted transition-colors"
+        >
+          <Menu className="w-5 h-5 text-foreground" />
         </button>
       </div>
     </header>
