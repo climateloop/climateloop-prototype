@@ -144,7 +144,7 @@ const Index = () => {
     <div className="min-h-screen bg-background max-w-lg mx-auto relative">
       <Header
         onOpenNotifications={() => setNotifOpen(true)}
-        onOpenMap={() => { setActiveTab("mapa"); setDetailView(null); }}
+        onOpenLocation={handleOpenLocation}
       />
 
       <main className="pt-4 pb-24 space-y-5">

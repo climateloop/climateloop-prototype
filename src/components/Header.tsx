@@ -6,9 +6,10 @@ interface HeaderProps {
   notificationCount?: number;
   onOpenNotifications?: () => void;
   onOpenMap?: () => void;
+  onOpenLocation?: () => void;
 }
 
-const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMap }: HeaderProps) => {
+const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: HeaderProps) => {
   const { t } = useLanguage();
 
   return (
@@ -16,7 +17,7 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenMap }: Heade
       <div className="flex items-center gap-3">
         <img src={logoImg} alt="ClimateLoop" className="h-8 w-auto" />
         <button
-          onClick={onOpenMap}
+          onClick={onOpenLocation}
           className="flex items-center gap-1 text-muted-foreground text-base font-medium hover:text-foreground transition-colors"
         >
           <MapPin className="w-3.5 h-3.5" />
