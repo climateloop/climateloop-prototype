@@ -22,6 +22,12 @@ const alertMarkers = [
   { id: "2", lat: 40.4140, lng: -3.6930, severity: "orange", label: "Extreme Heat – Zona Este" },
   { id: "3", lat: 40.4230, lng: -3.6880, severity: "yellow", label: "Strong Wind – Norte" },
   { id: "4", lat: 40.4070, lng: -3.6940, severity: "orange", label: "Flooding – Tunnel" },
+  { id: "5", lat: 40.4310, lng: -3.7120, severity: "red",    label: "Flash Flood – Río Manzanares" },
+  { id: "6", lat: 40.4090, lng: -3.6780, severity: "yellow", label: "Low Visibility – Niebla" },
+  { id: "7", lat: 40.4260, lng: -3.7200, severity: "orange", label: "Heat Island – Retiro" },
+  { id: "8", lat: 40.4020, lng: -3.7100, severity: "red",    label: "Landslide Risk – Carabanchel" },
+  { id: "9", lat: 40.4350, lng: -3.6950, severity: "yellow", label: "Strong Gusts – Hortaleza" },
+  { id: "10", lat: 40.4050, lng: -3.6600, severity: "orange", label: "Road Flooding – A-3" },
 ];
 
 const severityIcon = (severity: "red" | "orange" | "yellow") => {
@@ -33,17 +39,17 @@ const severityIcon = (severity: "red" | "orange" | "yellow") => {
   const colour = colours[severity];
   return L.divIcon({
     className: "",
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
     html: `<div style="
-      width:22px;height:22px;border-radius:50%;
+      width:30px;height:30px;border-radius:50%;
       background:${colour};
-      border:2.5px solid white;
-      box-shadow:0 1px 4px rgba(0,0,0,.3);
+      border:3px solid white;
+      box-shadow:0 2px 6px rgba(0,0,0,.35);
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;
     ">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
         <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
       </svg>
