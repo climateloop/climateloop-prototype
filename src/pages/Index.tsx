@@ -68,6 +68,19 @@ const Index = () => {
     setDetailView({ type: "alert", alert });
   };
 
+  // For map marker clicks — look up alert by id from the known set
+  const mapAlerts: Alert[] = [
+    { id: "1", severity: "red",    title: t.activeAlertTitle, description: t.activeAlertDesc, time: t.activeAlertTime, actions: [t.activeAlertAction1, t.activeAlertAction2, t.activeAlertAction3, t.activeAlertAction4] },
+    { id: "2", severity: "orange", title: t.activeAlertTitle, description: t.activeAlertDesc, time: t.activeAlertTime, actions: [t.activeAlertAction1, t.activeAlertAction2] },
+    { id: "3", severity: "yellow", title: t.activeAlertTitle, description: t.activeAlertDesc, time: t.activeAlertTime },
+    { id: "4", severity: "orange", title: t.activeAlertTitle, description: t.activeAlertDesc, time: t.activeAlertTime, actions: [t.activeAlertAction1] },
+  ];
+
+  const handleOpenAlertById = (alertId: string) => {
+    const alert = mapAlerts.find((a) => a.id === alertId);
+    if (alert) handleOpenAlertDetail(alert);
+  };
+
   const handleOpenForecastDetail = () => {
     setDetailView({ type: "forecast" });
   };
@@ -125,7 +138,7 @@ const Index = () => {
           <div className="px-4">
             <AlertCard alert={activeAlert} compact onAskAI={handleOpenAlertDetail} />
           </div>
-          <WeatherCard />
+          <WeatherCard onOpenAlertDetail={handleOpenAlertById} />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} />
