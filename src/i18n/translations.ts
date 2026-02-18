@@ -263,6 +263,12 @@ type TranslationKeys = {
   alertPastRainDesc: string;
   alertPastYesterday: string;
   alertPast2Days: string;
+  // Alert detail - official text block
+  alertOfficialTextLabel: string;
+  alertOfficialTextCopy: string;
+  alertOfficialTextCopied: string;
+  alertOfficialTextShare: string;
+  alertOfficialTextTranslate: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -494,6 +500,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertPastRainDesc: "Rain of 45mm recorded 2 days ago. Alert has been deactivated.",
     alertPastYesterday: "Yesterday",
     alertPast2Days: "2 days ago",
+    alertOfficialTextLabel: "Official text",
+    alertOfficialTextCopy: "Copy",
+    alertOfficialTextCopied: "Copied!",
+    alertOfficialTextShare: "Share",
+    alertOfficialTextTranslate: "Translate to",
   },
   es: {
     location: "Madrid, España",
@@ -723,6 +734,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertPastRainDesc: "Lluvia de 45mm registrada hace 2 días. La alerta ha sido desactivada.",
     alertPastYesterday: "Ayer",
     alertPast2Days: "Hace 2 días",
+    alertOfficialTextLabel: "Texto oficial",
+    alertOfficialTextCopy: "Copiar",
+    alertOfficialTextCopied: "¡Copiado!",
+    alertOfficialTextShare: "Compartir",
+    alertOfficialTextTranslate: "Traducir a",
   },
   pt: {
     location: "Madrid, Espanha",
@@ -952,6 +968,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertPastRainDesc: "Chuva de 45mm registrada há 2 dias. O alerta foi desativado.",
     alertPastYesterday: "Ontem",
     alertPast2Days: "Há 2 dias",
+    alertOfficialTextLabel: "Texto oficial",
+    alertOfficialTextCopy: "Copiar",
+    alertOfficialTextCopied: "Copiado!",
+    alertOfficialTextShare: "Compartilhar",
+    alertOfficialTextTranslate: "Traduzir para",
   },
   fr: {
     location: "Madrid, Espagne",
@@ -1181,5 +1202,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertPastRainDesc: "Pluie de 45mm enregistrée il y a 2 jours. L'alerte a été désactivée.",
     alertPastYesterday: "Hier",
     alertPast2Days: "Il y a 2 jours",
+    alertOfficialTextLabel: "Texte officiel",
+    alertOfficialTextCopy: "Copier",
+    alertOfficialTextCopied: "Copié !",
+    alertOfficialTextShare: "Partager",
+    alertOfficialTextTranslate: "Traduire en",
   },
 };
