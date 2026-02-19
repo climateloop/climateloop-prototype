@@ -60,7 +60,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
     <>
       {/* Floating chat panel */}
       {isOpen && (
-        <div className="fixed bottom-20 right-2 left-2 max-w-lg mx-auto z-[90] animate-in slide-in-from-bottom-4 duration-200">
+        <div className="fixed bottom-20 right-2 left-2 max-w-lg mx-auto z-[9999] animate-in slide-in-from-bottom-4 duration-200">
           <div className="bg-background rounded-2xl border border-border shadow-elevated overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border gradient-heat">
