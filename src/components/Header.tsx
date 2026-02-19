@@ -76,7 +76,7 @@ export const NotificationPanel = ({ isOpen, onClose }: NotificationPanelProps) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-background animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[9999] bg-background animate-in fade-in duration-200">
       <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
           <button onClick={onClose} className="p-1.5 rounded-full hover:bg-muted transition-colors">
