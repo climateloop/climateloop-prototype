@@ -18,7 +18,7 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) 
   const [unitsOpen, setUnitsOpen] = useState(false);
 
   const menuItems = [
-    { icon: ClipboardList, label: t.menuMyContributions, value: "12", onClick: onOpenContributions, id: "contributions" },
+    { icon: ClipboardList, label: t.menuMyContributions, value: "3", onClick: onOpenContributions, id: "contributions" },
     { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue, onClick: onOpenLocation, id: "location" },
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive, id: "notifications" },
     { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => { setLangOpen(!langOpen); setUnitsOpen(false); }, id: "language" },
@@ -37,7 +37,7 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) 
         <p className="text-sm text-muted-foreground">usuario@climateloop.app</p>
         <div className="flex items-center gap-4 mt-4">
           <div className="text-center">
-            <p className="text-lg font-bold text-foreground">12</p>
+            <p className="text-lg font-bold text-foreground">3</p>
             <p className="text-xs text-muted-foreground">{t.profileReports}</p>
           </div>
           <div className="w-px h-8 bg-border" />
