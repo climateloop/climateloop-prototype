@@ -138,7 +138,7 @@ const Index = () => {
           <div className="px-4">
             <AlertCard alert={activeAlert} compact onAskAI={handleOpenAlertDetail} />
           </div>
-          <WeatherCard onOpenAlertDetail={handleOpenAlertById} />
+          <WeatherCard onOpenCommunityDetail={handleOpenCommunityDetail} />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} />
