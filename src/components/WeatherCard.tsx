@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Droplets, Wind, Thermometer, CloudRain, AlertTriangle } from "lucide-react";
+import { Droplets, Wind, Thermometer, CloudRain } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -16,41 +16,33 @@ const radiusOptions = [
   { label: "25 km", meters: 25000 },
 ];
 
-// SVG paths for each alert type icon (rendered inside the severity circle)
-const alertTypeIconSVG: Record<string, string> = {
-  rain: `<polyline points="16 13 12 17 8 13"/><line x1="12" y1="2" x2="12" y2="17"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>`, // cloud-rain-like
-  flood: `<path d="M2 12h20M2 18h20M6 6h.01M10 6h.01M14 6h.01M18 6h.01M4 9h16a1 1 0 0 1 1 1v2H3v-2a1 1 0 0 1 1-1z"/>`,
-  heat: `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`,
-  wind: `<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>`,
-  fog: `<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>`,
-  hail: `<path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="8" y1="20" x2="8.01" y2="20"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="12" y1="22" x2="12.01" y2="22"/><line x1="16" y1="16" x2="16.01" y2="16"/><line x1="16" y1="20" x2="16.01" y2="20"/>`,
-  landslide: `<path d="M3 18l4-8 4 4 3-5 4 9"/><line x1="2" y1="20" x2="22" y2="20"/>`,
-  fire: `<path d="M12 12c-2-2.5-4-5-2-9C9 8 12.5 9 13 10c.5-1.5.5-4 2-6-1 3 1 5 1 7 1-1 3-2 3-5 0 4-2 7-7 8z"/>`,
-  storm: `<path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/>`,
+// SVG paths for each community report type
+const reportTypeIconSVG: Record<string, string> = {
+  typeFlooding:    `<path d="M2 12h20M2 18h20M6 6h.01M10 6h.01M14 6h.01M18 6h.01M4 9h16a1 1 0 0 1 1 1v2H3v-2a1 1 0 0 1 1-1z"/>`,
+  typeExtremeHeat: `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`,
+  typeStrongWind:  `<path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>`,
+  typeFire:        `<path d="M12 12c-2-2.5-4-5-2-9C9 8 12.5 9 13 10c.5-1.5.5-4 2-6-1 3 1 5 1 7 1-1 3-2 3-5 0 4-2 7-7 8z"/>`,
 };
 
-// Alert markers — each has a `type` matching alertTypeIconSVG keys
-const alertMarkers = [
-  { id: "1",  lat: 40.4195, lng: -3.7065, severity: "red",    type: "rain",      label: "Heavy Rain – Gran Vía" },
-  { id: "2",  lat: 40.4140, lng: -3.6930, severity: "orange", type: "heat",      label: "Extreme Heat – Zona Este" },
-  { id: "3",  lat: 40.4230, lng: -3.6880, severity: "yellow", type: "wind",      label: "Strong Wind – Norte" },
-  { id: "4",  lat: 40.4070, lng: -3.6940, severity: "orange", type: "flood",     label: "Flooding – Tunnel" },
-  { id: "5",  lat: 40.4310, lng: -3.7120, severity: "red",    type: "flood",     label: "Flash Flood – Río Manzanares" },
-  { id: "6",  lat: 40.4090, lng: -3.6780, severity: "yellow", type: "fog",       label: "Low Visibility – Niebla" },
-  { id: "7",  lat: 40.4260, lng: -3.7200, severity: "orange", type: "heat",      label: "Heat Island – Retiro" },
-  { id: "8",  lat: 40.4020, lng: -3.7100, severity: "red",    type: "landslide", label: "Landslide Risk – Carabanchel" },
-  { id: "9",  lat: 40.4350, lng: -3.6950, severity: "yellow", type: "wind",      label: "Strong Gusts – Hortaleza" },
-  { id: "10", lat: 40.4050, lng: -3.6600, severity: "orange", type: "storm",     label: "Road Flooding – A-3" },
+// Community report type → marker colour
+const reportTypeColour: Record<string, string> = {
+  typeFlooding:    "hsl(210,61%,45%)",
+  typeExtremeHeat: "hsl(5,82%,56%)",
+  typeStrongWind:  "hsl(42,97%,48%)",
+  typeFire:        "hsl(24,91%,52%)",
+};
+
+// Community reports shown on the mini-map (matches CommunityReports data)
+export const communityMapMarkers = [
+  { id: "1", lat: 40.4195, lng: -3.7065, typeKey: "typeFlooding",    label: "Calle inundada — María S." },
+  { id: "2", lat: 40.4140, lng: -3.6930, typeKey: "typeExtremeHeat", label: "Asfalto derritiéndose — Juan P." },
+  { id: "3", lat: 40.4230, lng: -3.6880, typeKey: "typeStrongWind",  label: "Árbol caído — Ana L." },
+  { id: "4", lat: 40.4070, lng: -3.6940, typeKey: "typeFlooding",    label: "Paso subterráneo inundado — Pedro M." },
 ];
 
-const severityIcon = (severity: "red" | "orange" | "yellow", type: string) => {
-  const colours = {
-    red:    "hsl(5,82%,56%)",
-    orange: "hsl(24,91%,59%)",
-    yellow: "hsl(42,97%,56%)",
-  };
-  const colour = colours[severity];
-  const iconPath = alertTypeIconSVG[type] ?? alertTypeIconSVG["rain"];
+export const communityMarkerIcon = (typeKey: string) => {
+  const colour  = reportTypeColour[typeKey] ?? "hsl(210,61%,45%)";
+  const iconPath = reportTypeIconSVG[typeKey] ?? reportTypeIconSVG["typeFlooding"];
   return L.divIcon({
     className: "",
     iconSize: [30, 30],
@@ -72,10 +64,10 @@ const severityIcon = (severity: "red" | "orange" | "yellow", type: string) => {
 
 interface MiniAlertMapProps {
   selectedRadius: number;
-  onAlertClick: (alertId: string) => void;
+  onReportClick: (reportId: string) => void;
 }
 
-const MiniAlertMap = ({ selectedRadius, onAlertClick }: MiniAlertMapProps) => {
+const MiniAlertMap = ({ selectedRadius, onReportClick }: MiniAlertMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const radiusCircleRef = useRef<L.Circle | null>(null);
@@ -86,8 +78,7 @@ const MiniAlertMap = ({ selectedRadius, onAlertClick }: MiniAlertMapProps) => {
     const map = L.map(mapRef.current, {
       zoomControl: false,
       attributionControl: false,
-      // interactive — drag & zoom enabled
-      scrollWheelZoom: false, // pinch to zoom on mobile feels better without scroll
+      scrollWheelZoom: false,
       dragging: true,
       touchZoom: true,
       doubleClickZoom: true,
@@ -97,7 +88,6 @@ const MiniAlertMap = ({ selectedRadius, onAlertClick }: MiniAlertMapProps) => {
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-    // Zoom control in bottom-right
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
     // User location dot
@@ -119,12 +109,12 @@ const MiniAlertMap = ({ selectedRadius, onAlertClick }: MiniAlertMapProps) => {
     }).addTo(map);
     radiusCircleRef.current = circle;
 
-    // Alert markers — clickable
-    alertMarkers.forEach((m) => {
+    // Community report markers — clickable
+    communityMapMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: severityIcon(m.severity as "red" | "orange" | "yellow", m.type),
+        icon: communityMarkerIcon(m.typeKey),
       }).addTo(map);
-      marker.on("click", () => onAlertClick(m.id));
+      marker.on("click", () => onReportClick(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false,
         direction: "top",
@@ -141,10 +131,10 @@ const MiniAlertMap = ({ selectedRadius, onAlertClick }: MiniAlertMapProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Keep global callback for alert clicks fresh
+  // Keep global callback fresh
   useEffect(() => {
-    (window as any).__miniMapAlertClick__ = onAlertClick;
-  }, [onAlertClick]);
+    (window as any).__miniMapReportClick__ = onReportClick;
+  }, [onReportClick]);
 
   // Update radius circle & fit bounds when selection changes
   useEffect(() => {
@@ -160,10 +150,10 @@ const MiniAlertMap = ({ selectedRadius, onAlertClick }: MiniAlertMapProps) => {
 };
 
 interface WeatherCardProps {
-  onOpenAlertDetail?: (alertId: string) => void;
+  onOpenCommunityDetail?: (reportId: string) => void;
 }
 
-const WeatherCard = ({ onOpenAlertDetail }: WeatherCardProps) => {
+const WeatherCard = ({ onOpenCommunityDetail }: WeatherCardProps) => {
   const { t, unitSystem } = useLanguage();
   const isImperial = unitSystem === "imperial";
   const [selectedRadius, setSelectedRadius] = useState(1);
@@ -173,8 +163,8 @@ const WeatherCard = ({ onOpenAlertDetail }: WeatherCardProps) => {
   const windVal  = isImperial ? "9 mph" : "15 km/h";
   const unit     = isImperial ? "°F" : "°";
 
-  const handleAlertClick = (alertId: string) => {
-    onOpenAlertDetail?.(alertId);
+  const handleAlertClick = (reportId: string) => {
+    onOpenCommunityDetail?.(reportId);
   };
 
   return (
@@ -213,29 +203,32 @@ const WeatherCard = ({ onOpenAlertDetail }: WeatherCardProps) => {
 
       {/* Interactive map */}
       <div className="relative" style={{ height: "220px" }}>
-        <MiniAlertMap selectedRadius={selectedRadius} onAlertClick={handleAlertClick} />
+        <MiniAlertMap selectedRadius={selectedRadius} onReportClick={handleAlertClick} />
 
         {/* Legend */}
         <div className="absolute bottom-2 left-2 bg-background/90 backdrop-blur-sm rounded-lg px-2 py-1.5 text-[9px] space-y-0.5 border border-border z-[400] pointer-events-none">
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-destructive" />
-            <span className="text-foreground">{t.mapHighRisk}</span>
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(210,61%,45%)" }} />
+            <span className="text-foreground">{t.typeFlooding}</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-warning" />
-            <span className="text-foreground">{t.mapModerateRisk}</span>
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
+            <span className="text-foreground">{t.typeExtremeHeat}</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-accent" />
-            <span className="text-foreground">{t.mapLowRisk}</span>
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
+            <span className="text-foreground">{t.typeStrongWind}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(24,91%,52%)" }} />
+            <span className="text-foreground">{t.typeFire}</span>
           </div>
         </div>
 
-        {/* Active alerts badge */}
+        {/* Community reports badge */}
         <div className="absolute top-2 right-2 z-[400] pointer-events-none">
-          <div className="flex items-center gap-1 bg-destructive/90 text-destructive-foreground text-[9px] font-semibold px-1.5 py-0.5 rounded-full shadow">
-            <AlertTriangle className="w-2.5 h-2.5" />
-            <span>2 {t.alertCategoryNow}</span>
+          <div className="flex items-center gap-1 bg-primary/90 text-primary-foreground text-[9px] font-semibold px-1.5 py-0.5 rounded-full shadow">
+            <span>4 {t.communityReportsToday}</span>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Layers, Navigation } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { communityMapMarkers, communityMarkerIcon } from "@/components/WeatherCard";
 
 const USER_LAT = 40.4168;
 const USER_LNG = -3.7038;
@@ -12,13 +13,6 @@ const radiusOptions = [
   { label: "5 km", meters: 5000 },
   { label: "10 km", meters: 10000 },
   { label: "25 km", meters: 25000 },
-];
-
-const communityMarkers = [
-  { id: "1", lat: 40.4195, lng: -3.7065, label: "Calle inundada — María S.", color: "hsl(0,72%,51%)" },
-  { id: "2", lat: 40.4140, lng: -3.6930, label: "Asfalto derritiéndose — Juan P.", color: "hsl(25,95%,53%)" },
-  { id: "3", lat: 40.4230, lng: -3.6880, label: "Árbol caído — Ana L.", color: "hsl(48,96%,53%)" },
-  { id: "4", lat: 40.4070, lng: -3.6940, label: "Paso subterráneo inundado — Pedro M.", color: "hsl(0,72%,51%)" },
 ];
 
 interface MapPageProps {
@@ -43,15 +37,15 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
 
-    // Community report markers with "view" option
-    communityMarkers.forEach((m) => {
-      const icon = L.divIcon({
-        className: "",
-        html: `<div style="width:12px;height:12px;border-radius:50%;background:${m.color};border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>`,
-      });
-      const marker = L.marker([m.lat, m.lng], { icon }).addTo(map);
-      marker.bindPopup(
-        `<div style="text-align:center"><p style="margin:0 0 6px;font-size:12px">${m.label}</p><button onclick="window.__openReport__('${m.id}')" style="background:hsl(210,61%,29%);color:white;border:none;padding:4px 12px;border-radius:6px;font-size:11px;cursor:pointer">${t.mapViewReport}</button></div>`
+    // Community report markers — themed icons, click opens detail directly
+    communityMapMarkers.forEach((m) => {
+      const marker = L.marker([m.lat, m.lng], {
+        icon: communityMarkerIcon(m.typeKey),
+      }).addTo(map);
+      marker.on("click", () => onOpenCommunityDetail?.(m.id));
+      marker.bindTooltip(
+        `<span style="font-size:11px;white-space:nowrap">${m.label}</span>`,
+        { permanent: false, direction: "top", offset: [0, -14] }
       );
     });
 
@@ -81,7 +75,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     };
   }, []);
 
-  // Global callback for popup buttons
+  // Keep callback fresh without recreating the map
   useEffect(() => {
     (window as any).__openReport__ = (id: string) => {
       onOpenCommunityDetail?.(id);
@@ -115,16 +109,20 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         {/* Legend overlay */}
         <div className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-destructive" />
-            <span className="text-foreground">{t.mapHighRisk}</span>
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(210,61%,45%)" }} />
+            <span className="text-foreground">{t.typeFlooding}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-warning" />
-            <span className="text-foreground">{t.mapModerateRisk}</span>
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
+            <span className="text-foreground">{t.typeExtremeHeat}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-secondary" />
-            <span className="text-foreground">{t.mapLowRisk}</span>
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
+            <span className="text-foreground">{t.typeStrongWind}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(24,91%,52%)" }} />
+            <span className="text-foreground">{t.typeFire}</span>
           </div>
         </div>
 
