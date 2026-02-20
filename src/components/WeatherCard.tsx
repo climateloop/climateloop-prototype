@@ -24,24 +24,25 @@ const reportTypeIconSVG: Record<string, string> = {
   typeFire:        `<path d="M12 12c-2-2.5-4-5-2-9C9 8 12.5 9 13 10c.5-1.5.5-4 2-6-1 3 1 5 1 7 1-1 3-2 3-5 0 4-2 7-7 8z"/>`,
 };
 
-// Community report type → marker colour
-const reportTypeColour: Record<string, string> = {
-  typeFlooding:    "hsl(210,61%,45%)",
-  typeExtremeHeat: "hsl(5,82%,56%)",
-  typeStrongWind:  "hsl(42,97%,48%)",
-  typeFire:        "hsl(24,91%,52%)",
+// Risk level → marker colour
+const riskColour: Record<string, string> = {
+  high:     "hsl(5,82%,56%)",
+  moderate: "hsl(24,91%,52%)",
+  low:      "hsl(42,97%,48%)",
 };
 
 // Community reports shown on the mini-map (matches CommunityReports data)
+// risk: "high" | "moderate" | "low"  →  colour
+// typeKey: report type              →  icon shape
 export const communityMapMarkers = [
-  { id: "1", lat: 40.4195, lng: -3.7065, typeKey: "typeFlooding",    label: "Calle inundada — María S." },
-  { id: "2", lat: 40.4140, lng: -3.6930, typeKey: "typeExtremeHeat", label: "Asfalto derritiéndose — Juan P." },
-  { id: "3", lat: 40.4230, lng: -3.6880, typeKey: "typeStrongWind",  label: "Árbol caído — Ana L." },
-  { id: "4", lat: 40.4070, lng: -3.6940, typeKey: "typeFlooding",    label: "Paso subterráneo inundado — Pedro M." },
+  { id: "1", lat: 40.4195, lng: -3.7065, typeKey: "typeFlooding",    risk: "high",     label: "Calle inundada — María S." },
+  { id: "2", lat: 40.4140, lng: -3.6930, typeKey: "typeExtremeHeat", risk: "moderate", label: "Asfalto derritiéndose — Juan P." },
+  { id: "3", lat: 40.4230, lng: -3.6880, typeKey: "typeStrongWind",  risk: "low",      label: "Árbol caído — Ana L." },
+  { id: "4", lat: 40.4070, lng: -3.6940, typeKey: "typeFlooding",    risk: "high",     label: "Paso subterráneo inundado — Pedro M." },
 ];
 
-export const communityMarkerIcon = (typeKey: string) => {
-  const colour  = reportTypeColour[typeKey] ?? "hsl(210,61%,45%)";
+export const communityMarkerIcon = (typeKey: string, risk: string) => {
+  const colour   = riskColour[risk] ?? riskColour["moderate"];
   const iconPath = reportTypeIconSVG[typeKey] ?? reportTypeIconSVG["typeFlooding"];
   return L.divIcon({
     className: "",
@@ -112,7 +113,7 @@ const MiniAlertMap = ({ selectedRadius, onReportClick }: MiniAlertMapProps) => {
     // Community report markers — clickable
     communityMapMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: communityMarkerIcon(m.typeKey),
+        icon: communityMarkerIcon(m.typeKey, m.risk),
       }).addTo(map);
       marker.on("click", () => onReportClick(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
@@ -208,20 +209,16 @@ const WeatherCard = ({ onOpenCommunityDetail }: WeatherCardProps) => {
         {/* Legend */}
         <div className="absolute bottom-2 left-2 bg-background/90 backdrop-blur-sm rounded-lg px-2 py-1.5 text-[9px] space-y-0.5 border border-border z-[400] pointer-events-none">
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(210,61%,45%)" }} />
-            <span className="text-foreground">{t.typeFlooding}</span>
-          </div>
-          <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
-            <span className="text-foreground">{t.typeExtremeHeat}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
-            <span className="text-foreground">{t.typeStrongWind}</span>
+            <span className="text-foreground">{t.mapHighRisk}</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full" style={{ background: "hsl(24,91%,52%)" }} />
-            <span className="text-foreground">{t.typeFire}</span>
+            <span className="text-foreground">{t.mapModerateRisk}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
+            <span className="text-foreground">{t.mapLowRisk}</span>
           </div>
         </div>
 
