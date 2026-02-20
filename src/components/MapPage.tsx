@@ -40,7 +40,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     // Community report markers — themed icons, click opens detail directly
     communityMapMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: communityMarkerIcon(m.typeKey),
+        icon: communityMarkerIcon(m.typeKey, m.risk),
       }).addTo(map);
       marker.on("click", () => onOpenCommunityDetail?.(m.id));
       marker.bindTooltip(
@@ -109,20 +109,16 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         {/* Legend overlay */}
         <div className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(210,61%,45%)" }} />
-            <span className="text-foreground">{t.typeFlooding}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
-            <span className="text-foreground">{t.typeExtremeHeat}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
-            <span className="text-foreground">{t.typeStrongWind}</span>
+            <span className="text-foreground">{t.mapHighRisk}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{ background: "hsl(24,91%,52%)" }} />
-            <span className="text-foreground">{t.typeFire}</span>
+            <span className="text-foreground">{t.mapModerateRisk}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
+            <span className="text-foreground">{t.mapLowRisk}</span>
           </div>
         </div>
 
