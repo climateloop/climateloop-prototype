@@ -16,7 +16,7 @@ interface AIChatProps {
 
 const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) => {
   const { t } = useLanguage();
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<Message[]>(() => [
     { role: "assistant", content: t.aiInitialMessage },
   ]);
   const [input, setInput] = useState("");

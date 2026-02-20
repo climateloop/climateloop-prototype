@@ -5,8 +5,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { communityMapMarkers, communityMarkerIcon } from "@/components/WeatherCard";
 
-const USER_LAT = 40.4168;
-const USER_LNG = -3.7038;
+const USER_LAT = 42.8782;
+const USER_LNG = -8.5448;
 
 const radiusOptions = [
   { label: "1 km", meters: 1000 },

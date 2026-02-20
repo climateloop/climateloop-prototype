@@ -126,7 +126,7 @@ const Index = () => {
             />
           );
         case "contributions":
-          return <MyContributions onBack={() => setDetailView(null)} onOpenReport={handleOpenCommunityDetail} />;
+          return <MyContributions onBack={() => { setDetailView(null); setActiveTab("perfil"); }} onOpenReport={handleOpenCommunityDetail} />;
         case "location":
           return <MyLocationPage onBack={() => setDetailView(null)} />;
       }

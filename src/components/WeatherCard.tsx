@@ -6,8 +6,8 @@ import "leaflet/dist/leaflet.css";
 
 const cToF = (c: number) => Math.round(c * 9 / 5 + 32);
 
-const USER_LAT = 40.4168;
-const USER_LNG = -3.7038;
+const USER_LAT = 42.8782;
+const USER_LNG = -8.5448;
 
 const radiusOptions = [
   { label: "1 km",  meters: 1000 },
@@ -35,10 +35,10 @@ const riskColour: Record<string, string> = {
 // risk: "high" | "moderate" | "low"  →  colour
 // typeKey: report type              →  icon shape
 export const communityMapMarkers = [
-  { id: "1", lat: 40.4195, lng: -3.7065, typeKey: "typeFlooding",    risk: "high",     label: "Calle inundada — María S." },
-  { id: "2", lat: 40.4140, lng: -3.6930, typeKey: "typeExtremeHeat", risk: "moderate", label: "Asfalto derritiéndose — Juan P." },
-  { id: "3", lat: 40.4230, lng: -3.6880, typeKey: "typeStrongWind",  risk: "low",      label: "Árbol caído — Ana L." },
-  { id: "4", lat: 40.4070, lng: -3.6940, typeKey: "typeFlooding",    risk: "high",     label: "Paso subterráneo inundado — Pedro M." },
+  { id: "1", lat: 42.8782, lng: -8.5448, typeKey: "typeFlooding",    risk: "high",     label: "Rua inundada — María S." },
+  { id: "2", lat: 42.8650, lng: -8.5200, typeKey: "typeExtremeHeat", risk: "moderate", label: "Asfalto derretendo — Juan P." },
+  { id: "3", lat: 42.8900, lng: -8.5100, typeKey: "typeStrongWind",  risk: "low",      label: "Árvore caída — Ana L." },
+  { id: "4", lat: 42.8700, lng: -8.5350, typeKey: "typeFlooding",    risk: "high",     label: "Passagem subterrânea inundada — Pedro M." },
 ];
 
 export const communityMarkerIcon = (typeKey: string, risk: string) => {

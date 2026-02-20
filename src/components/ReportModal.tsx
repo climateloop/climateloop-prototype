@@ -62,7 +62,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-foreground/40 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] flex items-end justify-center bg-foreground/40 backdrop-blur-sm">
       <div className="bg-background w-full max-w-lg rounded-t-2xl max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
         <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-lg font-bold text-foreground">
