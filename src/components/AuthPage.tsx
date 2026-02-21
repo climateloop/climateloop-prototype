@@ -50,11 +50,8 @@ const AuthPage = ({ onLogin }: AuthPageProps) => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-6">
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center">
           <img src={logo} alt="ClimateLoop" className="h-14 w-auto" />
-          <p className="text-sm text-muted-foreground text-center">
-            {t.authTagline}
-          </p>
         </div>
 
         {/* Language selector */}
