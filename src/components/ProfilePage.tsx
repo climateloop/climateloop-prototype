@@ -5,6 +5,7 @@ import { useState } from "react";
 interface ProfilePageProps {
   onOpenContributions?: () => void;
   onOpenLocation?: () => void;
+  onLogout?: () => void;
 }
 
 const unitSystemLabels: Record<UnitSystem, Record<string, string>> = {
@@ -12,7 +13,7 @@ const unitSystemLabels: Record<UnitSystem, Record<string, string>> = {
   imperial: { en: "Imperial (°F, mph)", es: "Imperial (°F, mph)", pt: "Imperial (°F, mph)", fr: "Impérial (°F, mph)" },
 };
 
-const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) => {
+const ProfilePage = ({ onOpenContributions, onOpenLocation, onLogout }: ProfilePageProps) => {
   const { t, locale, setLocale, unitSystem, setUnitSystem } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
   const [unitsOpen, setUnitsOpen] = useState(false);
@@ -109,7 +110,10 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation }: ProfilePageProps) 
         })}
       </div>
 
-      <button className="w-full flex items-center justify-center gap-2 mt-6 py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors">
+      <button
+        onClick={() => onLogout?.()}
+        className="w-full flex items-center justify-center gap-2 mt-6 py-3 rounded-xl border border-destructive/30 text-destructive text-sm font-medium hover:bg-destructive/5 transition-colors"
+      >
         <LogOut className="w-4 h-4" />
         {t.profileLogout}
       </button>

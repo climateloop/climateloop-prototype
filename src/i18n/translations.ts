@@ -268,7 +268,24 @@ type TranslationKeys = {
   alertOfficialTextCopy: string;
   alertOfficialTextCopied: string;
   alertOfficialTextShare: string;
-  alertOfficialTextTranslate: string;
+   alertOfficialTextTranslate: string;
+  // Auth
+  authLogin: string;
+  authSignup: string;
+  authLoginDesc: string;
+  authSignupDesc: string;
+  authName: string;
+  authNamePlaceholder: string;
+  authEmail: string;
+  authEmailPlaceholder: string;
+  authPassword: string;
+  authPasswordPlaceholder: string;
+  authTagline: string;
+  authNoAccount: string;
+  authHaveAccount: string;
+  authErrorRequired: string;
+  authErrorName: string;
+  authErrorPassword: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -505,6 +522,22 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertOfficialTextCopied: "Copied!",
     alertOfficialTextShare: "Share",
     alertOfficialTextTranslate: "Translate to",
+    authLogin: "Log in",
+    authSignup: "Create account",
+    authLoginDesc: "Enter your credentials to continue",
+    authSignupDesc: "Create your account to get started",
+    authName: "Name",
+    authNamePlaceholder: "Your full name",
+    authEmail: "Email",
+    authEmailPlaceholder: "your@email.com",
+    authPassword: "Password",
+    authPasswordPlaceholder: "At least 6 characters",
+    authTagline: "Community-powered climate intelligence",
+    authNoAccount: "Don't have an account? Sign up",
+    authHaveAccount: "Already have an account? Log in",
+    authErrorRequired: "Email and password are required",
+    authErrorName: "Name is required",
+    authErrorPassword: "Password must be at least 6 characters",
   },
   es: {
     location: "Galicia, España",
@@ -739,6 +772,22 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertOfficialTextCopied: "¡Copiado!",
     alertOfficialTextShare: "Compartir",
     alertOfficialTextTranslate: "Traducir a",
+    authLogin: "Iniciar sesión",
+    authSignup: "Crear cuenta",
+    authLoginDesc: "Introduce tus credenciales para continuar",
+    authSignupDesc: "Crea tu cuenta para empezar",
+    authName: "Nombre",
+    authNamePlaceholder: "Tu nombre completo",
+    authEmail: "Correo electrónico",
+    authEmailPlaceholder: "tu@email.com",
+    authPassword: "Contraseña",
+    authPasswordPlaceholder: "Al menos 6 caracteres",
+    authTagline: "Inteligencia climática impulsada por la comunidad",
+    authNoAccount: "¿No tienes cuenta? Regístrate",
+    authHaveAccount: "¿Ya tienes cuenta? Inicia sesión",
+    authErrorRequired: "El correo y la contraseña son obligatorios",
+    authErrorName: "El nombre es obligatorio",
+    authErrorPassword: "La contraseña debe tener al menos 6 caracteres",
   },
   pt: {
     location: "Galicia, Espanha",
@@ -973,6 +1022,22 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertOfficialTextCopied: "Copiado!",
     alertOfficialTextShare: "Compartilhar",
     alertOfficialTextTranslate: "Traduzir para",
+    authLogin: "Entrar",
+    authSignup: "Criar conta",
+    authLoginDesc: "Insira suas credenciais para continuar",
+    authSignupDesc: "Crie sua conta para começar",
+    authName: "Nome",
+    authNamePlaceholder: "Seu nome completo",
+    authEmail: "E-mail",
+    authEmailPlaceholder: "seu@email.com",
+    authPassword: "Senha",
+    authPasswordPlaceholder: "Pelo menos 6 caracteres",
+    authTagline: "Inteligência climática impulsionada pela comunidade",
+    authNoAccount: "Não tem conta? Cadastre-se",
+    authHaveAccount: "Já tem conta? Entrar",
+    authErrorRequired: "E-mail e senha são obrigatórios",
+    authErrorName: "O nome é obrigatório",
+    authErrorPassword: "A senha deve ter pelo menos 6 caracteres",
   },
   fr: {
     location: "Galicia, Espagne",
@@ -1207,5 +1272,21 @@ export const translations: Record<Locale, TranslationKeys> = {
     alertOfficialTextCopied: "Copié !",
     alertOfficialTextShare: "Partager",
     alertOfficialTextTranslate: "Traduire en",
+    authLogin: "Se connecter",
+    authSignup: "Créer un compte",
+    authLoginDesc: "Entrez vos identifiants pour continuer",
+    authSignupDesc: "Créez votre compte pour commencer",
+    authName: "Nom",
+    authNamePlaceholder: "Votre nom complet",
+    authEmail: "E-mail",
+    authEmailPlaceholder: "votre@email.com",
+    authPassword: "Mot de passe",
+    authPasswordPlaceholder: "Au moins 6 caractères",
+    authTagline: "Intelligence climatique communautaire",
+    authNoAccount: "Pas de compte ? Inscrivez-vous",
+    authHaveAccount: "Déjà un compte ? Connectez-vous",
+    authErrorRequired: "L'e-mail et le mot de passe sont requis",
+    authErrorName: "Le nom est requis",
+    authErrorPassword: "Le mot de passe doit contenir au moins 6 caractères",
   },
 };
