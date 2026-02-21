@@ -17,6 +17,7 @@ import ForecastDetail from "@/components/ForecastDetail";
 import CommunityReportDetail from "@/components/CommunityReportDetail";
 import MyContributions from "@/components/MyContributions";
 import MyLocationPage from "@/components/MyLocationPage";
+import AuthPage from "@/components/AuthPage";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 type DetailView =
@@ -28,6 +29,7 @@ type DetailView =
   | null;
 
 const Index = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState("inicio");
   const [reportOpen, setReportOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -35,6 +37,10 @@ const Index = () => {
   const [detailView, setDetailView] = useState<DetailView>(null);
   const [notifOpen, setNotifOpen] = useState(false);
   const { t } = useLanguage();
+
+  if (!isAuthenticated) {
+    return <AuthPage onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   const activeAlert: Alert = {
     id: "main",
@@ -149,7 +155,7 @@ const Index = () => {
 
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
-    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} />;
+    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onLogout={() => setIsAuthenticated(false)} />;
     return null;
   };
 
