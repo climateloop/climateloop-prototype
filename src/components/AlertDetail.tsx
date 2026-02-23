@@ -7,6 +7,7 @@ import { type Alert } from "./AlertCard";
 const severityStyles = {
   yellow: {
     bg: "bg-accent/15",
+    bgLight: "bg-accent/5",
     border: "border-accent",
     title: "text-accent",
     icon: "text-accent",
@@ -14,6 +15,7 @@ const severityStyles = {
   },
   orange: {
     bg: "bg-warning/15",
+    bgLight: "bg-warning/5",
     border: "border-warning",
     title: "text-warning",
     icon: "text-warning",
@@ -21,6 +23,7 @@ const severityStyles = {
   },
   red: {
     bg: "bg-destructive/15",
+    bgLight: "bg-destructive/5",
     border: "border-destructive",
     title: "text-destructive",
     icon: "text-destructive",
@@ -149,7 +152,7 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
       </div>
 
       {/* ① AI Personalized Explanation */}
-      <div className={`rounded-xl ${styles.bg} border ${styles.border} p-4 mb-4 opacity-50`}>
+      <div className={`rounded-xl ${styles.bgLight} border ${styles.border} p-4 mb-4`}>
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-accent" />
           <h3 className="text-sm font-semibold text-foreground">{t.alertDetailTitle}</h3>
