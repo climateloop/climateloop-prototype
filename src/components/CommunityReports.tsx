@@ -114,21 +114,27 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
       <h2 className="text-base font-semibold text-foreground mb-1">{t.communityTitle}</h2>
       <p className="text-xs text-muted-foreground mb-3">{t.communitySubtitle}</p>
 
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        <div className="bg-surface-elevated rounded-xl p-3 text-center shadow-card border border-border">
-          <Users className="w-4 h-4 mx-auto text-primary mb-1" />
-          <p className="text-xl font-bold text-foreground">84</p>
-          <p className="text-[10px] text-muted-foreground">{t.communityActiveNow}</p>
+      <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="bg-surface-elevated rounded-lg px-2 py-1.5 text-center border border-border">
+          <div className="flex items-center justify-center gap-1">
+            <Users className="w-3 h-3 text-primary" />
+            <span className="text-sm font-bold text-foreground">84</span>
+          </div>
+          <p className="text-[9px] text-muted-foreground leading-tight">{t.communityActiveNow}</p>
         </div>
-        <div className="bg-surface-elevated rounded-xl p-3 text-center shadow-card border border-border">
-          <FileText className="w-4 h-4 mx-auto text-secondary mb-1" />
-          <p className="text-xl font-bold text-foreground">156</p>
-          <p className="text-[10px] text-muted-foreground">{t.communityReportsToday}</p>
+        <div className="bg-surface-elevated rounded-lg px-2 py-1.5 text-center border border-border">
+          <div className="flex items-center justify-center gap-1">
+            <FileText className="w-3 h-3 text-secondary" />
+            <span className="text-sm font-bold text-foreground">156</span>
+          </div>
+          <p className="text-[9px] text-muted-foreground leading-tight">{t.communityReportsToday}</p>
         </div>
-        <div className="bg-surface-elevated rounded-xl p-3 text-center shadow-card border border-border">
-          <TrendingUp className="w-4 h-4 mx-auto text-accent mb-1" />
-          <p className="text-xl font-bold text-foreground">91%</p>
-          <p className="text-[10px] text-muted-foreground">{t.communityAccuracy}</p>
+        <div className="bg-surface-elevated rounded-lg px-2 py-1.5 text-center border border-border">
+          <div className="flex items-center justify-center gap-1">
+            <TrendingUp className="w-3 h-3 text-accent" />
+            <span className="text-sm font-bold text-foreground">91%</span>
+          </div>
+          <p className="text-[9px] text-muted-foreground leading-tight">{t.communityAccuracy}</p>
         </div>
       </div>
 
