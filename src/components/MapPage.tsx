@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Layers } from "lucide-react";
+import {} from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -182,50 +182,42 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     <div className="-mx-0 -mt-4 -mb-24 relative" style={{ height: "calc(100vh - 106px)" }}>
       <div ref={mapRef} className="absolute inset-0 z-0" />
 
-      {/* Stats overlay — top */}
-      <div className="absolute top-3 left-3 right-14 z-[400] pointer-events-none">
-        <div className="flex gap-2 overflow-x-auto pointer-events-auto">
-          <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-2 min-w-fit">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
-            <div>
-              <p className="text-lg font-bold text-foreground leading-none">{communityMapMarkers.length + 4}</p>
-              <p className="text-[9px] text-muted-foreground">{t.communityReportsToday}</p>
-            </div>
-          </div>
-          <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-2 min-w-fit">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="hsl(42,97%,48%)" stroke="hsl(42,97%,48%)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            </svg>
-            <div>
-              <p className="text-lg font-bold text-foreground leading-none">{capAlertMarkers.length}</p>
-              <p className="text-[9px] text-muted-foreground">{t.catAlerts}</p>
-            </div>
+      {/* Top bar: Reports | Alerts | Risk Legend */}
+      <div className="absolute top-3 left-3 right-3 z-[400] flex items-start gap-2">
+        {/* Reports */}
+        <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-2 min-w-fit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          <div>
+            <p className="text-base font-bold text-foreground leading-none">{communityMapMarkers.length + 4}</p>
+            <p className="text-[8px] text-muted-foreground">{t.communityReportsToday}</p>
           </div>
         </div>
-      </div>
-
-      {/* Layers button */}
-      <div className="absolute top-3 right-3 flex flex-col gap-2 z-[400]">
-        <button className="w-8 h-8 bg-background/90 backdrop-blur-sm rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors">
-          <Layers className="w-4 h-4 text-foreground" />
-        </button>
-      </div>
-
-      {/* Legend — top left below stats */}
-      <div className="absolute top-[60px] left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
-          <span className="text-foreground">{t.mapHighRisk}</span>
+        {/* Alerts */}
+        <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-2 min-w-fit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="hsl(42,97%,48%)" stroke="hsl(42,97%,48%)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          </svg>
+          <div>
+            <p className="text-base font-bold text-foreground leading-none">{capAlertMarkers.length}</p>
+            <p className="text-[8px] text-muted-foreground">{t.catAlerts}</p>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full" style={{ background: "hsl(24,91%,52%)" }} />
-          <span className="text-foreground">{t.mapModerateRisk}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
-          <span className="text-foreground">{t.mapLowRisk}</span>
+        {/* Risk Legend */}
+        <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-3 min-w-fit ml-auto">
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
+            <span className="text-[9px] text-foreground">{t.mapHighRisk}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(24,91%,52%)" }} />
+            <span className="text-[9px] text-foreground">{t.mapModerateRisk}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: "hsl(42,97%,48%)" }} />
+            <span className="text-[9px] text-foreground">{t.mapLowRisk}</span>
+          </div>
         </div>
       </div>
 
@@ -266,7 +258,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         </div>
 
         {/* Radius selector */}
-        <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
+        <div className="mx-3 mb-16 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
           <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
           <div className="flex gap-1.5">
             {radiusOptions.map((r, i) => (
