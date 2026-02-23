@@ -13,54 +13,110 @@ interface ReportData {
 
 const myReportIds = ["1", "3"];
 
-const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?: string; location: string; photoBlurred?: boolean }> = {
+const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?: string; location: string; photoBlurred?: boolean; risk: string }> = {
   "1": {
     id: "1",
     user: "María S.",
     typeKey: "typeFlooding",
-    description: "Calle completamente inundada en Gran Vía",
+    description: "Rua completamente inundada na Rúa do Franco",
     time: "15 min",
     hasPhoto: true,
     distance: "1.2 km",
     verified: true,
-    location: "Gran Vía 42, Madrid",
+    location: "Rúa do Franco 42, Santiago de Compostela",
     photoUrl: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=400&fit=crop",
+    risk: "high",
   },
   "2": {
     id: "2",
     user: "Juan P.",
     typeKey: "typeExtremeHeat",
-    description: "Asfalto derritiéndose en la zona este",
+    description: "Asfalto derretendo na zona leste de Santiago",
     time: "32 min",
-    hasPhoto: false,
+    hasPhoto: true,
     distance: "3.5 km",
     verified: false,
-    location: "Calle Alcalá 120, Madrid",
+    location: "Rúa de San Pedro, Santiago de Compostela",
+    photoUrl: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=600&h=400&fit=crop",
+    risk: "moderate",
   },
   "3": {
     id: "3",
     user: "Ana L.",
     typeKey: "typeStrongWind",
-    description: "Árbol caído en Calle Alcalá",
+    description: "Árvore caída na Rúa das Orfas",
     time: "1h",
     hasPhoto: true,
     distance: "0.8 km",
     verified: true,
-    location: "Calle Alcalá 85, Madrid",
+    location: "Rúa das Orfas 15, Santiago de Compostela",
     photoUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&h=400&fit=crop",
+    risk: "low",
   },
   "4": {
     id: "4",
     user: "Pedro M.",
     typeKey: "typeFlooding",
-    description: "Paso subterráneo inundado en Atocha",
+    description: "Passagem subterrânea inundada em Praza de Galicia",
     time: "2h",
     hasPhoto: true,
     distance: "2.1 km",
     verified: true,
-    location: "Estación de Atocha, Madrid",
+    location: "Praza de Galicia, Santiago de Compostela",
     photoUrl: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=400&fit=crop",
     photoBlurred: true,
+    risk: "high",
+  },
+  "5": {
+    id: "5",
+    user: "Lucía G.",
+    typeKey: "typeRain",
+    description: "Chuva forte persistente na Alameda com acúmulo de água",
+    time: "45 min",
+    hasPhoto: true,
+    distance: "0.5 km",
+    verified: true,
+    location: "Parque da Alameda, Santiago de Compostela",
+    photoUrl: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=600&h=400&fit=crop",
+    risk: "moderate",
+  },
+  "6": {
+    id: "6",
+    user: "Carlos R.",
+    typeKey: "typeFire",
+    description: "Fumaça visível no Monte Pedroso, possível incêndio florestal",
+    time: "1h 20 min",
+    hasPhoto: true,
+    distance: "4.2 km",
+    verified: true,
+    location: "Monte Pedroso, Santiago de Compostela",
+    photoUrl: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600&h=400&fit=crop",
+    risk: "high",
+  },
+  "7": {
+    id: "7",
+    user: "Isabel F.",
+    typeKey: "typeFlooding",
+    description: "Bueiro transbordando e alagando calçada na Rúa da Senra",
+    time: "55 min",
+    hasPhoto: true,
+    distance: "1.8 km",
+    verified: false,
+    location: "Rúa da Senra 28, Santiago de Compostela",
+    photoUrl: "https://images.unsplash.com/photo-1446034295857-c899f4c24cc6?w=600&h=400&fit=crop",
+    risk: "moderate",
+  },
+  "8": {
+    id: "8",
+    user: "Diego T.",
+    typeKey: "typeRain",
+    description: "Chuva intermitente com poças na Praza do Obradoiro",
+    time: "25 min",
+    hasPhoto: false,
+    distance: "0.3 km",
+    verified: false,
+    location: "Praza do Obradoiro, Santiago de Compostela",
+    risk: "low",
   },
 };
 
@@ -69,6 +125,15 @@ const typeColorMap: Record<string, string> = {
   typeExtremeHeat: "bg-destructive/10 text-destructive",
   typeStrongWind: "bg-warning/10 text-warning",
   typeFire: "bg-destructive/10 text-destructive",
+  typeRain: "bg-primary/10 text-primary",
+  typeHail: "bg-accent/10 text-accent",
+  typeFrost: "bg-secondary/10 text-secondary",
+};
+
+const riskColorMap: Record<string, { bg: string; text: string; label: string }> = {
+  high: { bg: "bg-destructive/10", text: "text-destructive", label: "mapHighRisk" },
+  moderate: { bg: "bg-warning/10", text: "text-warning", label: "mapModerateRisk" },
+  low: { bg: "bg-accent/10", text: "text-accent", label: "mapLowRisk" },
 };
 
 interface CommunityReportDetailProps {
@@ -84,6 +149,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
   if (!report) return null;
 
   const typeLabel = (t as any)[report.typeKey] || report.typeKey;
+  const riskInfo = riskColorMap[report.risk] || riskColorMap["moderate"];
 
   return (
     <div className="px-4 pb-4 animate-in fade-in duration-200">
@@ -118,15 +184,25 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       )}
 
-      {/* Type badge & verification */}
-      <div className="flex items-center gap-2 mb-3">
+      {/* Type badge, risk & verification */}
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${typeColorMap[report.typeKey] || "bg-muted text-muted-foreground"}`}>
           {typeLabel}
         </span>
-        <span className="flex items-center gap-1 text-xs text-secondary font-medium">
-          <CheckCircle className="w-3.5 h-3.5" />
-          {t.communityDetailVerified}
+        <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${riskInfo.bg} ${riskInfo.text}`}>
+          {(t as any)[riskInfo.label]}
         </span>
+        {report.verified && (
+          <span className="flex items-center gap-1 text-xs text-secondary font-medium">
+            <CheckCircle className="w-3.5 h-3.5" />
+            {t.communityDetailVerified}
+          </span>
+        )}
+        {!report.verified && (
+          <span className="text-xs text-muted-foreground font-medium">
+            {t.communityDetailPending}
+          </span>
+        )}
       </div>
 
       <p className="text-base text-foreground font-medium mb-4">{report.description}</p>
@@ -164,7 +240,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       </div>
 
-      {/* Invite to use AI icon in bottom bar */}
+      {/* AI CTA */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
         <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
         <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>

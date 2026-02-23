@@ -165,6 +165,10 @@ type TranslationKeys = {
   typeExtremeHeat: string;
   typeStrongWind: string;
   typeFire: string;
+  typeRain: string;
+  typeHail: string;
+  typeFrost: string;
+  typeLandslide: string;
   // AI-powered CTAs
   aiUnderstandAlert: string;
   aiUnderstandForecast: string;
@@ -439,6 +443,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Extreme heat",
     typeStrongWind: "Strong wind",
     typeFire: "Fire",
+    typeRain: "Rain",
+    typeHail: "Hail",
+    typeFrost: "Frost",
+    typeLandslide: "Landslide",
     aiUnderstandAlert: "Understand this alert",
     aiUnderstandForecast: "Understand the difference",
     aiPowered: "AI Powered",
@@ -695,6 +703,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Calor extremo",
     typeStrongWind: "Viento fuerte",
     typeFire: "Incendio",
+    typeRain: "Lluvia",
+    typeHail: "Granizo",
+    typeFrost: "Helada",
+    typeLandslide: "Deslizamiento",
     aiUnderstandAlert: "Entender esta alerta",
     aiUnderstandForecast: "Entender la diferencia",
     aiPowered: "IA Powered",
@@ -951,6 +963,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Calor extremo",
     typeStrongWind: "Vento forte",
     typeFire: "Incêndio",
+    typeRain: "Chuva",
+    typeHail: "Granizo",
+    typeFrost: "Geada",
+    typeLandslide: "Deslizamento",
     aiUnderstandAlert: "Entenda este alerta",
     aiUnderstandForecast: "Entenda a diferença",
     aiPowered: "IA Powered",
@@ -1207,6 +1223,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     typeExtremeHeat: "Chaleur extrême",
     typeStrongWind: "Vent fort",
     typeFire: "Incendie",
+    typeRain: "Pluie",
+    typeHail: "Grêle",
+    typeFrost: "Gel",
+    typeLandslide: "Glissement",
     aiUnderstandAlert: "Comprendre cette alerte",
     aiUnderstandForecast: "Comprendre la différence",
     aiPowered: "IA Powered",
