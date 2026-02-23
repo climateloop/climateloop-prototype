@@ -1,7 +1,9 @@
-import { Droplets, Wind, Thermometer, CloudRain } from "lucide-react";
+import { Droplets, Wind, Thermometer, CloudRain, Loader2, CloudOff } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useWeather } from "@/hooks/useWeather";
 
 const cToF = (c: number) => Math.round(c * 9 / 5 + 32);
+const kmhToMph = (kmh: number) => Math.round(kmh * 0.621371);
 
 // SVG paths for each community report type
 const reportTypeIconSVG: Record<string, string> = {
@@ -68,22 +70,45 @@ export const communityMarkerIcon = (typeKey: string, risk: string, filterCat?: s
 const WeatherCard = () => {
   const { t, unitSystem } = useLanguage();
   const isImperial = unitSystem === "imperial";
+  const { data: weather, loading, error } = useWeather();
 
-  const temp     = isImperial ? cToF(28) : 28;
-  const feelsLike = isImperial ? cToF(30) : 30;
-  const windVal  = isImperial ? "9 mph" : "15 km/h";
-  const unit     = isImperial ? "°F" : "°";
+  // Fallback values if API fails
+  const temp = weather ? (isImperial ? cToF(weather.temp) : weather.temp) : (isImperial ? cToF(28) : 28);
+  const feelsLike = weather ? (isImperial ? cToF(weather.feels_like) : weather.feels_like) : (isImperial ? cToF(30) : 30);
+  const humidity = weather?.humidity ?? 72;
+  const windSpeed = weather
+    ? (isImperial ? `${kmhToMph(Math.round(weather.wind_speed * 3.6))} mph` : `${Math.round(weather.wind_speed * 3.6)} km/h`)
+    : (isImperial ? "9 mph" : "15 km/h");
+  const description = weather?.description || t.weatherPartlyCloudy;
+  const rainChance = weather ? `${weather.clouds}%` : "40%";
+  const unit = isImperial ? "°F" : "°";
+  const cityName = weather?.city || "Santiago de Compostela";
+
+  if (loading && !weather) {
+    return (
+      <div className="mx-4 rounded-2xl border border-border bg-surface-elevated shadow-card overflow-hidden">
+        <div className="flex items-center justify-center px-4 py-4 gap-2 text-muted-foreground">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span className="text-sm">Carregando...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-4 rounded-2xl border border-border bg-surface-elevated shadow-card overflow-hidden">
       <div className="flex items-center justify-between px-4 py-2.5 bg-primary/10">
         <div className="flex items-center gap-3">
-          <CloudRain className="w-5 h-5 text-primary opacity-80" />
+          {error ? (
+            <CloudOff className="w-5 h-5 text-muted-foreground opacity-80" />
+          ) : (
+            <CloudRain className="w-5 h-5 text-primary opacity-80" />
+          )}
           <div>
-            <p className="text-[10px] text-muted-foreground font-medium">{t.weatherLocation}</p>
+            <p className="text-[10px] text-muted-foreground font-medium">{cityName}</p>
             <p className="text-base font-bold text-foreground leading-tight">
               {temp}{unit}
-              <span className="text-xs font-normal text-muted-foreground ml-1.5">{t.weatherPartlyCloudy}</span>
+              <span className="text-xs font-normal text-muted-foreground ml-1.5 capitalize">{description}</span>
             </p>
           </div>
         </div>
@@ -94,15 +119,15 @@ const WeatherCard = () => {
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <Droplets className="w-3 h-3" />
-            <span>72%</span>
+            <span>{humidity}%</span>
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <Wind className="w-3 h-3" />
-            <span>{windVal}</span>
+            <span>{windSpeed}</span>
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <CloudRain className="w-3 h-3" />
-            <span>40%</span>
+            <span>{rainChance}</span>
           </div>
         </div>
       </div>
