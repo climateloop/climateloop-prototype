@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import {} from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { communityMapMarkers, communityMarkerIcon } from "@/components/WeatherCard";
-
-const USER_LAT = 42.8782;
-const USER_LNG = -8.5448;
 
 const radiusOptions = [
   { label: "1 km", meters: 1000 },
@@ -18,9 +16,9 @@ const radiusOptions = [
 
 // CAP (RSS) alert markers — filterCat maps to filter type color, severity to border color
 const capAlertMarkers = [
-  { id: "cap-1", lat: 42.9200, lng: -8.6100, severity: "red", filterCat: "rain", label: "CAP: Chuva intensa — AEMET" },
-  { id: "cap-2", lat: 42.8500, lng: -8.4800, severity: "orange", filterCat: "wind", label: "CAP: Vento forte — AEMET" },
-  { id: "cap-3", lat: 42.8350, lng: -8.5600, severity: "yellow", filterCat: "heat", label: "CAP: Temperatura alta — AEMET" },
+  { id: "cap-1", lat: 43.0300, lng: -7.6000, severity: "red", filterCat: "rain", label: "CAP: Lluvia intensa — AEMET" },
+  { id: "cap-2", lat: 42.9900, lng: -7.5200, severity: "orange", filterCat: "wind", label: "CAP: Viento fuerte — AEMET" },
+  { id: "cap-3", lat: 42.9800, lng: -7.5700, severity: "yellow", filterCat: "heat", label: "CAP: Temperatura alta — AEMET" },
 ];
 
 const capSeverityColor: Record<string, string> = {
@@ -88,6 +86,9 @@ interface MapPageProps {
 
 const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
   const { t } = useLanguage();
+  const { location } = useLocation();
+  const USER_LAT = location.lat;
+  const USER_LNG = location.lng;
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const radiusCircleRef = useRef<L.Circle | null>(null);

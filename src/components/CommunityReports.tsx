@@ -25,13 +25,13 @@ const reportPhotos: Record<string, string> = {
 };
 
 const reports: CommunityReport[] = [
-  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rua completamente inundada na Rúa do Franco", time: "15 min", hasPhoto: true, distance: "1.2 km", distanceKm: 1.2, isMine: true },
-  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árvore caída na Rúa das Orfas após vendaval", time: "1h", hasPhoto: true, distance: "0.8 km", distanceKm: 0.8, isMine: true },
-  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Passagem subterrânea inundada em Praza de Galicia", time: "2h", hasPhoto: true, distance: "2.1 km", distanceKm: 2.1 },
-  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuva forte persistente na Alameda", time: "45 min", hasPhoto: true, distance: "0.5 km", distanceKm: 0.5 },
-  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Danos por vento forte no Parque de Belvís", time: "1h 20 min", hasPhoto: true, distance: "4.2 km", distanceKm: 4.2 },
-  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Bueiro transbordando na Rúa da Senra", time: "55 min", hasPhoto: true, distance: "1.8 km", distanceKm: 1.8 },
-  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Chuva intermitente com poças na Praza do Obradoiro", time: "25 min", hasPhoto: true, distance: "0.3 km", distanceKm: 0.3 },
+  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Calle completamente inundada en la Rúa da Raíña", time: "15 min", hasPhoto: true, distance: "1.2 km", distanceKm: 1.2, isMine: true },
+  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbol caído en la Rúa Nova tras vendaval", time: "1h", hasPhoto: true, distance: "0.8 km", distanceKm: 0.8, isMine: true },
+  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado en Praza Maior", time: "2h", hasPhoto: true, distance: "2.1 km", distanceKm: 2.1 },
+  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Lluvia fuerte persistente en el Parque Rosalía", time: "45 min", hasPhoto: true, distance: "0.5 km", distanceKm: 0.5 },
+  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Daños por viento fuerte en la Muralla Romana", time: "1h 20 min", hasPhoto: true, distance: "4.2 km", distanceKm: 4.2 },
+  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Alcantarilla desbordada en la Rúa San Pedro", time: "55 min", hasPhoto: true, distance: "1.8 km", distanceKm: 1.8 },
+  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Lluvia intermitente con charcos en la Praza de Santa María", time: "25 min", hasPhoto: true, distance: "0.3 km", distanceKm: 0.3 },
 ];
 
 const typeColorMap: Record<string, string> = {
