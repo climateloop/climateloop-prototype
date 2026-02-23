@@ -31,17 +31,16 @@ const capSeverityColor: Record<string, string> = {
 
 // filterCatColor defined after mapFilterDefs
 
-const capMarkerIcon = (severity: string, filterCat: string) => {
-  const borderColour = capSeverityColor[severity] ?? capSeverityColor["orange"];
-  const fillColour = filterCatColor[filterCat] ?? borderColour;
+const capMarkerIcon = (severity: string) => {
+  const colour = capSeverityColor[severity] ?? capSeverityColor["orange"];
   return L.divIcon({
     className: "",
     iconSize: [32, 32],
     iconAnchor: [16, 16],
     html: `<div style="
       width:32px;height:32px;border-radius:6px;
-      background:${fillColour};
-      border:2.5px solid ${borderColour};
+      background:${colour};
+      border:2.5px solid ${colour};
       box-shadow:0 2px 6px rgba(0,0,0,.25);
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;
@@ -145,7 +144,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     // CAP alert markers
     capAlertMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: capMarkerIcon(m.severity, m.filterCat),
+        icon: capMarkerIcon(m.severity),
       }).addTo(map);
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
