@@ -13,8 +13,8 @@ interface SavedLocation {
 const STORAGE_KEY = "climateloop_saved_locations";
 
 const predefinedLocations = [
-  { name: "Galicia, España", lat: 42.8782, lng: -8.5448 },
   { name: "Lugo, Galicia", lat: 43.0096, lng: -7.5560 },
+  { name: "Santiago de Compostela, Galicia", lat: 42.8782, lng: -8.5448 },
   { name: "Rio de Janeiro, Brasil", lat: -22.9068, lng: -43.1729 },
   { name: "Bakel, Senegal", lat: 14.9025, lng: -12.4572 },
 ];
@@ -31,8 +31,8 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [savedLocations, setSavedLocations] = useState<SavedLocation[]>(() => {
     const defaultSaved: SavedLocation[] = [
-      { id: "galicia", name: "Galicia, España", lat: 42.8782, lng: -8.5448 },
       { id: "lugo", name: "Lugo, Galicia", lat: 43.0096, lng: -7.5560 },
+      { id: "santiago", name: "Santiago de Compostela, Galicia", lat: 42.8782, lng: -8.5448 },
       { id: "rio", name: "Rio de Janeiro, Brasil", lat: -22.9068, lng: -43.1729 },
       { id: "bakel", name: "Bakel, Senegal", lat: 14.9025, lng: -12.4572 },
     ];
