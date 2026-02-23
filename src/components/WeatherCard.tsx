@@ -35,8 +35,16 @@ export const communityMapMarkers = [
   { id: "8", lat: 42.8750, lng: -8.5150, typeKey: "typeRain",        risk: "low",      label: "Chuva intermitente — Diego T.", filterCat: "rain" },
 ];
 
-export const communityMarkerIcon = (typeKey: string, risk: string) => {
-  const colour   = riskColour[risk] ?? riskColour["moderate"];
+// Filter category → fill color
+const filterCatFillColor: Record<string, string> = {
+  flood: "hsl(220,65%,50%)", rain: "hsl(210,60%,55%)", wind: "hsl(200,15%,55%)",
+  heat: "hsl(5,82%,56%)", fire: "hsl(24,91%,52%)", frost: "hsl(195,70%,55%)",
+  hail: "hsl(260,40%,55%)", air: "hsl(160,50%,45%)",
+};
+
+export const communityMarkerIcon = (typeKey: string, risk: string, filterCat?: string) => {
+  const borderColour = riskColour[risk] ?? riskColour["moderate"];
+  const fillColour = filterCat ? (filterCatFillColor[filterCat] ?? borderColour) : borderColour;
   const iconPath = reportTypeIconSVG[typeKey] ?? reportTypeIconSVG["typeFlooding"];
   return L.divIcon({
     className: "",
@@ -44,8 +52,8 @@ export const communityMarkerIcon = (typeKey: string, risk: string) => {
     iconAnchor: [15, 15],
     html: `<div style="
       width:30px;height:30px;border-radius:50%;
-      background:${colour};
-      border:3px solid white;
+      background:${fillColour};
+      border:3px solid ${borderColour};
       box-shadow:0 2px 6px rgba(0,0,0,.35);
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;

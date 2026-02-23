@@ -106,7 +106,7 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
     // Community report markers
     communityMapMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: communityMarkerIcon(m.typeKey, m.risk),
+        icon: communityMarkerIcon(m.typeKey, m.risk, m.filterCat),
       }).addTo(map);
       marker.on("click", () => onOpenCommunityDetail?.(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
