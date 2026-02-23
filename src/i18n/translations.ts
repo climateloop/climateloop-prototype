@@ -95,6 +95,13 @@ type TranslationKeys = {
   profileNotifications: string;
   profileNotifActive: string;
   profilePrivacy: string;
+  // Legal
+  legalTitle: string;
+  legalTermsHeading: string;
+  legalPrivacyHeading: string;
+  authTermsCheckbox: string;
+  authTermsLink: string;
+  authErrorTerms: string;
   profileSettings: string;
   profileLogout: string;
   profileLanguage: string;
@@ -394,7 +401,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileLocationValue: "Galicia, Spain",
     profileNotifications: "Notifications",
     profileNotifActive: "Active",
-    profilePrivacy: "Privacy",
+    profilePrivacy: "Privacy Policy & Terms of Use",
+    legalTitle: "Privacy Policy & Terms of Use",
+    legalTermsHeading: "Terms of Use",
+    legalPrivacyHeading: "Privacy Policy",
+    authTermsCheckbox: "I have read and agree to the",
+    authTermsLink: "Terms of Use and Privacy Policy",
+    authErrorTerms: "You must accept the terms to continue",
     profileSettings: "Settings",
     profileLogout: "Log out",
     profileLanguage: "Language",
@@ -671,7 +684,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileLocationValue: "Galicia, España",
     profileNotifications: "Notificaciones",
     profileNotifActive: "Activas",
-    profilePrivacy: "Privacidad",
+    profilePrivacy: "Política de Privacidad y Términos",
+    legalTitle: "Política de Privacidad y Términos de Uso",
+    legalTermsHeading: "Términos de Uso",
+    legalPrivacyHeading: "Política de Privacidad",
+    authTermsCheckbox: "He leído y acepto los",
+    authTermsLink: "Términos de Uso y Política de Privacidad",
+    authErrorTerms: "Debes aceptar los términos para continuar",
     profileSettings: "Configuración",
     profileLogout: "Cerrar sesión",
     profileLanguage: "Idioma",
@@ -948,7 +967,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileLocationValue: "Galicia, Espanha",
     profileNotifications: "Notificações",
     profileNotifActive: "Ativas",
-    profilePrivacy: "Privacidade",
+    profilePrivacy: "Política de Privacidade e Termos",
+    legalTitle: "Política de Privacidade e Termos de Uso",
+    legalTermsHeading: "Termos de Uso",
+    legalPrivacyHeading: "Política de Privacidade",
+    authTermsCheckbox: "Li e concordo com os",
+    authTermsLink: "Termos de Uso e Política de Privacidade",
+    authErrorTerms: "Você precisa aceitar os termos para continuar",
     profileSettings: "Configurações",
     profileLogout: "Sair da conta",
     profileLanguage: "Idioma",
@@ -1225,7 +1250,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileLocationValue: "Galicia, Espagne",
     profileNotifications: "Notifications",
     profileNotifActive: "Actives",
-    profilePrivacy: "Confidentialité",
+    profilePrivacy: "Politique de Confidentialité et CGU",
+    legalTitle: "Politique de Confidentialité et Conditions d'Utilisation",
+    legalTermsHeading: "Conditions d'Utilisation",
+    legalPrivacyHeading: "Politique de Confidentialité",
+    authTermsCheckbox: "J'ai lu et j'accepte les",
+    authTermsLink: "Conditions d'Utilisation et Politique de Confidentialité",
+    authErrorTerms: "Vous devez accepter les conditions pour continuer",
     profileSettings: "Paramètres",
     profileLogout: "Déconnexion",
     profileLanguage: "Langue",

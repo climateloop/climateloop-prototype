@@ -19,6 +19,7 @@ import CommunityReportDetail from "@/components/CommunityReportDetail";
 import MyContributions from "@/components/MyContributions";
 import MyLocationPage from "@/components/MyLocationPage";
 import AuthPage from "@/components/AuthPage";
+import LegalPage from "@/components/LegalPage";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 type DetailView =
@@ -27,6 +28,7 @@ type DetailView =
   | { type: "community"; reportId: string }
   | { type: "contributions" }
   | { type: "location" }
+  | { type: "legal" }
   | null;
 
 const Index = () => {
@@ -39,8 +41,17 @@ const Index = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const { t } = useLanguage();
 
+  const [showLegalFromAuth, setShowLegalFromAuth] = useState(false);
+
   if (!isAuthenticated) {
-    return <AuthPage onLogin={() => setIsAuthenticated(true)} />;
+    if (showLegalFromAuth) {
+      return (
+        <div className="min-h-screen bg-background max-w-lg mx-auto">
+          <LegalPage onBack={() => setShowLegalFromAuth(false)} />
+        </div>
+      );
+    }
+    return <AuthPage onLogin={() => setIsAuthenticated(true)} onOpenLegal={() => setShowLegalFromAuth(true)} />;
   }
 
   const activeAlert: Alert = {
@@ -104,6 +115,11 @@ const Index = () => {
     setActiveTab("inicio");
   };
 
+  const handleOpenLegal = () => {
+    setDetailView({ type: "legal" });
+    setActiveTab("inicio");
+  };
+
   const handleOpenLocation = () => {
     setDetailView({ type: "location" });
     setActiveTab("inicio");
@@ -139,6 +155,9 @@ const Index = () => {
           return <MyContributions onBack={() => { setDetailView(null); setActiveTab("perfil"); }} onOpenReport={handleOpenCommunityDetail} />;
         case "location":
           return <MyLocationPage onBack={() => setDetailView(null)} />;
+        case "legal":
+          return <LegalPage onBack={() => { setDetailView(null); setActiveTab("perfil"); }} />;
+      }
       }
     }
 
@@ -161,7 +180,7 @@ const Index = () => {
     if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} />;
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
-    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onLogout={() => setIsAuthenticated(false)} />;
+    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onOpenLegal={handleOpenLegal} onLogout={() => setIsAuthenticated(false)} />;
     return null;
   };
 
