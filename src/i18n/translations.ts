@@ -286,6 +286,13 @@ type TranslationKeys = {
   authErrorRequired: string;
   authErrorName: string;
   authErrorPassword: string;
+  // Map filters
+  mapFilters: string;
+  mapFilterAll: string;
+  catAir: string;
+  catAlerts: string;
+  catMetrics: string;
+  catFrost: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -538,6 +545,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     authErrorRequired: "Email and password are required",
     authErrorName: "Name is required",
     authErrorPassword: "Password must be at least 6 characters",
+    mapFilters: "Filters",
+    mapFilterAll: "All",
+    catAir: "Air quality",
+    catAlerts: "Alerts",
+    catMetrics: "Metrics",
+    catFrost: "Frost",
   },
   es: {
     location: "Galicia, España",
@@ -788,6 +801,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     authErrorRequired: "El correo y la contraseña son obligatorios",
     authErrorName: "El nombre es obligatorio",
     authErrorPassword: "La contraseña debe tener al menos 6 caracteres",
+    mapFilters: "Filtros",
+    mapFilterAll: "Todos",
+    catAir: "Aire",
+    catAlerts: "Alertas",
+    catMetrics: "Métricas",
+    catFrost: "Helada",
   },
   pt: {
     location: "Galicia, Espanha",
@@ -1038,6 +1057,12 @@ export const translations: Record<Locale, TranslationKeys> = {
     authErrorRequired: "E-mail e senha são obrigatórios",
     authErrorName: "O nome é obrigatório",
     authErrorPassword: "A senha deve ter pelo menos 6 caracteres",
+    mapFilters: "Filtros",
+    mapFilterAll: "Todos",
+    catAir: "Ar",
+    catAlerts: "Alertas",
+    catMetrics: "Métricas",
+    catFrost: "Geada",
   },
   fr: {
     location: "Galicia, Espagne",
@@ -1288,5 +1313,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     authErrorRequired: "L'e-mail et le mot de passe sont requis",
     authErrorName: "Le nom est requis",
     authErrorPassword: "Le mot de passe doit contenir au moins 6 caractères",
+    mapFilters: "Filtres",
+    mapFilterAll: "Tous",
+    catAir: "Air",
+    catAlerts: "Alertes",
+    catMetrics: "Métriques",
+    catFrost: "Gel",
   },
 };
