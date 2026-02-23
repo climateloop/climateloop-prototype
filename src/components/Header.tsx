@@ -1,4 +1,4 @@
-import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X, User } from "lucide-react";
+import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
 import logoImg from "@/assets/climateloop-logo.png";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -7,10 +7,9 @@ interface HeaderProps {
   onOpenNotifications?: () => void;
   onOpenMap?: () => void;
   onOpenLocation?: () => void;
-  onOpenProfile?: () => void;
 }
 
-const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation, onOpenProfile }: HeaderProps) => {
+const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: HeaderProps) => {
   const { t } = useLanguage();
 
   return (
@@ -36,12 +35,6 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation, on
               {notificationCount}
             </span>
           )}
-        </button>
-        <button
-          onClick={onOpenProfile}
-          className="p-2 rounded-full hover:bg-muted transition-colors"
-        >
-          <User className="w-5 h-5 text-foreground" />
         </button>
       </div>
     </header>

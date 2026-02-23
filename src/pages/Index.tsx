@@ -60,6 +60,9 @@ const Index = () => {
   const handleTabChange = (tab: string) => {
     if (tab === "reportar") {
       setReportOpen(true);
+    } else if (tab === "comunidade") {
+      setActiveTab("comunidade");
+      setDetailView(null);
     } else {
       setActiveTab(tab);
       setDetailView(null);
@@ -155,10 +158,10 @@ const Index = () => {
       );
     }
 
+    if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} />;
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
     if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onLogout={() => setIsAuthenticated(false)} />;
-    return null;
     return null;
   };
 
@@ -167,7 +170,6 @@ const Index = () => {
       <Header
         onOpenNotifications={() => setNotifOpen(true)}
         onOpenLocation={handleOpenLocation}
-        onOpenProfile={() => { setActiveTab("perfil"); setDetailView(null); }}
       />
 
       <main className="pt-4 pb-24 space-y-5">

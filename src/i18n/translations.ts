@@ -16,6 +16,7 @@ type TranslationKeys = {
   navReport: string;
   navMap: string;
   navAI: string;
+  navCommunity: string;
   navProfile: string;
   // Weather card
   weatherLocation: string;
@@ -316,6 +317,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     navReport: "Report",
     navMap: "Map",
     navAI: "AI",
+    navCommunity: "Community",
     navProfile: "Profile",
     weatherLocation: "Galicia, Centro",
     weatherPartlyCloudy: "Partly cloudy",
@@ -585,6 +587,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     navReport: "Reportar",
     navMap: "Mapa",
     navAI: "IA",
+    navCommunity: "Comunidad",
     navProfile: "Perfil",
     weatherLocation: "Galicia, Centro",
     weatherPartlyCloudy: "Parcialmente nublado",
@@ -854,6 +857,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     navReport: "Reportar",
     navMap: "Mapa",
     navAI: "IA",
+    navCommunity: "Comunidade",
     navProfile: "Perfil",
     weatherLocation: "Galicia, Centro",
     weatherPartlyCloudy: "Parcialmente nublado",
@@ -1123,6 +1127,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     navReport: "Signaler",
     navMap: "Carte",
     navAI: "IA",
+    navCommunity: "Communauté",
     navProfile: "Profil",
     weatherLocation: "Galicia, Centre",
     weatherPartlyCloudy: "Partiellement nuageux",
