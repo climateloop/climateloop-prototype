@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowLeft, Navigation, MapPin, Star, Search, Loader2, X, Plus } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 
 interface SavedLocation {
   id: string;
@@ -24,7 +25,8 @@ interface MyLocationPageProps {
 
 const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
   const { t } = useLanguage();
-  const [currentLocation, setCurrentLocation] = useState("Galicia, España");
+  const { location: currentLoc, setLocation } = useLocation();
+  const [currentLocation, setCurrentLocation] = useState(currentLoc.name);
   const [detecting, setDetecting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [savedLocations, setSavedLocations] = useState<SavedLocation[]>(() => {
@@ -49,8 +51,10 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
     setDetecting(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const name = `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+        const { latitude, longitude } = pos.coords;
+        const name = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
         setCurrentLocation(name);
+        setLocation({ name, lat: latitude, lng: longitude });
         setDetecting(false);
       },
       () => setDetecting(false),
@@ -58,8 +62,11 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
     );
   };
 
-  const selectLocation = (name: string) => {
+  const selectLocation = (name: string, lat?: number, lng?: number) => {
     setCurrentLocation(name);
+    if (lat !== undefined && lng !== undefined) {
+      setLocation({ name, lat, lng });
+    }
     setSearchQuery("");
   };
 
@@ -147,7 +154,7 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
           {filteredLocations.map((loc) => (
             <button
               key={loc.name}
-              onClick={() => selectLocation(loc.name)}
+              onClick={() => selectLocation(loc.name, loc.lat, loc.lng)}
               className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors border-b border-border last:border-0"
             >
               <MapPin className="w-4 h-4 text-muted-foreground" />
@@ -170,7 +177,7 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
             {savedLocations.map((loc) => (
               <div key={loc.id} className="flex items-center justify-between py-2">
                 <button
-                  onClick={() => selectLocation(loc.name)}
+                  onClick={() => selectLocation(loc.name, loc.lat, loc.lng)}
                   className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition-colors"
                 >
                   <MapPin className="w-3.5 h-3.5 text-muted-foreground" />

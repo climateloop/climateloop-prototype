@@ -1,6 +1,7 @@
 import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
 import logoImg from "@/assets/climateloop-logo.png";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 
 interface HeaderProps {
   notificationCount?: number;
@@ -11,6 +12,7 @@ interface HeaderProps {
 
 const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: HeaderProps) => {
   const { t } = useLanguage();
+  const { location } = useLocation();
 
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-background sticky top-0 z-50 border-b border-border">
@@ -21,7 +23,7 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: 
           className="flex items-center gap-1 text-muted-foreground text-base font-medium hover:text-foreground transition-colors"
         >
           <MapPin className="w-3.5 h-3.5" />
-          <span>{t.location}</span>
+          <span>{location.name}</span>
         </button>
       </div>
       {notificationCount > 0 && (
