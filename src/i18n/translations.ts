@@ -34,6 +34,7 @@ type TranslationKeys = {
   // Community
   communityTitle: string;
   communitySubtitle: string;
+  communitySeeAllCTA: string;
   communityActiveNow: string;
   communityReportsToday: string;
   communityAccuracy: string;
@@ -332,6 +333,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastMLNote: "ML model detects +15% chance of heavy rain in the next 6h",
     communityTitle: "Community nearby",
     communitySubtitle: "Reports within 5km of your location",
+    communitySeeAllCTA: "Tap the Community icon below to see all reports",
     communityActiveNow: "Active now",
     communityReportsToday: "Reports today",
     communityAccuracy: "Accuracy",
@@ -602,6 +604,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastMLNote: "El modelo ML detecta +15% de probabilidad de lluvia intensa en las próximas 6h",
     communityTitle: "Comunidad cercana",
     communitySubtitle: "Reportes en un radio de 5km de tu ubicación",
+    communitySeeAllCTA: "Toca el ícono Comunidad abajo para ver todos los reportes",
     communityActiveNow: "Activos ahora",
     communityReportsToday: "Reportes hoy",
     communityAccuracy: "Precisión",
@@ -872,6 +875,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastMLNote: "O modelo ML detecta +15% de chance de chuva intensa nas próximas 6h",
     communityTitle: "Comunidade ao redor",
     communitySubtitle: "Relatos num raio de 5km da sua localização",
+    communitySeeAllCTA: "Toque no ícone Comunidade abaixo para ver todos os relatos",
     communityActiveNow: "Ativos agora",
     communityReportsToday: "Relatos hoje",
     communityAccuracy: "Precisão",
@@ -1142,6 +1146,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastMLNote: "Le modèle ML détecte +15% de risque de pluie intense dans les 6 prochaines heures",
     communityTitle: "Communauté à proximité",
     communitySubtitle: "Signalements dans un rayon de 5km de votre position",
+    communitySeeAllCTA: "Appuyez sur l'icône Communauté ci-dessous pour voir tous les signalements",
     communityActiveNow: "Actifs maintenant",
     communityReportsToday: "Signalements aujourd'hui",
     communityAccuracy: "Précision",
