@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocation } from "@/hooks/useLocationContext";
 
 export interface WeatherData {
   temp: number;
@@ -13,12 +14,13 @@ export interface WeatherData {
   city: string;
 }
 
-const DEFAULT_LAT = 42.8782;
-const DEFAULT_LON = -8.5448;
 const CACHE_KEY = "climateloop_weather_cache";
 const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
-export function useWeather(lat = DEFAULT_LAT, lon = DEFAULT_LON) {
+export function useWeather() {
+  const { location } = useLocation();
+  const lat = location.lat;
+  const lon = location.lng;
   const [data, setData] = useState<WeatherData | null>(() => {
     try {
       const cached = localStorage.getItem(CACHE_KEY);
