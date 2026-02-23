@@ -150,9 +150,9 @@ const Index = () => {
           </div>
           <WeatherCard />
           <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} />
+          <CommunityReports onOpenReport={handleOpenCommunityDetail} preview />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
-          <CommunityReports onOpenReport={handleOpenCommunityDetail} preview />
           <EmergencyNumbers />
         </>
       );
