@@ -14,7 +14,6 @@ interface ForecastItem {
   wind: string | null;
   humidity: string | null;
   trend: "up" | "down" | "stable";
-  confidence: number;
 }
 
 const TrendIcon = ({ trend }: { trend: string }) => {
@@ -104,7 +103,7 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
       wind: weather ? `${Math.round(weather.wind_speed * 3.6)} km/h` : null,
       humidity: weather ? `${weather.humidity}%` : null,
       trend: weather && weather.temp > 15 ? "up" : "stable",
-      confidence: 85,
+      
     },
     {
       sourceKey: "forecastML",
@@ -115,7 +114,7 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
       wind: mlData?.wind_speed_10m != null ? `${Math.round(mlData.wind_speed_10m)} km/h` : null,
       humidity: mlData?.relative_humidity_2m != null ? `${Math.round(mlData.relative_humidity_2m)}%` : null,
       trend: mlData?.temperature_2m != null && mlData.temperature_2m > 15 ? "up" : "stable",
-      confidence: 78,
+      
     },
     {
       sourceKey: "forecastIoT",
@@ -126,7 +125,7 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
       wind: iotData?.wind_speed_10m != null ? `${Math.round(iotData.wind_speed_10m)} km/h` : null,
       humidity: iotData?.relative_humidity_2m != null ? `${Math.round(iotData.relative_humidity_2m)}%` : null,
       trend: "stable",
-      confidence: 95,
+      
     },
   ];
 
@@ -161,13 +160,6 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
             </div>
             <div className="flex items-center gap-1 mt-2">
               <TrendIcon trend={f.trend} />
-              <span className="text-[10px] text-muted-foreground">{f.confidence}%</span>
-            </div>
-            <div className="mt-1.5 h-1 bg-border rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full gradient-heat transition-all duration-500"
-                style={{ width: `${f.confidence}%` }}
-              />
             </div>
           </div>
         ))}
