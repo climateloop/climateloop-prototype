@@ -148,7 +148,21 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
         </div>
       </div>
 
-      {/* ① Official full text */}
+      {/* ① AI Personalized Explanation */}
+      <div className={`rounded-xl ${styles.bg} border ${styles.border} p-4 mb-4 opacity-80`}>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-accent" />
+          <h3 className="text-sm font-semibold text-foreground">{t.alertDetailTitle}</h3>
+          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent pointer-events-none select-none">
+            {t.aiPowered}
+          </span>
+        </div>
+        <p className="text-sm text-foreground leading-relaxed">
+          {t[explanationKey as keyof typeof t] as string}
+        </p>
+      </div>
+
+      {/* ② Official full text */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card mb-4 overflow-hidden">
         {/* Header row */}
         <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-border gap-2 flex-wrap">
@@ -201,24 +215,10 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
 
         {/* Text body */}
         <div className="px-4 py-3">
-          <pre className="text-xs text-foreground font-mono leading-relaxed whitespace-pre-wrap break-words opacity-90">
+          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap break-words opacity-90">
             {officialText}
-          </pre>
+          </p>
         </div>
-      </div>
-
-      {/* ② AI Personalized Explanation */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="w-4 h-4 text-accent" />
-          <h3 className="text-sm font-semibold text-foreground">{t.alertDetailTitle}</h3>
-          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent pointer-events-none select-none">
-            {t.aiPowered}
-          </span>
-        </div>
-        <p className="text-sm text-foreground leading-relaxed">
-          {t[explanationKey as keyof typeof t] as string}
-        </p>
       </div>
 
       {/* ③ Recommended actions */}
