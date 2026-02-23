@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { MapPin } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -169,7 +170,10 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
           </div>
         </div>
       </div>
-      <p className="text-[11px] text-muted-foreground text-center mt-1.5">{t.homeMapHint}</p>
+      <p className="text-[11px] text-muted-foreground text-center mt-1.5 flex items-center justify-center gap-1.5">
+        <MapPin className="w-3.5 h-3.5" />
+        {t.homeMapHint}
+      </p>
     </div>
   );
 };
