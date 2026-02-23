@@ -149,7 +149,7 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
       </div>
 
       {/* ① AI Personalized Explanation */}
-      <div className={`rounded-xl ${styles.bg} border ${styles.border} p-4 mb-4 opacity-80`}>
+      <div className={`rounded-xl ${styles.bg}/40 border ${styles.border}/50 p-4 mb-4`}>
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-accent" />
           <h3 className="text-sm font-semibold text-foreground">{t.alertDetailTitle}</h3>
@@ -179,6 +179,24 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
             </ul>
           </div>
         )}
+
+        {/* Chat button */}
+        <div className="mt-4 pt-3 border-t border-current/10">
+          <button
+            onClick={() => {
+              const contextMessage = `[${severityLabel[alert.severity]?.[locale] ?? alert.severity}] ${alert.title}\n\n${officialText}${alert.actions?.length ? `\n\n${t.alertRecommendedActions}:\n${alert.actions.map((a, i) => `${i + 1}. ${a}`).join('\n')}` : ''}`;
+              onOpenChat();
+              setTimeout(() => {
+                const event = new CustomEvent('alert-chat-context', { detail: contextMessage });
+                window.dispatchEvent(event);
+              }, 100);
+            }}
+            className="inline-flex items-center gap-2 w-full justify-center px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+            {t.alertDetailChatButton}
+          </button>
+        </div>
       </div>
 
       {/* ② Official full text */}
@@ -240,27 +258,6 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
         </div>
       </div>
 
-      {/* AI chat CTA */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
-        <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
-        <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
-        <p className="text-xs text-muted-foreground mb-3">{t.alertDetailAskDesc}</p>
-        <button
-          onClick={() => {
-            const contextMessage = `[${severityLabel[alert.severity]?.[locale] ?? alert.severity}] ${alert.title}\n\n${officialText}${alert.actions?.length ? `\n\n${t.alertRecommendedActions}:\n${alert.actions.map((a, i) => `${i + 1}. ${a}`).join('\n')}` : ''}`;
-            onOpenChat();
-            // Small delay so chat opens first, then we set context
-            setTimeout(() => {
-              const event = new CustomEvent('alert-chat-context', { detail: contextMessage });
-              window.dispatchEvent(event);
-            }, 100);
-          }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
-        >
-          <MessageCircle className="w-4 h-4" />
-          {t.alertDetailChatButton}
-        </button>
-      </div>
     </div>
   );
 };
