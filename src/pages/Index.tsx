@@ -159,6 +159,7 @@ const Index = () => {
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
     if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onLogout={() => setIsAuthenticated(false)} />;
     return null;
+    return null;
   };
 
   return (
@@ -166,6 +167,7 @@ const Index = () => {
       <Header
         onOpenNotifications={() => setNotifOpen(true)}
         onOpenLocation={handleOpenLocation}
+        onOpenProfile={() => { setActiveTab("perfil"); setDetailView(null); }}
       />
 
       <main className="pt-4 pb-24 space-y-5">
