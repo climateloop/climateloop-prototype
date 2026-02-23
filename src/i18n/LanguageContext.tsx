@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { type Locale, translations, localeNames } from "./translations";
 
+
 export type UnitSystem = "metric" | "imperial";
 
 interface LanguageContextType {
