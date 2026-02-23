@@ -86,7 +86,7 @@ interface AlertDetailProps {
   onOpenChat: () => void;
 }
 
-const AlertDetail = ({ alert, onBack }: AlertDetailProps) => {
+const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
   const { t, locale } = useLanguage();
   const styles = severityStyles[alert.severity];
   const explanationKey = alertExplanationKeys[alert.id] || "alertExplainOrangeRain";
@@ -244,7 +244,22 @@ const AlertDetail = ({ alert, onBack }: AlertDetailProps) => {
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
         <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
         <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
-        <p className="text-xs text-muted-foreground">{t.alertDetailAskDesc}</p>
+        <p className="text-xs text-muted-foreground mb-3">{t.alertDetailAskDesc}</p>
+        <button
+          onClick={() => {
+            const contextMessage = `[${severityLabel[alert.severity]?.[locale] ?? alert.severity}] ${alert.title}\n\n${officialText}${alert.actions?.length ? `\n\n${t.alertRecommendedActions}:\n${alert.actions.map((a, i) => `${i + 1}. ${a}`).join('\n')}` : ''}`;
+            onOpenChat();
+            // Small delay so chat opens first, then we set context
+            setTimeout(() => {
+              const event = new CustomEvent('alert-chat-context', { detail: contextMessage });
+              window.dispatchEvent(event);
+            }, 100);
+          }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+        >
+          <MessageCircle className="w-4 h-4" />
+          {t.alertDetailChatButton}
+        </button>
       </div>
     </div>
   );

@@ -118,6 +118,36 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Listen for alert-chat-context custom event to auto-send alert context
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (!detail) return;
+      // Reset conversation and auto-send the alert context as a user message
+      const userMsg: Message = { role: "user", content: detail };
+      setMessages([{ role: "assistant", content: t.aiInitialMessage }, userMsg]);
+      setIsLoading(true);
+
+      let assistantSoFar = "";
+      const baseMessages = [{ role: "assistant" as const, content: t.aiInitialMessage }, userMsg];
+
+      streamChat({
+        messages: baseMessages,
+        onDelta: (chunk) => {
+          assistantSoFar += chunk;
+          setMessages([...baseMessages, { role: "assistant", content: assistantSoFar }]);
+        },
+        onDone: () => setIsLoading(false),
+        onError: (msg) => {
+          setIsLoading(false);
+          toast({ title: "AI Error", description: msg, variant: "destructive" });
+        },
+      });
+    };
+    window.addEventListener("alert-chat-context", handler);
+    return () => window.removeEventListener("alert-chat-context", handler);
+  }, [t]);
+
   // When context changes and chat opens, reset conversation with new context
   useEffect(() => {
     if (isOpen && context && context !== lastContextRef.current) {
