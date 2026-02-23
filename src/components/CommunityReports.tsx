@@ -102,10 +102,12 @@ const typeColorMap: Record<string, string> = {
 
 interface CommunityReportsProps {
   onOpenReport?: (reportId: string) => void;
+  preview?: boolean;
 }
 
-const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
+const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
   const { t } = useLanguage();
+  const displayReports = preview ? reports.slice(0, 3) : reports;
 
   return (
     <div className="mx-4">
@@ -131,7 +133,7 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
       </div>
 
       <div className="space-y-3">
-        {reports.map((r) => (
+        {displayReports.map((r) => (
           <button
             key={r.id}
             onClick={() => onOpenReport?.(r.id)}
@@ -169,6 +171,13 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
           </button>
         ))}
       </div>
+
+      {preview && (
+        <p className="text-xs text-muted-foreground text-center mt-3 flex items-center justify-center gap-1.5">
+          <Users className="w-3.5 h-3.5" />
+          {t.communitySeeAllCTA}
+        </p>
+      )}
     </div>
   );
 };

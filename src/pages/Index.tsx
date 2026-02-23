@@ -152,7 +152,7 @@ const Index = () => {
           <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
-          <CommunityReports onOpenReport={handleOpenCommunityDetail} />
+          <CommunityReports onOpenReport={handleOpenCommunityDetail} preview />
           <EmergencyNumbers />
         </>
       );
