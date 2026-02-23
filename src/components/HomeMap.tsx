@@ -14,11 +14,11 @@ const radiusOptions = [
   { label: "25 km", meters: 25000 },
 ];
 
-// CAP (RSS) alert markers — official alerts from meteorological agencies
+// CAP (RSS) alert markers
 const capAlertMarkers = [
-  { id: "cap-1", lat: 42.9200, lng: -8.6100, severity: "red", label: "CAP: Chuva intensa — AEMET", iconSvg: `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>` },
-  { id: "cap-2", lat: 42.8500, lng: -8.4800, severity: "orange", label: "CAP: Vento forte — AEMET", iconSvg: `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>` },
-  { id: "cap-3", lat: 42.8350, lng: -8.5600, severity: "yellow", label: "CAP: Temperatura alta — AEMET", iconSvg: `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>` },
+  { id: "cap-1", lat: 42.9200, lng: -8.6100, severity: "red", label: "CAP: Chuva intensa — AEMET" },
+  { id: "cap-2", lat: 42.8500, lng: -8.4800, severity: "orange", label: "CAP: Vento forte — AEMET" },
+  { id: "cap-3", lat: 42.8350, lng: -8.5600, severity: "yellow", label: "CAP: Temperatura alta — AEMET" },
 ];
 
 const capSeverityColor: Record<string, string> = {
@@ -179,94 +179,96 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
   };
 
   return (
-    <div className="mx-4">
-      {/* Map */}
-      <div className="relative rounded-2xl overflow-hidden border border-border shadow-card z-0" style={{ height: "280px" }}>
-        <div ref={mapRef} className="w-full h-full z-0" />
+    <div className="relative" style={{ height: "520px" }}>
+      {/* Full-bleed map */}
+      <div ref={mapRef} className="absolute inset-0 z-0" />
 
-        {/* Stats overlay */}
-        <div className="absolute top-2 left-2 right-12 z-[400] pointer-events-none flex gap-1.5">
-          <div className="bg-background/90 backdrop-blur-sm rounded-lg px-2 py-1.5 border border-border flex items-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {/* Stats overlay — top */}
+      <div className="absolute top-3 left-3 right-14 z-[400] pointer-events-none">
+        <div className="flex gap-2 overflow-x-auto pointer-events-auto">
+          <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-2 min-w-fit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
             </svg>
             <div>
-              <p className="text-sm font-bold text-foreground leading-none">{communityMapMarkers.length + 4}</p>
-              <p className="text-[8px] text-muted-foreground">{t.communityReportsToday}</p>
+              <p className="text-lg font-bold text-foreground leading-none">{communityMapMarkers.length + 4}</p>
+              <p className="text-[9px] text-muted-foreground">{t.communityReportsToday}</p>
             </div>
           </div>
-          <div className="bg-background/90 backdrop-blur-sm rounded-lg px-2 py-1.5 border border-border flex items-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="hsl(42,97%,48%)" stroke="hsl(42,97%,48%)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="bg-background/90 backdrop-blur-sm rounded-xl px-3 py-2 border border-border shadow-card flex items-center gap-2 min-w-fit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="hsl(42,97%,48%)" stroke="hsl(42,97%,48%)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
             </svg>
             <div>
-              <p className="text-sm font-bold text-foreground leading-none">{capAlertMarkers.length}</p>
-              <p className="text-[8px] text-muted-foreground">{t.catAlerts}</p>
+              <p className="text-lg font-bold text-foreground leading-none">{capAlertMarkers.length}</p>
+              <p className="text-[9px] text-muted-foreground">{t.catAlerts}</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Filter chips */}
-      <div className="mt-2 bg-surface-elevated rounded-xl border border-border shadow-card px-3 py-2.5">
-        <div className="flex items-center justify-end mb-1.5">
-          <button
-            onClick={toggleAll}
-            className="text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {t.mapFilterAll}
-          </button>
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {mapFilterDefs.map((f) => {
-            const isActive = activeFilters.has(f.key);
-            const label = (t as any)[filterLabelKey[f.key]] || f.key;
-            const count = filterCounts[f.key] ?? 0;
-            return (
-              <button
-                key={f.key}
-                onClick={() => toggleFilter(f.key)}
-                className="flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-medium transition-all border"
-                style={{
-                  borderColor: isActive ? f.color : "hsl(var(--border))",
-                  background: isActive ? `${f.color}15` : "transparent",
-                  color: isActive ? f.color : "hsl(var(--muted-foreground))",
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: f.iconSvg }} />
-                <span>{label}</span>
-                <span
-                  className="inline-flex items-center justify-center rounded-full text-[8px] font-bold min-w-[14px] h-[14px] px-0.5"
+      {/* Filter panel — bottom, overlapping map */}
+      <div className="absolute bottom-0 left-0 right-0 z-[400]">
+        <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2.5">
+          <div className="flex items-center justify-end mb-1.5">
+            <button
+              onClick={toggleAll}
+              className="text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t.mapFilterAll}
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {mapFilterDefs.map((f) => {
+              const isActive = activeFilters.has(f.key);
+              const label = (t as any)[filterLabelKey[f.key]] || f.key;
+              const count = filterCounts[f.key] ?? 0;
+              return (
+                <button
+                  key={f.key}
+                  onClick={() => toggleFilter(f.key)}
+                  className="flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-medium transition-all border"
                   style={{
-                    background: isActive ? f.color : "hsl(var(--muted))",
-                    color: isActive ? "white" : "hsl(var(--muted-foreground))",
+                    borderColor: isActive ? f.color : "hsl(var(--border))",
+                    background: isActive ? `${f.color}15` : "transparent",
+                    color: isActive ? f.color : "hsl(var(--muted-foreground))",
                   }}
                 >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: f.iconSvg }} />
+                  <span>{label}</span>
+                  <span
+                    className="inline-flex items-center justify-center rounded-full text-[8px] font-bold min-w-[14px] h-[14px] px-0.5"
+                    style={{
+                      background: isActive ? f.color : "hsl(var(--muted))",
+                      color: isActive ? "white" : "hsl(var(--muted-foreground))",
+                    }}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Radius selector */}
-      <div className="mt-2 bg-surface-elevated rounded-xl border border-border shadow-card px-3 py-2.5">
-        <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
-        <div className="flex gap-1.5">
-          {radiusOptions.map((r, i) => (
-            <button
-              key={r.label}
-              onClick={() => setSelectedRadius(i)}
-              className={`flex-1 py-1 rounded-lg text-[11px] font-semibold transition-all ${
-                i === selectedRadius
-                  ? "gradient-primary text-primary-foreground shadow-sm"
-                  : "bg-background text-muted-foreground hover:text-foreground border border-border"
-              }`}
-            >
-              {r.label}
-            </button>
-          ))}
+        {/* Radius selector */}
+        <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
+          <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
+          <div className="flex gap-1.5">
+            {radiusOptions.map((r, i) => (
+              <button
+                key={r.label}
+                onClick={() => setSelectedRadius(i)}
+                className={`flex-1 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                  i === selectedRadius
+                    ? "gradient-primary text-primary-foreground shadow-sm"
+                    : "bg-background text-muted-foreground hover:text-foreground border border-border"
+                }`}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
