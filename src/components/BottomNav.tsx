@@ -14,8 +14,8 @@ const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomN
   const tabs = [
     { id: "inicio", label: t.navHome, icon: Home },
     { id: "mapa", label: t.navMap, icon: Map },
-    { id: "alertas", label: t.navAlerts, icon: AlertTriangle },
     { id: "reportar", label: t.navReport, icon: PlusCircle },
+    { id: "alertas", label: t.navAlerts, icon: AlertTriangle },
     { id: "ai", label: t.navAI, icon: Sparkles, isAI: true },
   ];
 

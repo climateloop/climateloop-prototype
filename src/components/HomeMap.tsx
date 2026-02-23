@@ -138,30 +138,33 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
   }, [selectedRadius]);
 
   return (
-    <div className="mx-4 rounded-xl overflow-hidden border border-border shadow-card relative" style={{ height: "280px" }}>
-      <div ref={mapRef} className="absolute inset-0 z-0" />
+    <div className="mx-4">
+      <div className="rounded-xl overflow-hidden border border-border shadow-card relative" style={{ height: "280px" }}>
+        <div ref={mapRef} className="absolute inset-0 z-0" />
 
-      {/* Simple radius selector overlay */}
-      <div className="absolute bottom-0 left-0 right-0 z-[400]">
-        <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
-          <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
-          <div className="flex gap-1.5">
-            {radiusOptions.map((r, i) => (
-              <button
-                key={r.label}
-                onClick={() => setSelectedRadius(i)}
-                className={`flex-1 py-1 rounded-lg text-[11px] font-semibold transition-all ${
-                  i === selectedRadius
-                    ? "gradient-primary text-primary-foreground shadow-sm"
-                    : "bg-background text-muted-foreground hover:text-foreground border border-border"
-                }`}
-              >
-                {r.label}
-              </button>
-            ))}
+        {/* Simple radius selector overlay */}
+        <div className="absolute bottom-0 left-0 right-0 z-[400]">
+          <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
+            <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
+            <div className="flex gap-1.5">
+              {radiusOptions.map((r, i) => (
+                <button
+                  key={r.label}
+                  onClick={() => setSelectedRadius(i)}
+                  className={`flex-1 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                    i === selectedRadius
+                      ? "gradient-primary text-primary-foreground shadow-sm"
+                      : "bg-background text-muted-foreground hover:text-foreground border border-border"
+                  }`}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+      <p className="text-[11px] text-muted-foreground text-center mt-1.5">{t.homeMapHint}</p>
     </div>
   );
 };
