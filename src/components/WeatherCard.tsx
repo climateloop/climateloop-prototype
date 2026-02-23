@@ -116,10 +116,6 @@ const WeatherCard = () => {
         </div>
         <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
           <div className="flex flex-col items-center gap-0.5">
-            <Thermometer className="w-3 h-3" />
-            <span>{feelsLike}{unit}</span>
-          </div>
-          <div className="flex flex-col items-center gap-0.5">
             <Droplets className="w-3 h-3" />
             <span>{humidity}%</span>
           </div>
