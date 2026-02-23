@@ -245,12 +245,22 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       )}
 
-      {/* AI CTA */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
-        <MessageCircle className="w-5 h-5 text-primary mx-auto mb-2" />
-        <p className="text-sm text-foreground font-medium mb-1">{t.alertDetailAskTitle}</p>
-        <p className="text-xs text-muted-foreground">{t.alertDetailAskDesc}</p>
-      </div>
+      {/* AI Chat Button */}
+      <button
+        onClick={() => {
+          const typeLabel2 = (t as any)[report.typeKey] || report.typeKey;
+          const contextMessage = `[${typeLabel2}] ${report.description}\n\nUbicación: ${report.location}\nReportado por: ${report.user}\nHace: ${report.time}\nDistancia: ${report.distance}\nRiesgo: ${(t as any)[riskInfo.label]}`;
+          onOpenChat();
+          setTimeout(() => {
+            const event = new CustomEvent('alert-chat-context', { detail: contextMessage });
+            window.dispatchEvent(event);
+          }, 100);
+        }}
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+      >
+        <MessageCircle className="w-4 h-4" />
+        {t.alertDetailChatButton}
+      </button>
     </div>
   );
 };
