@@ -160,6 +160,25 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
         <p className="text-sm text-foreground leading-relaxed">
           {t[explanationKey as keyof typeof t] as string}
         </p>
+
+        {/* Recommended actions inside AI card */}
+        {alert.actions && alert.actions.length > 0 && (
+          <div className="mt-4 pt-3 border-t border-current/10">
+            <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">
+              {t.alertRecommendedActions}
+            </p>
+            <ul className="space-y-2">
+              {alert.actions.map((action, i) => (
+                <li key={i} className="text-sm text-foreground flex items-start gap-2">
+                  <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-semibold">
+                    {i + 1}
+                  </span>
+                  {action}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* ② Official full text */}
@@ -220,25 +239,6 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
           </p>
         </div>
       </div>
-
-      {/* ③ Recommended actions */}
-      {alert.actions && alert.actions.length > 0 && (
-        <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">
-            {t.alertRecommendedActions}
-          </p>
-          <ul className="space-y-2">
-            {alert.actions.map((action, i) => (
-              <li key={i} className="text-sm text-foreground flex items-start gap-2">
-                <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-semibold">
-                  {i + 1}
-                </span>
-                {action}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       {/* AI chat CTA */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">
