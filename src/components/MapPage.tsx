@@ -213,8 +213,8 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         </button>
       </div>
 
-      {/* Legend — positioned above filters */}
-      <div className="absolute bottom-[140px] left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
+      {/* Legend — top left below stats */}
+      <div className="absolute top-[60px] left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
           <span className="text-foreground">{t.mapHighRisk}</span>
@@ -231,8 +231,8 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
 
       {/* Filter panel — bottom */}
       <div className="absolute bottom-0 left-0 right-0 z-[400]">
-        <div className="mx-3 mb-2 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2.5">
-          <div className="flex flex-wrap gap-1.5">
+        <div className="mx-3 mb-1.5 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-2.5 py-2">
+          <div className="flex flex-wrap gap-1">
             {mapFilterDefs.map((f) => {
               const isActive = activeFilters.has(f.key);
               const label = (t as any)[filterLabelKey[f.key]] || f.key;
@@ -241,7 +241,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
                 <button
                   key={f.key}
                   onClick={() => toggleFilter(f.key)}
-                  className="flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-medium transition-all border"
+                  className="flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[9px] font-medium transition-all border"
                   style={{
                     borderColor: isActive ? f.color : `${f.color}60`,
                     background: isActive ? `${f.color}20` : `${f.color}10`,
