@@ -99,6 +99,8 @@ type TranslationKeys = {
   legalTitle: string;
   legalTermsHeading: string;
   legalPrivacyHeading: string;
+  legalTermsContent: string;
+  legalPrivacyContent: string;
   authTermsCheckbox: string;
   authTermsLink: string;
   authErrorTerms: string;
@@ -405,6 +407,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     legalTitle: "Privacy Policy & Terms of Use",
     legalTermsHeading: "Terms of Use",
     legalPrivacyHeading: "Privacy Policy",
+    legalTermsContent: "1. Acceptance\nBy accessing or using Climate Loop, you agree to these Terms.\n\n2. Service Description\nClimate Loop provides: Machine Learning-based weather predictions; CAP-structured emergency alerts; Community contributions; A generative AI assistant for simplified explanations. The platform operates as a functional prototype.\n\n3. Data Minimization\nAccount creation requires only: First name, Email address, Encrypted password. No additional personal data is required.\n\n4. Community Contributions\nImages are stored only if AI validation confirms: No identifiable individuals; Consistency with the reported event. Rejected images are not stored. Public identification format: First name + last name initial.\n\n5. AI Transparency and AI Act Compliance\nUsers are informed when interacting with AI systems. Climate Loop seeks compliance with the EU Artificial Intelligence Act (AI Act), applying: Transparency obligations; Risk-based assessment; Human oversight where proportionate; Technical safeguards against misuse. The AI systems deployed are not classified as high-risk under current AI Act definitions.\n\n6. Informational Nature\nContent is informational and does not replace official authorities.\n\n7. Location Services\nLocation access is optional and requires consent.\n\n8. Governing Law\nThese Terms are aligned with applicable EU regulations including GDPR and the AI Act.",
+    legalPrivacyContent: "1. Data Collected\nFirst name; Email; Encrypted password; Session data; Optional location (with consent).\n\n2. Legal Basis (GDPR)\nProcessing is based on: Contract performance; Legitimate interest; Consent where applicable.\n\n3. Purpose\nAuthentication and security; AI assistant functionality; Personalized climate information.\n\n4. Generative AI Processing\nTexts may be processed by AI providers under strict data minimization principles. No personal data is used to train proprietary models.\n\n5. Image Validation\nImages are stored only if AI confirms: No identifiable individuals; Consistency with reported event.\n\n6. Data Sharing\nNo sale of personal data. Processing limited to infrastructure and AI providers under contractual safeguards.\n\n7. User Rights (GDPR)\nUsers may request: Access; Rectification; Erasure; Restriction; Data portability.\n\n8. Security\nAppropriate technical and organizational measures are implemented.",
     authTermsCheckbox: "I have read and agree to the",
     authTermsLink: "Terms of Use and Privacy Policy",
     authErrorTerms: "You must accept the terms to continue",
@@ -688,6 +692,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     legalTitle: "Política de Privacidad y Términos de Uso",
     legalTermsHeading: "Términos de Uso",
     legalPrivacyHeading: "Política de Privacidad",
+    legalTermsContent: "Climate Loop aplica principios de minimización de datos, transparencia en IA, evaluación basada en riesgo y supervisión humana proporcional. La plataforma cumple con las obligaciones de transparencia del AI Act europeo. Los sistemas de IA desplegados no están clasificados como de alto riesgo. La creación de cuenta requiere únicamente: nombre, correo electrónico y contraseña cifrada. Las imágenes comunitarias solo se almacenan si la validación por IA confirma que no contienen personas identificables y son consistentes con el evento reportado. El acceso a la ubicación es opcional y requiere consentimiento. El contenido es informativo y no sustituye a las autoridades oficiales. Estos términos están alineados con la normativa europea vigente, incluyendo el RGPD y el AI Act.",
+    legalPrivacyContent: "El tratamiento cumple con el Reglamento General de Protección de Datos (RGPD). Datos recopilados: nombre, correo electrónico, contraseña cifrada, datos de sesión y ubicación opcional (con consentimiento). Base jurídica: ejecución de contrato, interés legítimo y consentimiento. Finalidad: autenticación, funcionalidad del asistente IA e información climática personalizada. Los textos pueden ser procesados por proveedores de IA bajo principios estrictos de minimización de datos. No se utilizan datos personales para entrenar modelos propietarios. No se venden datos personales. Se garantizan derechos de acceso, rectificación, supresión, limitación y portabilidad.",
     authTermsCheckbox: "He leído y acepto los",
     authTermsLink: "Términos de Uso y Política de Privacidad",
     authErrorTerms: "Debes aceptar los términos para continuar",
@@ -971,6 +977,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     legalTitle: "Política de Privacidade e Termos de Uso",
     legalTermsHeading: "Termos de Uso",
     legalPrivacyHeading: "Política de Privacidade",
+    legalTermsContent: "O Climate Loop opera sob princípios de minimização de dados, transparência algorítmica e conformidade com o GDPR e o AI Act europeu. Sistemas de IA utilizados não são classificados como de alto risco. A criação de conta requer apenas: nome, e-mail e senha criptografada. Imagens comunitárias são armazenadas somente se a validação por IA confirmar que não contêm indivíduos identificáveis e são consistentes com o evento reportado. O acesso à localização é opcional e requer consentimento. O conteúdo é informativo e não substitui autoridades oficiais. Estes termos estão alinhados com a regulamentação europeia vigente, incluindo o GDPR e o AI Act.",
+    legalPrivacyContent: "Tratamento baseado em execução de contrato, legítimo interesse e consentimento. Dados coletados: nome, e-mail, senha criptografada, dados de sessão e localização opcional (com consentimento). Finalidade: autenticação, funcionalidade do assistente de IA e informação climática personalizada. Textos podem ser processados por provedores de IA sob princípios estritos de minimização de dados. Dados pessoais não são utilizados para treinar modelos proprietários. Não há venda de dados pessoais. Direitos garantidos: acesso, correção, exclusão, portabilidade e limitação de tratamento.",
     authTermsCheckbox: "Li e concordo com os",
     authTermsLink: "Termos de Uso e Política de Privacidade",
     authErrorTerms: "Você precisa aceitar os termos para continuar",
@@ -1254,6 +1262,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     legalTitle: "Politique de Confidentialité et Conditions d'Utilisation",
     legalTermsHeading: "Conditions d'Utilisation",
     legalPrivacyHeading: "Politique de Confidentialité",
+    legalTermsContent: "Climate Loop applique les principes de minimisation des données, transparence algorithmique et conformité au RGPD et au AI Act. Les systèmes d'IA déployés ne sont pas classés comme à haut risque. La création de compte nécessite uniquement : prénom, adresse e-mail et mot de passe chiffré. Les images communautaires ne sont stockées que si la validation par IA confirme qu'elles ne contiennent pas de personnes identifiables et sont cohérentes avec l'événement signalé. L'accès à la localisation est optionnel et nécessite le consentement. Le contenu est informatif et ne remplace pas les autorités officielles. Ces conditions sont alignées sur la réglementation européenne en vigueur, y compris le RGPD et l'AI Act.",
+    legalPrivacyContent: "Traitement conforme au RGPD. Données collectées : prénom, e-mail, mot de passe chiffré, données de session et localisation optionnelle (avec consentement). Bases légales : exécution du contrat, intérêt légitime et consentement. Finalité : authentification, fonctionnalité de l'assistant IA et informations climatiques personnalisées. Les textes peuvent être traités par des fournisseurs d'IA sous des principes stricts de minimisation des données. Aucune donnée personnelle n'est utilisée pour entraîner des modèles propriétaires. Aucune vente de données personnelles. Droits garantis : accès, rectification, effacement, portabilité et limitation du traitement.",
     authTermsCheckbox: "J'ai lu et j'accepte les",
     authTermsLink: "Conditions d'Utilisation et Politique de Confidentialité",
     authErrorTerms: "Vous devez accepter les conditions pour continuer",
