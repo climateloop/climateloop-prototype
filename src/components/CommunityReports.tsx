@@ -150,11 +150,12 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
             className="w-full text-left bg-surface-elevated rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
           >
             <div className="p-3 flex gap-3">
-              {r.hasPhoto && reportPhotos[r.id] && (
+              {r.hasPhoto && (
                 <img
-                  src={reportPhotos[r.id]}
+                  src={reportPhotos[r.id] || "/placeholder.svg"}
                   alt=""
                   className={`w-16 h-16 rounded-lg object-cover flex-shrink-0 ${r.photoBlurred ? "blur-sm" : ""}`}
+                  onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                 />
               )}
               <div className="flex-1 min-w-0">

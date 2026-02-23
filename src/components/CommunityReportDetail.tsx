@@ -1,4 +1,5 @@
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, EyeOff, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ReportData {
@@ -145,6 +146,7 @@ interface CommunityReportDetailProps {
 const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReportDetailProps) => {
   const { t } = useLanguage();
   const report = reportDetails[reportId];
+  const [vote, setVote] = useState<"up" | "down" | null>(null);
 
   if (!report) return null;
 
@@ -170,6 +172,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
             src={report.photoUrl}
             alt={report.description}
             className={`w-full h-48 object-cover ${report.photoBlurred ? "blur-xl" : ""}`}
+            onError={(e) => { e.currentTarget.src = "/placeholder.svg"; e.currentTarget.className = "w-full h-48 object-contain bg-muted p-8"; }}
           />
           {report.photoBlurred && (
             <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center gap-2 px-4">
@@ -192,17 +195,10 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${riskInfo.bg} ${riskInfo.text}`}>
           {(t as any)[riskInfo.label]}
         </span>
-        {report.verified && (
-          <span className="flex items-center gap-1 text-xs text-secondary font-medium">
-            <CheckCircle className="w-3.5 h-3.5" />
-            {t.communityDetailVerified}
-          </span>
-        )}
-        {!report.verified && (
-          <span className="text-xs text-muted-foreground font-medium">
-            {t.communityDetailPending}
-          </span>
-        )}
+        <span className="flex items-center gap-1 text-xs text-secondary font-medium">
+          <CheckCircle className="w-3.5 h-3.5" />
+          {t.communityDetailVerified}
+        </span>
       </div>
 
       <p className="text-base text-foreground font-medium mb-4">{report.description}</p>
@@ -238,6 +234,39 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
             <p className="text-xs text-muted-foreground">{t.communityDetailTime}: {report.time}</p>
           </div>
         </div>
+      </div>
+
+      {/* Rate this report */}
+      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
+        <p className="text-sm font-medium text-foreground mb-2">{t.communityRateTitle}</p>
+        <p className="text-xs text-muted-foreground mb-3">{t.communityRateDesc}</p>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setVote(vote === "up" ? null : "up")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all border ${
+              vote === "up"
+                ? "bg-secondary/15 border-secondary text-secondary"
+                : "bg-muted border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <ThumbsUp className="w-4 h-4" />
+            {t.communityRateHelpful}
+          </button>
+          <button
+            onClick={() => setVote(vote === "down" ? null : "down")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all border ${
+              vote === "down"
+                ? "bg-destructive/15 border-destructive text-destructive"
+                : "bg-muted border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <ThumbsDown className="w-4 h-4" />
+            {t.communityRateNotHelpful}
+          </button>
+        </div>
+        {vote && (
+          <p className="text-xs text-secondary mt-2 text-center">{t.communityRateThanks}</p>
+        )}
       </div>
 
       {/* AI CTA */}

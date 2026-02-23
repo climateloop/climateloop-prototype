@@ -196,6 +196,11 @@ type TranslationKeys = {
   communityDetailPending: string;
   communityDetailLocation: string;
   communityDetailTime: string;
+  communityRateTitle: string;
+  communityRateDesc: string;
+  communityRateHelpful: string;
+  communityRateNotHelpful: string;
+  communityRateThanks: string;
   backButton: string;
   // Notifications
   notifTitle: string;
@@ -468,6 +473,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailPending: "Pending verification",
     communityDetailLocation: "Location",
     communityDetailTime: "Reported",
+    communityRateTitle: "Rate this report",
+    communityRateDesc: "Was this community report helpful or accurate?",
+    communityRateHelpful: "Helpful",
+    communityRateNotHelpful: "Not helpful",
+    communityRateThanks: "Thanks for your feedback!",
     backButton: "Back",
     notifTitle: "Notifications",
     notifAlertReceived: "Alert received for your area",
@@ -728,6 +738,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailPending: "Pendiente de verificación",
     communityDetailLocation: "Ubicación",
     communityDetailTime: "Reportado",
+    communityRateTitle: "Evaluar este reporte",
+    communityRateDesc: "¿Fue útil o preciso este reporte comunitario?",
+    communityRateHelpful: "Útil",
+    communityRateNotHelpful: "No útil",
+    communityRateThanks: "¡Gracias por tu feedback!",
     backButton: "Volver",
     notifTitle: "Notificaciones",
     notifAlertReceived: "Alerta recibida para tu zona",
@@ -988,6 +1003,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailPending: "Pendente de verificação",
     communityDetailLocation: "Localização",
     communityDetailTime: "Reportado",
+    communityRateTitle: "Avaliar este relato",
+    communityRateDesc: "Este relato da comunidade foi útil ou preciso?",
+    communityRateHelpful: "Útil",
+    communityRateNotHelpful: "Não útil",
+    communityRateThanks: "Obrigado pelo seu feedback!",
     backButton: "Voltar",
     notifTitle: "Notificações",
     notifAlertReceived: "Alerta recebido para sua área",
@@ -1248,6 +1268,11 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityDetailPending: "En attente de vérification",
     communityDetailLocation: "Localisation",
     communityDetailTime: "Signalé",
+    communityRateTitle: "Évaluer ce signalement",
+    communityRateDesc: "Ce signalement communautaire était-il utile ou précis ?",
+    communityRateHelpful: "Utile",
+    communityRateNotHelpful: "Pas utile",
+    communityRateThanks: "Merci pour votre retour !",
     backButton: "Retour",
     notifTitle: "Notifications",
     notifAlertReceived: "Alerte reçue pour votre zone",
