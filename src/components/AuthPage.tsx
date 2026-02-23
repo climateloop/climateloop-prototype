@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLanguage, type Locale } from "@/i18n/LanguageContext";
 import logo from "@/assets/climateloop-logo.png";
@@ -14,13 +15,15 @@ const flags: { locale: Locale; emoji: string }[] = [
 
 interface AuthPageProps {
   onLogin: () => void;
+  onOpenLegal?: () => void;
 }
 
-const AuthPage = ({ onLogin }: AuthPageProps) => {
+const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
   const [isSignup, setIsSignup] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState("");
   const { t, locale, setLocale } = useLanguage();
 
@@ -39,6 +42,10 @@ const AuthPage = ({ onLogin }: AuthPageProps) => {
       }
       if (password.length < 6) {
         setError(t.authErrorPassword);
+        return;
+      }
+      if (!acceptedTerms) {
+        setError(t.authErrorTerms);
         return;
       }
     }
@@ -106,6 +113,27 @@ const AuthPage = ({ onLogin }: AuthPageProps) => {
                 onChange={(e) => setPassword(e.target.value)}
                 maxLength={128}
               />
+
+              {isSignup && (
+                <div className="flex items-start gap-2">
+                  <Checkbox
+                    id="terms"
+                    checked={acceptedTerms}
+                    onCheckedChange={(v) => setAcceptedTerms(v === true)}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor="terms" className="text-xs text-muted-foreground leading-tight">
+                    {t.authTermsCheckbox}{" "}
+                    <button
+                      type="button"
+                      onClick={() => onOpenLegal?.()}
+                      className="text-primary hover:underline"
+                    >
+                      {t.authTermsLink}
+                    </button>
+                  </label>
+                </div>
+              )}
 
               {error && (
                 <p className="text-sm text-destructive font-medium">{error}</p>

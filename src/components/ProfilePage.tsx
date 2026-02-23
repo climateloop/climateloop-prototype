@@ -5,6 +5,7 @@ import { useState } from "react";
 interface ProfilePageProps {
   onOpenContributions?: () => void;
   onOpenLocation?: () => void;
+  onOpenLegal?: () => void;
   onLogout?: () => void;
 }
 
@@ -13,7 +14,7 @@ const unitSystemLabels: Record<UnitSystem, Record<string, string>> = {
   imperial: { en: "Imperial (°F, mph)", es: "Imperial (°F, mph)", pt: "Imperial (°F, mph)", fr: "Impérial (°F, mph)" },
 };
 
-const ProfilePage = ({ onOpenContributions, onOpenLocation, onLogout }: ProfilePageProps) => {
+const ProfilePage = ({ onOpenContributions, onOpenLocation, onOpenLegal, onLogout }: ProfilePageProps) => {
   const { t, locale, setLocale, unitSystem, setUnitSystem } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
   const [unitsOpen, setUnitsOpen] = useState(false);
@@ -24,7 +25,7 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation, onLogout }: ProfileP
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive, id: "notifications" },
     { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => { setLangOpen(!langOpen); setUnitsOpen(false); }, id: "language" },
     { icon: Ruler, label: t.profileUnits, value: unitSystemLabels[unitSystem][locale], onClick: () => { setUnitsOpen(!unitsOpen); setLangOpen(false); }, id: "units" },
-    { icon: Shield, label: t.profilePrivacy, value: "", id: "privacy" },
+    { icon: Shield, label: t.profilePrivacy, value: "", onClick: onOpenLegal, id: "privacy" },
     { icon: Settings, label: t.profileSettings, value: "", id: "settings" },
   ];
 
