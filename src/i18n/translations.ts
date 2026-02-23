@@ -1,10 +1,10 @@
 export type Locale = "en" | "es" | "pt" | "fr";
 
 export const localeNames: Record<Locale, string> = {
-  en: "English",
-  es: "Español",
-  pt: "Português",
-  fr: "Français",
+  en: "EN",
+  es: "ES",
+  pt: "PT",
+  fr: "FR",
 };
 
 type TranslationKeys = {
