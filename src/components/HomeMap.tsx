@@ -210,14 +210,6 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
       {/* Filter panel — bottom, overlapping map */}
       <div className="absolute bottom-0 left-0 right-0 z-[400]">
         <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2.5">
-          <div className="flex items-center justify-end mb-1.5">
-            <button
-              onClick={toggleAll}
-              className="text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {t.mapFilterAll}
-            </button>
-          </div>
           <div className="flex flex-wrap gap-1.5">
             {mapFilterDefs.map((f) => {
               const isActive = activeFilters.has(f.key);

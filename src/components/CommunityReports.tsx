@@ -13,6 +13,17 @@ interface CommunityReport {
   isMine?: boolean;
 }
 
+const reportPhotos: Record<string, string> = {
+  "1": "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=400&h=300&fit=crop", // flooded street
+  "2": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&h=300&fit=crop", // extreme heat / melting road
+  "3": "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=400&h=300&fit=crop", // fallen tree / strong wind
+  "4": "https://images.unsplash.com/photo-1600336153113-d66c79de3e91?w=400&h=300&fit=crop", // flooded underpass
+  "5": "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=400&h=300&fit=crop", // heavy rain
+  "6": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=400&h=300&fit=crop", // wildfire smoke in forest
+  "7": "https://images.unsplash.com/photo-1446034295857-c899f4c5e2c5?w=400&h=300&fit=crop", // overflowing drain / water
+  "8": "", // no photo
+};
+
 const reports: CommunityReport[] = [
   {
     id: "1",
@@ -138,9 +149,15 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
             onClick={() => onOpenReport?.(r.id)}
             className="w-full text-left bg-surface-elevated rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
           >
-            <div className="p-3">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
+            <div className="p-3 flex gap-3">
+              {r.hasPhoto && reportPhotos[r.id] && (
+                <img
+                  src={reportPhotos[r.id]}
+                  alt=""
+                  className={`w-16 h-16 rounded-lg object-cover flex-shrink-0 ${r.photoBlurred ? "blur-sm" : ""}`}
+                />
+              )}
+              <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColorMap[r.typeKey] || "bg-muted text-muted-foreground"}`}>
                       {(t as any)[r.typeKey] || r.typeKey}
@@ -158,7 +175,6 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
                   <div className="flex items-center gap-1 mt-2 text-xs text-primary">
                     {t.communityViewDetails}
                   </div>
-                </div>
               </div>
             </div>
           </button>

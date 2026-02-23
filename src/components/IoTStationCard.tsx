@@ -51,25 +51,25 @@ const IoTStationCard = () => {
         </div>
 
         <div className="grid grid-cols-4 gap-2">
-          <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-            <Thermometer className="w-4 h-4 text-destructive" />
-            <span className="text-base font-bold text-foreground">{station.temp}</span>
-            <span className="text-[10px] text-muted-foreground">{t.weatherFeelsLike}</span>
+          <div className="flex flex-col items-center gap-0.5 p-1.5 rounded-lg bg-muted">
+            <Thermometer className="w-3.5 h-3.5 text-destructive" />
+            <span className="text-sm font-bold text-foreground leading-tight">{station.temp}</span>
+            <span className="text-[9px] text-muted-foreground leading-tight">{t.weatherFeelsLike}</span>
           </div>
-          <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-            <Droplets className="w-4 h-4 text-primary" />
-            <span className="text-base font-bold text-foreground">{station.humidity}</span>
-            <span className="text-[10px] text-muted-foreground">{t.weatherHumidity}</span>
+          <div className="flex flex-col items-center gap-0.5 p-1.5 rounded-lg bg-muted">
+            <Droplets className="w-3.5 h-3.5 text-primary" />
+            <span className="text-sm font-bold text-foreground leading-tight">{station.humidity}</span>
+            <span className="text-[9px] text-muted-foreground leading-tight">{t.weatherHumidity}</span>
           </div>
-          <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-            <Wind className="w-4 h-4 text-accent" />
-            <span className="text-base font-bold text-foreground">{station.wind}</span>
-            <span className="text-[10px] text-muted-foreground">{t.weatherWind}</span>
+          <div className="flex flex-col items-center gap-0.5 p-1.5 rounded-lg bg-muted">
+            <Wind className="w-3.5 h-3.5 text-accent" />
+            <span className="text-sm font-bold text-foreground leading-tight">{station.wind}</span>
+            <span className="text-[9px] text-muted-foreground leading-tight">{t.weatherWind}</span>
           </div>
-          <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted">
-            <CloudRain className={`w-4 h-4 ${station.isRaining ? "text-primary" : "text-muted-foreground"}`} />
-            <span className="text-base font-bold text-foreground">{station.isRaining ? station.rainIntensity : "—"}</span>
-            <span className="text-[10px] text-muted-foreground">{t.weatherRainChance}</span>
+          <div className="flex flex-col items-center gap-0.5 p-1.5 rounded-lg bg-muted">
+            <CloudRain className={`w-3.5 h-3.5 ${station.isRaining ? "text-primary" : "text-muted-foreground"}`} />
+            <span className="text-sm font-bold text-foreground leading-tight">{station.isRaining ? station.rainIntensity : "—"}</span>
+            <span className="text-[9px] text-muted-foreground leading-tight">{t.weatherRainChance}</span>
           </div>
         </div>
 
