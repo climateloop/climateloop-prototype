@@ -117,7 +117,7 @@ const Index = () => {
             <AlertDetail
               alert={detailView.alert}
               onBack={() => setDetailView(null)}
-              onOpenChat={() => handleOpenChat(detailView.alert.title)}
+              onOpenChat={() => setChatOpen(true)}
             />
           );
         case "forecast":

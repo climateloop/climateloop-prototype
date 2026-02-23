@@ -196,6 +196,7 @@ type TranslationKeys = {
   forecastDetailDeeperDesc: string;
   alertDetailAskTitle: string;
   alertDetailAskDesc: string;
+  alertDetailChatButton: string;
   communityDetailTitle: string;
   communityDetailVerified: string;
   communityDetailPending: string;
@@ -522,6 +523,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Tap the AI Assistant icon in the bottom bar to ask questions about specific patterns or discrepancies.",
     alertDetailAskTitle: "Have questions?",
     alertDetailAskDesc: "Tap the AI Assistant icon in the bottom bar for personalized guidance about this alert.",
+    alertDetailChatButton: "Chat about this alert",
     emergencyTitle: "Emergency numbers — Spain",
     emergencyPolice: "Police",
     emergencyFire: "Fire department",
@@ -797,6 +799,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Toca el ícono del Asistente IA en la barra inferior para preguntar sobre patrones específicos o discrepancias.",
     alertDetailAskTitle: "¿Tienes preguntas?",
     alertDetailAskDesc: "Toca el ícono del Asistente IA en la barra inferior para orientación personalizada sobre esta alerta.",
+    alertDetailChatButton: "Conversar sobre esta alerta",
     emergencyTitle: "Teléfonos de emergencia — España",
     emergencyPolice: "Policía",
     emergencyFire: "Bomberos",
@@ -1072,6 +1075,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Toque no ícone do Assistente IA na barra inferior para perguntar sobre padrões específicos ou discrepâncias.",
     alertDetailAskTitle: "Tem dúvidas?",
     alertDetailAskDesc: "Toque no ícone do Assistente IA na barra inferior para orientação personalizada sobre este alerta.",
+    alertDetailChatButton: "Conversar sobre este alerta",
     emergencyTitle: "Telefones de emergência — Espanha",
     emergencyPolice: "Polícia",
     emergencyFire: "Bombeiros",
@@ -1347,6 +1351,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastDetailDeeperDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour poser des questions sur des schémas ou divergences spécifiques.",
     alertDetailAskTitle: "Des questions ?",
     alertDetailAskDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour un accompagnement personnalisé sur cette alerte.",
+    alertDetailChatButton: "Discuter de cette alerte",
     emergencyTitle: "Numéros d'urgence — Espagne",
     emergencyPolice: "Police",
     emergencyFire: "Pompiers",
