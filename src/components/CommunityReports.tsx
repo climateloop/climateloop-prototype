@@ -9,7 +9,6 @@ interface CommunityReport {
   time: string;
   hasPhoto: boolean;
   distance: string;
-  photoBlurred?: boolean;
   isMine?: boolean;
 }
 
@@ -52,7 +51,6 @@ const reports: CommunityReport[] = [
     time: "2h",
     hasPhoto: true,
     distance: "2.1 km",
-    photoBlurred: true,
   },
   {
     id: "5",
@@ -144,7 +142,7 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
                 <img
                   src={reportPhotos[r.id] || "/placeholder.svg"}
                   alt=""
-                  className={`w-16 h-16 rounded-lg object-cover flex-shrink-0 ${r.photoBlurred ? "blur-sm" : ""}`}
+                  className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                   onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                 />
               )}
@@ -153,7 +151,7 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColorMap[r.typeKey] || "bg-muted text-muted-foreground"}`}>
                       {(t as any)[r.typeKey] || r.typeKey}
                     </span>
-                    {r.hasPhoto && !r.photoBlurred && <Camera className="w-3.5 h-3.5 text-muted-foreground" />}
+                    {r.hasPhoto && <Camera className="w-3.5 h-3.5 text-muted-foreground" />}
                   </div>
                   <p className="text-sm text-foreground">{r.description}</p>
                   <div className="flex items-center gap-3 mt-1.5">

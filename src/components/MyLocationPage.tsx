@@ -12,16 +12,9 @@ interface SavedLocation {
 const STORAGE_KEY = "climateloop_saved_locations";
 
 const predefinedLocations = [
-  { name: "Madrid, Spain", lat: 40.4168, lng: -3.7038 },
-  { name: "Barcelona, Spain", lat: 41.3874, lng: 2.1686 },
-  { name: "Valencia, Spain", lat: 39.4699, lng: -0.3763 },
-  { name: "Sevilla, Spain", lat: 37.3891, lng: -5.9845 },
-  { name: "Lisbon, Portugal", lat: 38.7223, lng: -9.1393 },
-  { name: "Paris, France", lat: 48.8566, lng: 2.3522 },
-  { name: "London, UK", lat: 51.5074, lng: -0.1278 },
-  { name: "São Paulo, Brazil", lat: -23.5505, lng: -46.6333 },
-  { name: "New York, USA", lat: 40.7128, lng: -74.006 },
-  { name: "Tokyo, Japan", lat: 35.6762, lng: 139.6503 },
+  { name: "Galicia, España", lat: 42.8782, lng: -8.5448 },
+  { name: "Rio de Janeiro, Brasil", lat: -22.9068, lng: -43.1729 },
+  { name: "Bakel, Senegal", lat: 14.9025, lng: -12.4572 },
 ];
 
 interface MyLocationPageProps {
@@ -30,15 +23,14 @@ interface MyLocationPageProps {
 
 const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
   const { t } = useLanguage();
-  const [currentLocation, setCurrentLocation] = useState("Madrid, Spain");
+  const [currentLocation, setCurrentLocation] = useState("Galicia, España");
   const [detecting, setDetecting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [savedLocations, setSavedLocations] = useState<SavedLocation[]>(() => {
     const defaultSaved: SavedLocation[] = [
-      { id: "dakar", name: "Dakar, Senegal", lat: 14.7167, lng: -17.4677 },
-      { id: "delhi", name: "Delhi, India", lat: 28.6139, lng: 77.209 },
-      { id: "madrid", name: "Madrid, Spain", lat: 40.4168, lng: -3.7038 },
-      { id: "rio", name: "Rio de Janeiro, Brazil", lat: -22.9068, lng: -43.1729 },
+      { id: "galicia", name: "Galicia, España", lat: 42.8782, lng: -8.5448 },
+      { id: "rio", name: "Rio de Janeiro, Brasil", lat: -22.9068, lng: -43.1729 },
+      { id: "bakel", name: "Bakel, Senegal", lat: 14.9025, lng: -12.4572 },
     ];
     // Always reset to defaults on first load to ensure correct saved locations
     localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSaved));
