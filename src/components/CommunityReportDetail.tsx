@@ -14,7 +14,7 @@ interface ReportData {
 
 const myReportIds = ["1", "3"];
 
-const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?: string; location: string; photoBlurred?: boolean; risk: string }> = {
+const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; photoBlurred?: boolean; risk: string }> = {
   "1": {
     id: "1",
     user: "María S.",
@@ -23,36 +23,21 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
     time: "15 min",
     hasPhoto: true,
     distance: "1.2 km",
-    verified: true,
     location: "Rúa do Franco 42, Santiago de Compostela",
     photoUrl: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=400&fit=crop",
     risk: "high",
-  },
-  "2": {
-    id: "2",
-    user: "Juan P.",
-    typeKey: "typeExtremeHeat",
-    description: "Asfalto derretendo na zona leste de Santiago",
-    time: "32 min",
-    hasPhoto: true,
-    distance: "3.5 km",
-    verified: false,
-    location: "Rúa de San Pedro, Santiago de Compostela",
-    photoUrl: "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=600&h=400&fit=crop",
-    risk: "moderate",
   },
   "3": {
     id: "3",
     user: "Ana L.",
     typeKey: "typeStrongWind",
-    description: "Árvore caída na Rúa das Orfas",
+    description: "Árvore caída na Rúa das Orfas após vendaval",
     time: "1h",
     hasPhoto: true,
     distance: "0.8 km",
-    verified: true,
     location: "Rúa das Orfas 15, Santiago de Compostela",
-    photoUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&h=400&fit=crop",
-    risk: "low",
+    photoUrl: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=600&h=400&fit=crop",
+    risk: "moderate",
   },
   "4": {
     id: "4",
@@ -62,9 +47,8 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
     time: "2h",
     hasPhoto: true,
     distance: "2.1 km",
-    verified: true,
     location: "Praza de Galicia, Santiago de Compostela",
-    photoUrl: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=600&h=400&fit=crop",
+    photoUrl: "https://images.unsplash.com/photo-1600336153113-d66c79de3e91?w=600&h=400&fit=crop",
     photoBlurred: true,
     risk: "high",
   },
@@ -76,7 +60,6 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
     time: "45 min",
     hasPhoto: true,
     distance: "0.5 km",
-    verified: true,
     location: "Parque da Alameda, Santiago de Compostela",
     photoUrl: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=600&h=400&fit=crop",
     risk: "moderate",
@@ -84,15 +67,14 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
   "6": {
     id: "6",
     user: "Carlos R.",
-    typeKey: "typeFire",
-    description: "Fumaça visível no Monte Pedroso, possível incêndio florestal",
+    typeKey: "typeStrongWind",
+    description: "Danos por vento forte no Parque de Belvís",
     time: "1h 20 min",
     hasPhoto: true,
     distance: "4.2 km",
-    verified: true,
-    location: "Monte Pedroso, Santiago de Compostela",
-    photoUrl: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600&h=400&fit=crop",
-    risk: "high",
+    location: "Parque de Belvís, Santiago de Compostela",
+    photoUrl: "https://images.unsplash.com/photo-1599245066244-12ef2c5e2c5?w=600&h=400&fit=crop",
+    risk: "moderate",
   },
   "7": {
     id: "7",
@@ -102,9 +84,8 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
     time: "55 min",
     hasPhoto: true,
     distance: "1.8 km",
-    verified: false,
     location: "Rúa da Senra 28, Santiago de Compostela",
-    photoUrl: "https://images.unsplash.com/photo-1446034295857-c899f4c24cc6?w=600&h=400&fit=crop",
+    photoUrl: "https://images.unsplash.com/photo-1446034295857-c899f4c5e2c5?w=600&h=400&fit=crop",
     risk: "moderate",
   },
   "8": {
@@ -113,10 +94,10 @@ const reportDetails: Record<string, ReportData & { verified: boolean; photoUrl?:
     typeKey: "typeRain",
     description: "Chuva intermitente com poças na Praza do Obradoiro",
     time: "25 min",
-    hasPhoto: false,
+    hasPhoto: true,
     distance: "0.3 km",
-    verified: false,
     location: "Praza do Obradoiro, Santiago de Compostela",
+    photoUrl: "https://images.unsplash.com/photo-1509803874385-db7c23652552?w=600&h=400&fit=crop",
     risk: "low",
   },
 };
@@ -236,38 +217,40 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       </div>
 
-      {/* Rate this report */}
-      <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
-        <p className="text-sm font-medium text-foreground mb-2">{t.communityRateTitle}</p>
-        <p className="text-xs text-muted-foreground mb-3">{t.communityRateDesc}</p>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setVote(vote === "up" ? null : "up")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all border ${
-              vote === "up"
-                ? "bg-secondary/15 border-secondary text-secondary"
-                : "bg-muted border-border text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            <ThumbsUp className="w-4 h-4" />
-            {t.communityRateHelpful}
-          </button>
-          <button
-            onClick={() => setVote(vote === "down" ? null : "down")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all border ${
-              vote === "down"
-                ? "bg-destructive/15 border-destructive text-destructive"
-                : "bg-muted border-border text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            <ThumbsDown className="w-4 h-4" />
-            {t.communityRateNotHelpful}
-          </button>
+      {/* Rate this report — only if not mine */}
+      {!myReportIds.includes(report.id) && (
+        <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
+          <p className="text-sm font-medium text-foreground mb-2">{t.communityRateTitle}</p>
+          <p className="text-xs text-muted-foreground mb-3">{t.communityRateDesc}</p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setVote(vote === "up" ? null : "up")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all border ${
+                vote === "up"
+                  ? "bg-secondary/15 border-secondary text-secondary"
+                  : "bg-muted border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ThumbsUp className="w-4 h-4" />
+              {t.communityRateHelpful}
+            </button>
+            <button
+              onClick={() => setVote(vote === "down" ? null : "down")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all border ${
+                vote === "down"
+                  ? "bg-destructive/15 border-destructive text-destructive"
+                  : "bg-muted border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ThumbsDown className="w-4 h-4" />
+              {t.communityRateNotHelpful}
+            </button>
+          </div>
+          {vote && (
+            <p className="text-xs text-secondary mt-2 text-center">{t.communityRateThanks}</p>
+          )}
         </div>
-        {vote && (
-          <p className="text-xs text-secondary mt-2 text-center">{t.communityRateThanks}</p>
-        )}
-      </div>
+      )}
 
       {/* AI CTA */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 text-center">

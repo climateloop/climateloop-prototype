@@ -15,13 +15,12 @@ interface CommunityReport {
 
 const reportPhotos: Record<string, string> = {
   "1": "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=400&h=300&fit=crop", // flooded street
-  "2": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=400&h=300&fit=crop", // extreme heat / melting road
   "3": "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=400&h=300&fit=crop", // fallen tree / strong wind
   "4": "https://images.unsplash.com/photo-1600336153113-d66c79de3e91?w=400&h=300&fit=crop", // flooded underpass
   "5": "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=400&h=300&fit=crop", // heavy rain
-  "6": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=400&h=300&fit=crop", // wildfire smoke in forest
+  "6": "https://images.unsplash.com/photo-1599245066244-12ef tried2c5?w=400&h=300&fit=crop", // storm damage
   "7": "https://images.unsplash.com/photo-1446034295857-c899f4c5e2c5?w=400&h=300&fit=crop", // overflowing drain / water
-  "8": "", // no photo
+  "8": "https://images.unsplash.com/photo-1509803874385-db7c23652552?w=400&h=300&fit=crop", // heavy rain puddles
 };
 
 const reports: CommunityReport[] = [
@@ -36,19 +35,10 @@ const reports: CommunityReport[] = [
     isMine: true,
   },
   {
-    id: "2",
-    user: "Juan P.",
-    typeKey: "typeExtremeHeat",
-    description: "Asfalto derretendo na zona leste",
-    time: "32 min",
-    hasPhoto: true,
-    distance: "3.5 km",
-  },
-  {
     id: "3",
     user: "Ana L.",
     typeKey: "typeStrongWind",
-    description: "Árvore caída na Rúa das Orfas",
+    description: "Árvore caída na Rúa das Orfas após vendaval",
     time: "1h",
     hasPhoto: true,
     distance: "0.8 km",
@@ -76,8 +66,8 @@ const reports: CommunityReport[] = [
   {
     id: "6",
     user: "Carlos R.",
-    typeKey: "typeFire",
-    description: "Fumaça visível no Monte Pedroso",
+    typeKey: "typeStrongWind",
+    description: "Danos por vento forte no Parque de Belvís",
     time: "1h 20 min",
     hasPhoto: true,
     distance: "4.2 km",
@@ -97,7 +87,7 @@ const reports: CommunityReport[] = [
     typeKey: "typeRain",
     description: "Chuva intermitente com poças na Praza do Obradoiro",
     time: "25 min",
-    hasPhoto: false,
+    hasPhoto: true,
     distance: "0.3 km",
   },
 ];

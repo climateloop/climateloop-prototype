@@ -27,11 +27,10 @@ import L from "leaflet";
 // Community reports — expanded with more entries and photos
 export const communityMapMarkers = [
   { id: "1", lat: 42.8782, lng: -8.5448, typeKey: "typeFlooding",    risk: "high",     label: "Rua inundada — María S.", filterCat: "flood" },
-  { id: "2", lat: 42.8650, lng: -8.5200, typeKey: "typeExtremeHeat", risk: "moderate", label: "Asfalto derretendo — Juan P.", filterCat: "heat" },
-  { id: "3", lat: 42.8900, lng: -8.5100, typeKey: "typeStrongWind",  risk: "low",      label: "Árvore caída — Ana L.", filterCat: "wind" },
+  { id: "3", lat: 42.8900, lng: -8.5100, typeKey: "typeStrongWind",  risk: "moderate", label: "Árvore caída — Ana L.", filterCat: "wind" },
   { id: "4", lat: 42.8700, lng: -8.5350, typeKey: "typeFlooding",    risk: "high",     label: "Passagem subterrânea inundada — Pedro M.", filterCat: "flood" },
   { id: "5", lat: 42.8820, lng: -8.5600, typeKey: "typeRain",        risk: "moderate", label: "Chuva forte persistente — Lucía G.", filterCat: "rain" },
-  { id: "6", lat: 42.8600, lng: -8.5500, typeKey: "typeFire",        risk: "high",     label: "Fumaça visível no monte — Carlos R.", filterCat: "fire" },
+  { id: "6", lat: 42.8600, lng: -8.5500, typeKey: "typeStrongWind",  risk: "moderate", label: "Danos por vento forte — Carlos R.", filterCat: "wind" },
   { id: "7", lat: 42.8850, lng: -8.5250, typeKey: "typeFlooding",    risk: "moderate", label: "Bueiro transbordando — Isabel F.", filterCat: "flood" },
   { id: "8", lat: 42.8750, lng: -8.5150, typeKey: "typeRain",        risk: "low",      label: "Chuva intermitente — Diego T.", filterCat: "rain" },
 ];

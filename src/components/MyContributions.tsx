@@ -13,7 +13,6 @@ interface Contribution {
 const myContributions: Contribution[] = [
   { id: "1", typeKey: "typeFlooding", description: "Rua inundada na Rúa do Franco", time: "2h", verified: true, hasPhoto: true },
   { id: "3", typeKey: "typeStrongWind", description: "Árvore caída na Rúa das Orfas", time: "1h", verified: true, hasPhoto: true },
-  { id: "5", typeKey: "typeExtremeHeat", description: "Temperatura extrema na Praza de Galicia", time: "3d", verified: true, hasPhoto: false },
 ];
 
 const typeColorMap: Record<string, string> = {
