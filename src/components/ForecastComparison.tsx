@@ -1,10 +1,14 @@
+import { useState, useEffect } from "react";
 import { TrendingUp, TrendingDown, Minus, Brain, Cloud, Radio, Sparkles, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useWeather } from "@/hooks/useWeather";
+import { useLocation } from "@/hooks/useLocationContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ForecastItem {
   sourceKey: "forecastOfficial" | "forecastML" | "forecastIoT";
   icon: React.ReactNode;
-  tempC: number;
+  tempC: number | null;
   rainChance: string | null;
   rainMm: string | null;
   wind: string | null;
@@ -12,42 +16,6 @@ interface ForecastItem {
   trend: "up" | "down" | "stable";
   confidence: number;
 }
-
-const forecastData: ForecastItem[] = [
-  {
-    sourceKey: "forecastOfficial",
-    icon: <Cloud className="w-4 h-4 text-primary" />,
-    tempC: 28,
-    rainChance: "40%",
-    rainMm: "8mm",
-    wind: "15 km/h",
-    humidity: "72%",
-    trend: "up",
-    confidence: 85,
-  },
-  {
-    sourceKey: "forecastML",
-    icon: <Brain className="w-4 h-4 text-secondary" />,
-    tempC: 31,
-    rainChance: "55%",
-    rainMm: null,
-    wind: null,
-    humidity: null,
-    trend: "up",
-    confidence: 78,
-  },
-  {
-    sourceKey: "forecastIoT",
-    icon: <Radio className="w-4 h-4 text-accent" />,
-    tempC: 29,
-    rainChance: null,
-    rainMm: null,
-    wind: "12 km/h",
-    humidity: "68%",
-    trend: "stable",
-    confidence: 95,
-  },
-];
 
 const TrendIcon = ({ trend }: { trend: string }) => {
   if (trend === "up") return <TrendingUp className="w-3.5 h-3.5 text-destructive" />;
@@ -61,6 +29,14 @@ const kmhToMph = (kmh: string) => {
   return `${Math.round(num * 0.621)} mph`;
 };
 
+function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 interface ForecastComparisonProps {
   onOpenDetail?: () => void;
 }
@@ -68,8 +44,96 @@ interface ForecastComparisonProps {
 const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
   const { t, unitSystem } = useLanguage();
   const isImperial = unitSystem === "imperial";
+  const { data: weather } = useWeather();
+  const { location } = useLocation();
 
-  const formatTemp = (c: number) => isImperial ? `${cToF(c)}°F` : `${c}°C`;
+  const [mlData, setMlData] = useState<{ temperature_2m: number | null; precipitation: number | null; relative_humidity_2m: number | null; wind_speed_10m: number | null } | null>(null);
+  const [iotData, setIotData] = useState<{ temperature_2m: number | null; precipitation: number | null; relative_humidity_2m: number | null; wind_speed_10m: number | null } | null>(null);
+
+  // Fetch ML prediction closest to now
+  useEffect(() => {
+    const fetchML = async () => {
+      const now = new Date().toISOString();
+      const { data } = await supabase
+        .from("ml_predictions")
+        .select("temperature_2m, precipitation, relative_humidity_2m, wind_speed_10m")
+        .gte("datetime", now)
+        .order("datetime", { ascending: true })
+        .limit(1)
+        .single();
+      if (data) setMlData(data);
+    };
+    fetchML();
+  }, []);
+
+  // Fetch nearest IoT station's latest reading
+  useEffect(() => {
+    const fetchIoT = async () => {
+      const { data: stations } = await supabase
+        .from("iot_stations")
+        .select("id, latitude, longitude")
+        .eq("is_active", true);
+      if (!stations?.length) return;
+
+      let nearestId = stations[0].id;
+      let minDist = Infinity;
+      for (const s of stations) {
+        const d = haversineDistance(location.lat, location.lng, s.latitude, s.longitude);
+        if (d < minDist) { minDist = d; nearestId = s.id; }
+      }
+
+      const { data } = await supabase
+        .from("iot_readings")
+        .select("temperature_2m, precipitation, relative_humidity_2m, wind_speed_10m")
+        .eq("station_id", nearestId)
+        .order("datetime", { ascending: false })
+        .limit(1)
+        .single();
+      if (data) setIotData(data);
+    };
+    fetchIoT();
+  }, [location.lat, location.lng]);
+
+  const forecastData: ForecastItem[] = [
+    {
+      sourceKey: "forecastOfficial",
+      icon: <Cloud className="w-4 h-4 text-primary" />,
+      tempC: weather ? Math.round(weather.temp) : null,
+      rainChance: weather ? `${weather.clouds}%` : null,
+      rainMm: weather?.rain_1h ? `${weather.rain_1h}mm` : "0mm",
+      wind: weather ? `${Math.round(weather.wind_speed * 3.6)} km/h` : null,
+      humidity: weather ? `${weather.humidity}%` : null,
+      trend: weather && weather.temp > 15 ? "up" : "stable",
+      confidence: 85,
+    },
+    {
+      sourceKey: "forecastML",
+      icon: <Brain className="w-4 h-4 text-secondary" />,
+      tempC: mlData?.temperature_2m != null ? Math.round(mlData.temperature_2m * 10) / 10 : null,
+      rainChance: mlData?.precipitation != null ? (mlData.precipitation > 0.1 ? `${Math.round(mlData.precipitation * 100)}%` : "0%") : null,
+      rainMm: mlData?.precipitation != null ? `${mlData.precipitation.toFixed(1)}mm` : null,
+      wind: mlData?.wind_speed_10m != null ? `${Math.round(mlData.wind_speed_10m)} km/h` : null,
+      humidity: mlData?.relative_humidity_2m != null ? `${Math.round(mlData.relative_humidity_2m)}%` : null,
+      trend: mlData?.temperature_2m != null && mlData.temperature_2m > 15 ? "up" : "stable",
+      confidence: 78,
+    },
+    {
+      sourceKey: "forecastIoT",
+      icon: <Radio className="w-4 h-4 text-accent" />,
+      tempC: iotData?.temperature_2m != null ? Math.round(iotData.temperature_2m * 10) / 10 : null,
+      rainChance: null,
+      rainMm: iotData?.precipitation != null ? `${iotData.precipitation.toFixed(1)}mm` : null,
+      wind: iotData?.wind_speed_10m != null ? `${Math.round(iotData.wind_speed_10m)} km/h` : null,
+      humidity: iotData?.relative_humidity_2m != null ? `${Math.round(iotData.relative_humidity_2m)}%` : null,
+      trend: "stable",
+      confidence: 95,
+    },
+  ];
+
+  const formatTemp = (c: number | null) => {
+    if (c == null) return "—";
+    return isImperial ? `${cToF(c)}°F` : `${c}°C`;
+  };
   const formatWind = (w: string | null) => {
     if (!w) return null;
     return isImperial ? kmhToMph(w) : w;
