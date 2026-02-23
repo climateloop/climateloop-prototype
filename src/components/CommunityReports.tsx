@@ -4,7 +4,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 interface CommunityReport {
   id: string;
   user: string;
-  typeKey: "typeFlooding" | "typeExtremeHeat" | "typeStrongWind" | "typeFire";
+  typeKey: string;
   description: string;
   time: string;
   hasPhoto: boolean;
@@ -30,7 +30,7 @@ const reports: CommunityReport[] = [
     typeKey: "typeExtremeHeat",
     description: "Asfalto derretendo na zona leste",
     time: "32 min",
-    hasPhoto: false,
+    hasPhoto: true,
     distance: "3.5 km",
   },
   {
@@ -53,6 +53,42 @@ const reports: CommunityReport[] = [
     distance: "2.1 km",
     photoBlurred: true,
   },
+  {
+    id: "5",
+    user: "Lucía G.",
+    typeKey: "typeRain",
+    description: "Chuva forte persistente na Alameda",
+    time: "45 min",
+    hasPhoto: true,
+    distance: "0.5 km",
+  },
+  {
+    id: "6",
+    user: "Carlos R.",
+    typeKey: "typeFire",
+    description: "Fumaça visível no Monte Pedroso",
+    time: "1h 20 min",
+    hasPhoto: true,
+    distance: "4.2 km",
+  },
+  {
+    id: "7",
+    user: "Isabel F.",
+    typeKey: "typeFlooding",
+    description: "Bueiro transbordando na Rúa da Senra",
+    time: "55 min",
+    hasPhoto: true,
+    distance: "1.8 km",
+  },
+  {
+    id: "8",
+    user: "Diego T.",
+    typeKey: "typeRain",
+    description: "Chuva intermitente com poças na Praza do Obradoiro",
+    time: "25 min",
+    hasPhoto: false,
+    distance: "0.3 km",
+  },
 ];
 
 const typeColorMap: Record<string, string> = {
@@ -60,6 +96,9 @@ const typeColorMap: Record<string, string> = {
   typeExtremeHeat: "bg-destructive/10 text-destructive",
   typeStrongWind: "bg-warning/10 text-warning",
   typeFire: "bg-destructive/10 text-destructive",
+  typeRain: "bg-primary/10 text-primary",
+  typeHail: "bg-accent/10 text-accent",
+  typeFrost: "bg-secondary/10 text-secondary",
 };
 
 interface CommunityReportsProps {
@@ -99,13 +138,12 @@ const CommunityReports = ({ onOpenReport }: CommunityReportsProps) => {
             onClick={() => onOpenReport?.(r.id)}
             className="w-full text-left bg-surface-elevated rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/50 hover:shadow-elevated transition-all group"
           >
-            {/* No images shown on home feed - only on detail page */}
             <div className="p-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColorMap[r.typeKey] || "bg-muted text-muted-foreground"}`}>
-                      {t[r.typeKey]}
+                      {(t as any)[r.typeKey] || r.typeKey}
                     </span>
                     {r.hasPhoto && !r.photoBlurred && <Camera className="w-3.5 h-3.5 text-muted-foreground" />}
                   </div>

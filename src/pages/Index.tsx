@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header, { NotificationPanel } from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
+import HomeMap from "@/components/HomeMap";
 import AlertCard, { type Alert } from "@/components/AlertCard";
 import ForecastComparison from "@/components/ForecastComparison";
 import IoTStationCard from "@/components/IoTStationCard";
@@ -144,7 +145,8 @@ const Index = () => {
           <div className="px-4">
             <AlertCard alert={activeAlert} compact onAskAI={handleOpenAlertDetail} />
           </div>
-          <WeatherCard onOpenCommunityDetail={handleOpenCommunityDetail} />
+          <WeatherCard />
+          <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} />
