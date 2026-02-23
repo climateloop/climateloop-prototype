@@ -149,7 +149,7 @@ const AlertDetail = ({ alert, onBack, onOpenChat }: AlertDetailProps) => {
       </div>
 
       {/* ① AI Personalized Explanation */}
-      <div className={`rounded-xl ${styles.bg}/40 border ${styles.border}/50 p-4 mb-4`}>
+      <div className={`rounded-xl ${styles.bg} border ${styles.border} p-4 mb-4 opacity-70`}>
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-accent" />
           <h3 className="text-sm font-semibold text-foreground">{t.alertDetailTitle}</h3>
