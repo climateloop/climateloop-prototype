@@ -227,6 +227,11 @@ type TranslationKeys = {
   myContribStatus: string;
   myContribVerified: string;
   myContribPending: string;
+  // Filters
+  filterAll: string;
+  filterByType: string;
+  filterByRadius: string;
+  filterRadiusKm: string;
   // Photo warning
   photoBlurWarning: string;
   // Emergency
@@ -507,6 +512,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Status",
     myContribVerified: "Verified",
     myContribPending: "Under review",
+    filterAll: "All",
+    filterByType: "Type",
+    filterByRadius: "Radius",
+    filterRadiusKm: "km",
     photoBlurWarning: "Photos must not contain identifiable persons.",
     weatherRainChance: "Rain",
     forecastDetailDeeperTitle: "Want to dive deeper?",
@@ -778,6 +787,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Estado",
     myContribVerified: "Verificado",
     myContribPending: "En revisión",
+    filterAll: "Todos",
+    filterByType: "Tipo",
+    filterByRadius: "Radio",
+    filterRadiusKm: "km",
     photoBlurWarning: "Las fotos no deben contener personas identificables.",
     weatherRainChance: "Lluvia",
     forecastDetailDeeperTitle: "¿Quieres profundizar?",
@@ -1049,6 +1062,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Status",
     myContribVerified: "Verificado",
     myContribPending: "Em análise",
+    filterAll: "Todos",
+    filterByType: "Tipo",
+    filterByRadius: "Raio",
+    filterRadiusKm: "km",
     photoBlurWarning: "As fotos não devem conter pessoas identificáveis.",
     weatherRainChance: "Chuva",
     forecastDetailDeeperTitle: "Quer se aprofundar?",
@@ -1320,6 +1337,10 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Statut",
     myContribVerified: "Vérifié",
     myContribPending: "En cours de vérification",
+    filterAll: "Tous",
+    filterByType: "Type",
+    filterByRadius: "Rayon",
+    filterRadiusKm: "km",
     photoBlurWarning: "Les photos ne doivent pas contenir de personnes identifiables.",
     weatherRainChance: "Pluie",
     forecastDetailDeeperTitle: "Envie d'approfondir ?",
