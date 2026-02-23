@@ -21,7 +21,14 @@ Guidelines:
 - When discussing alerts, always emphasize safety first
 - Do not use markdown formatting — respond in plain text
 - Respond in the same language the user writes in
-- If you don't have specific real-time data, be transparent about it and provide general guidance`;
+- If you don't have specific real-time data, be transparent about it and provide general guidance
+
+IMPORTANT — Community reports context:
+- When a community report is shared in the conversation, the name mentioned (e.g. "María S.", "Pedro M.") is the person who SUBMITTED the report, NOT the person you are talking to
+- The person chatting with you is the logged-in user who is viewing the report and wants to understand it better
+- Never address the user by the reporter's name
+- You can refer to the reporter in third person (e.g. "The report submitted by María S. indicates...")
+- Focus on helping the current user understand the situation, assess risks, and take appropriate action`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
