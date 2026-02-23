@@ -43,6 +43,7 @@ type TranslationKeys = {
   aiPlaceholder: string;
   aiInitialMessage: string;
   aiResponse: string;
+  aiDisclaimer: string;
   // Alerts page
   alertsTitle: string;
   alertsFilter: string;
@@ -347,6 +348,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     aiPlaceholder: "Ask about the weather...",
     aiInitialMessage: "Hello! I'm the ClimateLoop AI assistant. How can I help you today?",
     aiResponse: "Based on ML historical data and active CAP alerts, I recommend avoiding low-lying areas in the coming hours. The official forecast indicates 40% rain, but our model indicates 55% — the difference is due to humidity patterns the ML detected over the last 3 days. Community photos also show rain clouds forming to the west.",
+    aiDisclaimer: "You are chatting with an AI. Responses may contain errors.",
     alertsTitle: "Active alerts",
     alertsFilter: "Filter",
     alertRedTitle: "Red alert: Heavy rain",
@@ -623,6 +625,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     aiPlaceholder: "Pregunta sobre el clima...",
     aiInitialMessage: "¡Hola! Soy el asistente de IA de ClimateLoop. ¿En qué puedo ayudarte hoy?",
     aiResponse: "Basado en datos históricos de ML y alertas CAP activas, recomiendo evitar zonas bajas en las próximas horas. La previsión oficial indica 40% de lluvia, pero nuestro modelo indica 55% — la diferencia se debe a patrones de humedad que el ML detectó en los últimos 3 días. Las fotos de la comunidad también muestran nubes de lluvia formándose al oeste.",
+    aiDisclaimer: "Estás conversando con una IA. Las respuestas pueden contener errores.",
     alertsTitle: "Alertas activas",
     alertsFilter: "Filtrar",
     alertRedTitle: "Alerta roja: Lluvia intensa",
@@ -899,6 +902,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     aiPlaceholder: "Pergunte sobre o clima...",
     aiInitialMessage: "Olá! Sou o assistente de IA do ClimateLoop. Como posso te ajudar hoje?",
     aiResponse: "Baseado nos dados históricos de ML e nos alertas CAP ativos, recomendo que você evite áreas baixas nas próximas horas. A previsão oficial indica 40% de chuva, mas nosso modelo indica 55% — a diferença se deve aos padrões de umidade que o ML detectou nos últimos 3 dias. As fotos enviadas pela comunidade também mostram nuvens de chuva se formando a oeste.",
+    aiDisclaimer: "Você está conversando com uma IA. As respostas podem conter erros.",
     alertsTitle: "Alertas ativos",
     alertsFilter: "Filtrar",
     alertRedTitle: "Alerta vermelho: Chuva intensa",
@@ -1175,6 +1179,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     aiPlaceholder: "Posez une question sur la météo...",
     aiInitialMessage: "Bonjour ! Je suis l'assistant IA de ClimateLoop. Comment puis-je vous aider aujourd'hui ?",
     aiResponse: "D'après les données historiques ML et les alertes CAP actives, je recommande d'éviter les zones basses dans les prochaines heures. La prévision officielle indique 40% de pluie, mais notre modèle indique 55% — la différence est due aux schémas d'humidité détectés par le ML ces 3 derniers jours. Les photos de la communauté montrent aussi des nuages de pluie se formant à l'ouest.",
+    aiDisclaimer: "Vous discutez avec une IA. Les réponses peuvent contenir des erreurs.",
     alertsTitle: "Alertes actives",
     alertsFilter: "Filtrer",
     alertRedTitle: "Alerte rouge : Pluie intense",

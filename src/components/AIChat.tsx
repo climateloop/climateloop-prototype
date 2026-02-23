@@ -226,6 +226,13 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
               </button>
             </div>
 
+            {/* AI Disclaimer */}
+            <div className="px-4 py-2 bg-muted/50 border-b border-border">
+              <p className="text-[11px] text-muted-foreground text-center">
+                {t.aiDisclaimer}
+              </p>
+            </div>
+
             {/* Messages */}
             <div className="max-h-72 overflow-y-auto p-4 space-y-3">
               {messages.map((msg, i) => (
