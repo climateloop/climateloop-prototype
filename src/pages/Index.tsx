@@ -158,7 +158,6 @@ const Index = () => {
         case "legal":
           return <LegalPage onBack={() => { setDetailView(null); setActiveTab("perfil"); }} />;
       }
-      }
     }
 
     if (activeTab === "inicio") {
@@ -209,3 +208,4 @@ const Index = () => {
 };
 
 export default Index;
+
