@@ -109,7 +109,16 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     }).setView([USER_LAT, USER_LNG], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
-    L.control.zoom({ position: "bottomright" }).addTo(map);
+    L.control.zoom({ position: "topright" }).addTo(map);
+
+    // Move zoom control to vertical center via CSS
+    setTimeout(() => {
+      const zoomEl = mapRef.current?.querySelector('.leaflet-top.leaflet-right') as HTMLElement;
+      if (zoomEl) {
+        zoomEl.style.top = '50%';
+        zoomEl.style.transform = 'translateY(-50%)';
+      }
+    }, 100);
 
     // User location dot
     const userIcon = L.divIcon({
@@ -258,7 +267,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         </div>
 
         {/* Radius selector */}
-        <div className="mx-3 mb-16 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
+        <div className="mx-3 mb-6 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
           <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
           <div className="flex gap-1.5">
             {radiusOptions.map((r, i) => (
