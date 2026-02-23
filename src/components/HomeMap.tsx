@@ -12,6 +12,7 @@ const radiusOptions = [
   { label: "5 km", meters: 5000 },
   { label: "10 km", meters: 10000 },
   { label: "25 km", meters: 25000 },
+  { label: "50 km", meters: 50000 },
 ];
 
 // CAP (RSS) alert markers
@@ -179,7 +180,7 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
   };
 
   return (
-    <div className="relative" style={{ height: "520px" }}>
+    <div className="mx-4 rounded-xl overflow-hidden border border-border shadow-card relative" style={{ height: "340px" }}>
       {/* Full-bleed map */}
       <div ref={mapRef} className="absolute inset-0 z-0" />
 
