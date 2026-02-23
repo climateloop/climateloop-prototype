@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ml_predictions: {
+        Row: {
+          created_at: string
+          datetime: string
+          id: string
+          latitude: number
+          longitude: number
+          precipitation: number | null
+          relative_humidity_2m: number | null
+          temperature_2m: number | null
+          wind_speed_10m: number | null
+        }
+        Insert: {
+          created_at?: string
+          datetime: string
+          id?: string
+          latitude: number
+          longitude: number
+          precipitation?: number | null
+          relative_humidity_2m?: number | null
+          temperature_2m?: number | null
+          wind_speed_10m?: number | null
+        }
+        Update: {
+          created_at?: string
+          datetime?: string
+          id?: string
+          latitude?: number
+          longitude?: number
+          precipitation?: number | null
+          relative_humidity_2m?: number | null
+          temperature_2m?: number | null
+          wind_speed_10m?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
