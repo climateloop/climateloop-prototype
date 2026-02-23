@@ -138,10 +138,6 @@ const ForecastDetail = ({ onBack }: ForecastDetailProps) => {
           <p className="text-xs text-muted-foreground">{t.forecastPrecip}: {mlRain}</p>
           <p className="text-xs text-muted-foreground">{t.weatherHumidity}: {mlHumidity} · {t.weatherWind}: {mlWind}</p>
         </div>
-        <p className="text-xs text-muted-foreground italic mb-3 flex items-start gap-1.5">
-          <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-          {t.forecastDetailConfidenceLabel}
-        </p>
         <p className="text-sm text-foreground leading-relaxed">
           {t.forecastDetailMLExplanation}
         </p>

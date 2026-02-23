@@ -158,9 +158,6 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
               <p className="text-[10px] text-muted-foreground">{t.weatherWind}: {formatWind(f.wind) ?? "N/A"}</p>
               <p className="text-[10px] text-muted-foreground">{t.weatherHumidity}: {f.humidity ?? "N/A"}</p>
             </div>
-            <div className="flex items-center gap-1 mt-2">
-              <TrendIcon trend={f.trend} />
-            </div>
           </div>
         ))}
       </div>
