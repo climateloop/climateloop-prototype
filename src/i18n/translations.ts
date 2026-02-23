@@ -201,6 +201,7 @@ type TranslationKeys = {
   communityRateHelpful: string;
   communityRateNotHelpful: string;
   communityRateThanks: string;
+  homeMapHint: string;
   backButton: string;
   // Notifications
   notifTitle: string;
@@ -478,6 +479,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityRateHelpful: "Helpful",
     communityRateNotHelpful: "Not helpful",
     communityRateThanks: "Thanks for your feedback!",
+    homeMapHint: "Tap the Map icon for a detailed view",
     backButton: "Back",
     notifTitle: "Notifications",
     notifAlertReceived: "Alert received for your area",
@@ -743,6 +745,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityRateHelpful: "Útil",
     communityRateNotHelpful: "No útil",
     communityRateThanks: "¡Gracias por tu feedback!",
+    homeMapHint: "Toca el ícono Mapa para una vista detallada",
     backButton: "Volver",
     notifTitle: "Notificaciones",
     notifAlertReceived: "Alerta recibida para tu zona",
@@ -1008,6 +1011,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityRateHelpful: "Útil",
     communityRateNotHelpful: "Não útil",
     communityRateThanks: "Obrigado pelo seu feedback!",
+    homeMapHint: "Clique no ícone Mapa para uma versão detalhada",
     backButton: "Voltar",
     notifTitle: "Notificações",
     notifAlertReceived: "Alerta recebido para sua área",
@@ -1273,6 +1277,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityRateHelpful: "Utile",
     communityRateNotHelpful: "Pas utile",
     communityRateThanks: "Merci pour votre retour !",
+    homeMapHint: "Appuyez sur l'icône Carte pour une vue détaillée",
     backButton: "Retour",
     notifTitle: "Notifications",
     notifAlertReceived: "Alerte reçue pour votre zone",
