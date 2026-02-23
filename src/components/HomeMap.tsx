@@ -92,7 +92,7 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
     const map = L.map(mapRef.current, {
       zoomControl: false,
       attributionControl: false,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       dragging: true,
       touchZoom: true,
       doubleClickZoom: true,
