@@ -14,6 +14,158 @@ export type Database = {
   }
   public: {
     Tables: {
+      iot_readings: {
+        Row: {
+          apparent_temperature: number | null
+          created_at: string
+          datetime: string
+          dew_point_2m: number | null
+          et0_fao_evapotranspiration: number | null
+          evapotranspiration: number | null
+          id: string
+          precipitation: number | null
+          precipitation_probability: number | null
+          pressure_msl: number | null
+          rain: number | null
+          relative_humidity_2m: number | null
+          showers: number | null
+          snowfall: number | null
+          soil_temperature_0cm: number | null
+          soil_temperature_18cm: number | null
+          station_id: string
+          sunshine_duration: number | null
+          surface_pressure: number | null
+          temperature_180m: number | null
+          temperature_2m: number | null
+          temperature_80m: number | null
+          temperature_max: number | null
+          temperature_min: number | null
+          visibility: number | null
+          weather_code: number | null
+          wind_direction_10m: number | null
+          wind_direction_180m: number | null
+          wind_direction_80m: number | null
+          wind_gusts_10m: number | null
+          wind_speed_10m: number | null
+          wind_speed_180m: number | null
+          wind_speed_80m: number | null
+        }
+        Insert: {
+          apparent_temperature?: number | null
+          created_at?: string
+          datetime: string
+          dew_point_2m?: number | null
+          et0_fao_evapotranspiration?: number | null
+          evapotranspiration?: number | null
+          id?: string
+          precipitation?: number | null
+          precipitation_probability?: number | null
+          pressure_msl?: number | null
+          rain?: number | null
+          relative_humidity_2m?: number | null
+          showers?: number | null
+          snowfall?: number | null
+          soil_temperature_0cm?: number | null
+          soil_temperature_18cm?: number | null
+          station_id: string
+          sunshine_duration?: number | null
+          surface_pressure?: number | null
+          temperature_180m?: number | null
+          temperature_2m?: number | null
+          temperature_80m?: number | null
+          temperature_max?: number | null
+          temperature_min?: number | null
+          visibility?: number | null
+          weather_code?: number | null
+          wind_direction_10m?: number | null
+          wind_direction_180m?: number | null
+          wind_direction_80m?: number | null
+          wind_gusts_10m?: number | null
+          wind_speed_10m?: number | null
+          wind_speed_180m?: number | null
+          wind_speed_80m?: number | null
+        }
+        Update: {
+          apparent_temperature?: number | null
+          created_at?: string
+          datetime?: string
+          dew_point_2m?: number | null
+          et0_fao_evapotranspiration?: number | null
+          evapotranspiration?: number | null
+          id?: string
+          precipitation?: number | null
+          precipitation_probability?: number | null
+          pressure_msl?: number | null
+          rain?: number | null
+          relative_humidity_2m?: number | null
+          showers?: number | null
+          snowfall?: number | null
+          soil_temperature_0cm?: number | null
+          soil_temperature_18cm?: number | null
+          station_id?: string
+          sunshine_duration?: number | null
+          surface_pressure?: number | null
+          temperature_180m?: number | null
+          temperature_2m?: number | null
+          temperature_80m?: number | null
+          temperature_max?: number | null
+          temperature_min?: number | null
+          visibility?: number | null
+          weather_code?: number | null
+          wind_direction_10m?: number | null
+          wind_direction_180m?: number | null
+          wind_direction_80m?: number | null
+          wind_gusts_10m?: number | null
+          wind_speed_10m?: number | null
+          wind_speed_180m?: number | null
+          wind_speed_80m?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "iot_readings_station_id_fkey"
+            columns: ["station_id"]
+            isOneToOne: false
+            referencedRelation: "iot_stations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      iot_stations: {
+        Row: {
+          altitude_m: number | null
+          created_at: string
+          id: string
+          installed_at: string
+          is_active: boolean
+          latitude: number
+          longitude: number
+          name: string | null
+          station_code: string
+        }
+        Insert: {
+          altitude_m?: number | null
+          created_at?: string
+          id?: string
+          installed_at?: string
+          is_active?: boolean
+          latitude: number
+          longitude: number
+          name?: string | null
+          station_code: string
+        }
+        Update: {
+          altitude_m?: number | null
+          created_at?: string
+          id?: string
+          installed_at?: string
+          is_active?: boolean
+          latitude?: number
+          longitude?: number
+          name?: string | null
+          station_code?: string
+        }
+        Relationships: []
+      }
       ml_predictions: {
         Row: {
           created_at: string
