@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, EyeOff, ThumbsUp, ThumbsDown } from "lucide-react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ReportData {
@@ -14,7 +14,7 @@ interface ReportData {
 
 const myReportIds = ["1", "3"];
 
-const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; photoBlurred?: boolean; risk: string }> = {
+const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; risk: string }> = {
   "1": {
     id: "1",
     user: "María S.",
@@ -49,7 +49,6 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     distance: "2.1 km",
     location: "Praza de Galicia, Santiago de Compostela",
     photoUrl: "https://images.unsplash.com/photo-1600336153113-d66c79de3e91?w=600&h=400&fit=crop",
-    photoBlurred: true,
     risk: "high",
   },
   "5": {
@@ -152,15 +151,9 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
           <img
             src={report.photoUrl}
             alt={report.description}
-            className={`w-full h-48 object-cover ${report.photoBlurred ? "blur-xl" : ""}`}
+            className="w-full h-48 object-cover"
             onError={(e) => { e.currentTarget.src = "/placeholder.svg"; e.currentTarget.className = "w-full h-48 object-contain bg-muted p-8"; }}
           />
-          {report.photoBlurred && (
-            <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center gap-2 px-4">
-              <EyeOff className="w-5 h-5 text-background flex-shrink-0" />
-              <span className="text-xs font-medium text-background text-center">{t.photoBlurWarning}</span>
-            </div>
-          )}
         </div>
       ) : (
         <div className="rounded-xl bg-muted border border-border mb-4 h-48 flex items-center justify-center">

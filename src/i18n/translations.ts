@@ -103,6 +103,9 @@ type TranslationKeys = {
   reportNotesPlaceholder: string;
   reportAddPhoto: string;
   reportPhotoWarning: string;
+  reportPhotoAnalyzing: string;
+  reportPhotoRejected: string;
+  reportPhotoAccepted: string;
   reportSend: string;
   reportBack: string;
   reportSuccess: string;
@@ -390,6 +393,9 @@ export const translations: Record<Locale, TranslationKeys> = {
     reportNotesPlaceholder: "Describe what you observe...",
     reportAddPhoto: "Add photo",
     reportPhotoWarning: "Do not photograph people. The AI will block images containing people.",
+    reportPhotoAnalyzing: "Analyzing image with AI…",
+    reportPhotoRejected: "People detected in the image. Please take another photo without people.",
+    reportPhotoAccepted: "Image approved — no people detected.",
     reportSend: "Send report",
     reportBack: "← Back to categories",
     reportSuccess: "Report sent successfully! Thank you for contributing.",
@@ -497,7 +503,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Status",
     myContribVerified: "Verified",
     myContribPending: "Under review",
-    photoBlurWarning: "Image blurred: people detected. Photos must not contain identifiable persons.",
+    photoBlurWarning: "Photos must not contain identifiable persons.",
     weatherRainChance: "Rain",
     forecastDetailDeeperTitle: "Want to dive deeper?",
     forecastDetailDeeperDesc: "Tap the AI Assistant icon in the bottom bar to ask questions about specific patterns or discrepancies.",
@@ -656,6 +662,9 @@ export const translations: Record<Locale, TranslationKeys> = {
     reportNotesPlaceholder: "Describe lo que observas...",
     reportAddPhoto: "Añadir foto",
     reportPhotoWarning: "No fotografíes personas. La IA bloqueará imágenes que contengan personas.",
+    reportPhotoAnalyzing: "Analizando imagen con IA…",
+    reportPhotoRejected: "Se detectaron personas en la imagen. Por favor, toma otra foto sin personas.",
+    reportPhotoAccepted: "Imagen aprobada — no se detectaron personas.",
     reportSend: "Enviar reporte",
     reportBack: "← Volver a categorías",
     reportSuccess: "¡Reporte enviado con éxito! Gracias por contribuir.",
@@ -763,7 +772,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Estado",
     myContribVerified: "Verificado",
     myContribPending: "En revisión",
-    photoBlurWarning: "Imagen difuminada: personas detectadas. Las fotos no deben contener personas identificables.",
+    photoBlurWarning: "Las fotos no deben contener personas identificables.",
     weatherRainChance: "Lluvia",
     forecastDetailDeeperTitle: "¿Quieres profundizar?",
     forecastDetailDeeperDesc: "Toca el ícono del Asistente IA en la barra inferior para preguntar sobre patrones específicos o discrepancias.",
@@ -922,6 +931,9 @@ export const translations: Record<Locale, TranslationKeys> = {
     reportNotesPlaceholder: "Descreva o que observa...",
     reportAddPhoto: "Adicionar foto",
     reportPhotoWarning: "Não fotografe pessoas. A IA bloqueará imagens que contenham pessoas.",
+    reportPhotoAnalyzing: "Analisando imagem com IA…",
+    reportPhotoRejected: "Pessoas detectadas na imagem. Por favor, tire outra foto sem pessoas.",
+    reportPhotoAccepted: "Imagem aprovada — nenhuma pessoa detectada.",
     reportSend: "Enviar relato",
     reportBack: "← Voltar às categorias",
     reportSuccess: "Relato enviado com sucesso! Obrigado por contribuir.",
@@ -1029,7 +1041,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Status",
     myContribVerified: "Verificado",
     myContribPending: "Em análise",
-    photoBlurWarning: "Imagem borrada: pessoas detectadas. As fotos não devem conter pessoas identificáveis.",
+    photoBlurWarning: "As fotos não devem conter pessoas identificáveis.",
     weatherRainChance: "Chuva",
     forecastDetailDeeperTitle: "Quer se aprofundar?",
     forecastDetailDeeperDesc: "Toque no ícone do Assistente IA na barra inferior para perguntar sobre padrões específicos ou discrepâncias.",
@@ -1188,6 +1200,9 @@ export const translations: Record<Locale, TranslationKeys> = {
     reportNotesPlaceholder: "Décrivez ce que vous observez...",
     reportAddPhoto: "Ajouter une photo",
     reportPhotoWarning: "Ne photographiez pas de personnes. L'IA bloquera les images contenant des personnes.",
+    reportPhotoAnalyzing: "Analyse de l'image par l'IA…",
+    reportPhotoRejected: "Des personnes ont été détectées dans l'image. Veuillez prendre une autre photo sans personnes.",
+    reportPhotoAccepted: "Image approuvée — aucune personne détectée.",
     reportSend: "Envoyer le signalement",
     reportBack: "← Retour aux catégories",
     reportSuccess: "Signalement envoyé avec succès ! Merci de contribuer.",
@@ -1295,7 +1310,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     myContribStatus: "Statut",
     myContribVerified: "Vérifié",
     myContribPending: "En cours de vérification",
-    photoBlurWarning: "Image floutée : personnes détectées. Les photos ne doivent pas contenir de personnes identifiables.",
+    photoBlurWarning: "Les photos ne doivent pas contenir de personnes identifiables.",
     weatherRainChance: "Pluie",
     forecastDetailDeeperTitle: "Envie d'approfondir ?",
     forecastDetailDeeperDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour poser des questions sur des schémas ou divergences spécifiques.",
