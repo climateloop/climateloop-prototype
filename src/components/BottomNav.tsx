@@ -1,4 +1,4 @@
-import { Home, Map, AlertTriangle, PlusCircle, Sparkles } from "lucide-react";
+import { Home, Map, AlertTriangle, PlusCircle, Sparkles, Users, User } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface BottomNavProps {
@@ -14,9 +14,11 @@ const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomN
   const tabs = [
     { id: "inicio", label: t.navHome, icon: Home },
     { id: "mapa", label: t.navMap, icon: Map },
+    { id: "comunidade", label: t.navCommunity, icon: Users },
     { id: "reportar", label: t.navReport, icon: PlusCircle },
     { id: "alertas", label: t.navAlerts, icon: AlertTriangle },
     { id: "ai", label: t.navAI, icon: Sparkles, isAI: true },
+    { id: "perfil", label: t.navProfile, icon: User },
   ];
 
   return (
@@ -33,12 +35,12 @@ const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomN
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="flex flex-col items-center gap-0.5 -mt-4"
+                className="flex flex-col items-center gap-0.5 -mt-3"
               >
-                <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center shadow-elevated transition-transform hover:scale-105 active:scale-95">
-                  <Icon className="w-6 h-6 text-primary-foreground" />
+                <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center shadow-elevated transition-transform hover:scale-105 active:scale-95">
+                  <Icon className="w-5 h-5 text-primary-foreground" />
                 </div>
-                <span className="text-[10px] font-semibold text-primary">{tab.label}</span>
+                <span className="text-[9px] font-semibold text-primary">{tab.label}</span>
               </button>
             );
           }
@@ -48,12 +50,12 @@ const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomN
               <button
                 key={tab.id}
                 onClick={onToggleChat}
-                className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors ${
+                className={`flex flex-col items-center gap-0.5 py-2 px-1.5 rounded-lg transition-colors ${
                   isActive ? "text-primary" : "text-muted-foreground"
                 }`}
               >
-                <Icon className="w-5 h-5" />
-                <span className="text-[10px] font-medium">{tab.label}</span>
+                <Icon className="w-4.5 h-4.5" />
+                <span className="text-[9px] font-medium">{tab.label}</span>
               </button>
             );
           }
@@ -62,12 +64,12 @@ const BottomNav = ({ activeTab, onTabChange, isChatOpen, onToggleChat }: BottomN
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`flex flex-col items-center gap-0.5 py-2 px-3 rounded-lg transition-colors ${
+              className={`flex flex-col items-center gap-0.5 py-2 px-1.5 rounded-lg transition-colors ${
                 isActive ? "text-primary" : "text-muted-foreground"
               }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="text-[10px] font-medium">{tab.label}</span>
+              <Icon className="w-4.5 h-4.5" />
+              <span className="text-[9px] font-medium">{tab.label}</span>
             </button>
           );
         })}
