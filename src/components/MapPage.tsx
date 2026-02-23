@@ -133,7 +133,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     // Community report markers
     communityMapMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: communityMarkerIcon(m.typeKey, m.risk),
+        icon: communityMarkerIcon(m.typeKey, m.risk, m.filterCat),
       }).addTo(map);
       marker.on("click", () => onOpenCommunityDetail?.(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
@@ -179,7 +179,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
   };
 
   return (
-    <div className="-mx-0 -mt-4 relative" style={{ height: "calc(100vh - 130px)" }}>
+    <div className="-mx-0 -mt-4 -mb-24 relative" style={{ height: "calc(100vh - 106px)" }}>
       <div ref={mapRef} className="absolute inset-0 z-0" />
 
       {/* Stats overlay — top */}
@@ -213,8 +213,8 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
         </button>
       </div>
 
-      {/* Legend */}
-      <div className="absolute bottom-[170px] left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
+      {/* Legend — positioned above filters */}
+      <div className="absolute bottom-[140px] left-3 bg-background/90 backdrop-blur-sm rounded-lg p-2 text-[10px] space-y-1 border border-border z-[400]">
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full" style={{ background: "hsl(5,82%,56%)" }} />
           <span className="text-foreground">{t.mapHighRisk}</span>
