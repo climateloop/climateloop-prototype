@@ -1,5 +1,6 @@
 import { Droplets, Wind, Thermometer, CloudRain, Loader2, CloudOff } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 import { useWeather } from "@/hooks/useWeather";
 
 const cToF = (c: number) => Math.round(c * 9 / 5 + 32);
@@ -82,7 +83,8 @@ const WeatherCard = () => {
   const description = weather?.description || t.weatherPartlyCloudy;
   const rainChance = weather ? `${weather.clouds}%` : "40%";
   const unit = isImperial ? "°F" : "°";
-  const cityName = weather?.city || "Santiago de Compostela";
+  const { location } = useLocation();
+  const cityName = location.name;
 
   if (loading && !weather) {
     return (
