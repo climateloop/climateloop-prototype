@@ -17,9 +17,9 @@ const radiusOptions = [
 
 // CAP (RSS) alert markers
 const capAlertMarkers = [
-  { id: "cap-1", lat: 42.9200, lng: -8.6100, severity: "red", label: "CAP: Chuva intensa — AEMET" },
-  { id: "cap-2", lat: 42.8500, lng: -8.4800, severity: "orange", label: "CAP: Vento forte — AEMET" },
-  { id: "cap-3", lat: 42.8350, lng: -8.5600, severity: "yellow", label: "CAP: Temperatura alta — AEMET" },
+  { id: "cap-1", lat: 42.9200, lng: -8.6100, severity: "red", filterCat: "rain", label: "CAP: Chuva intensa — AEMET" },
+  { id: "cap-2", lat: 42.8500, lng: -8.4800, severity: "orange", filterCat: "wind", label: "CAP: Vento forte — AEMET" },
+  { id: "cap-3", lat: 42.8350, lng: -8.5600, severity: "yellow", filterCat: "heat", label: "CAP: Temperatura alta — AEMET" },
 ];
 
 const capSeverityColor: Record<string, string> = {
@@ -28,24 +28,30 @@ const capSeverityColor: Record<string, string> = {
   yellow: "hsl(42,97%,48%)",
 };
 
-const capMarkerIcon = (severity: string) => {
-  const colour = capSeverityColor[severity] ?? capSeverityColor["orange"];
+const catFillColor: Record<string, string> = {
+  rain: "hsl(210,60%,55%)", wind: "hsl(200,15%,55%)", heat: "hsl(5,82%,56%)",
+  flood: "hsl(220,65%,50%)", fire: "hsl(24,91%,52%)", frost: "hsl(195,70%,55%)",
+};
+
+const capMarkerIcon = (severity: string, filterCat: string) => {
+  const borderColour = capSeverityColor[severity] ?? capSeverityColor["orange"];
+  const fillColour = catFillColor[filterCat] ?? borderColour;
   return L.divIcon({
     className: "",
     iconSize: [32, 32],
     iconAnchor: [16, 16],
     html: `<div style="
       width:32px;height:32px;border-radius:6px;
-      background:white;
-      border:2.5px solid ${colour};
+      background:${fillColour};
+      border:2.5px solid ${borderColour};
       box-shadow:0 2px 6px rgba(0,0,0,.25);
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;
     ">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="${colour}" stroke="${colour}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-        <line x1="12" y1="9" x2="12" y2="13" stroke="white" stroke-width="2"/>
-        <line x1="12" y1="17" x2="12.01" y2="17" stroke="white" stroke-width="2"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
       </svg>
     </div>`,
   });
@@ -112,7 +118,7 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
     // CAP alert markers
     capAlertMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
-        icon: capMarkerIcon(m.severity),
+        icon: capMarkerIcon(m.severity, m.filterCat),
       }).addTo(map);
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
