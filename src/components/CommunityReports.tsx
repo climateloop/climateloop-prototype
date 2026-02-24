@@ -150,7 +150,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
             <input
               type="range"
               min={1}
-              max={200}
+              max={800}
               step={1}
               value={selectedRadius}
               onChange={(e) => setSelectedRadius(Number(e.target.value))}
@@ -158,7 +158,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
             />
             <div className="flex justify-between text-[9px] text-muted-foreground mt-0.5">
               <span>1 km</span>
-              <span>200 km</span>
+              <span>800 km</span>
             </div>
           </div>
         </div>
@@ -169,6 +169,12 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
           <div className="flex flex-col items-center py-8 text-center">
             <Search className="w-8 h-8 text-muted-foreground/50 mb-2" />
             <p className="text-sm text-muted-foreground">{t.communityNoReportsNearby}</p>
+            {preview && (
+              <p className="text-xs text-muted-foreground/70 mt-2 flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5" />
+                {t.communitySeeAllCTA}
+              </p>
+            )}
           </div>
         ) : (
           displayReports.map((r) => (
@@ -211,7 +217,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
         )}
       </div>
 
-      {preview && (
+      {preview && displayReports.length > 0 && (
         <p className="text-xs text-muted-foreground text-center mt-3 flex items-center justify-center gap-1.5">
           <Users className="w-3.5 h-3.5" />
           {t.communitySeeAllCTA}
