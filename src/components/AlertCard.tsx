@@ -1,6 +1,6 @@
 import { AlertTriangle, ChevronRight, Sparkles } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { type CapAlert, capSeverityToColor } from "@/hooks/useCapAlerts";
+import { type CapAlert, capSeverityToColor, type CapAIExplanationLocale } from "@/hooks/useCapAlerts";
 
 // Keep legacy interface for backward compat (home page active alert)
 interface LegacyAlert {
@@ -69,14 +69,21 @@ interface AlertCardProps {
 }
 
 const AlertCard = ({ alert, capAlert, compact = false, onAskAI }: AlertCardProps) => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+
+  // Resolve locale-aware AI explanation
+  const aiExpl: CapAIExplanationLocale | null = (() => {
+    const raw = capAlert?.ai_explanation;
+    if (!raw) return null;
+    return raw.localized?.[locale] ?? raw;
+  })();
 
   // Resolve values from either legacy or CAP alert
   const severity = capAlert ? capSeverityToColor(capAlert.severity) : alert!.severity;
   const title = capAlert ? capAlert.headline : alert!.title;
   const description = capAlert ? capAlert.description : alert!.description;
   const time = capAlert ? formatAlertTime(capAlert) : alert!.time;
-  const actions = capAlert?.ai_explanation?.recommended_actions ?? alert?.actions;
+  const actions = aiExpl?.recommended_actions ?? alert?.actions;
   const source = capAlert?.source;
   const styles = severityStyles[severity];
   const target = capAlert || alert!;

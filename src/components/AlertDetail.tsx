@@ -110,10 +110,19 @@ const AlertDetail = ({ alert, capAlert, onBack, onOpenChat }: AlertDetailProps) 
   const time = isCapAlert
     ? (capAlert!.onset ? new Date(capAlert!.onset).toLocaleString() : "")
     : alert!.time;
-  const actions = isCapAlert ? capAlert!.ai_explanation?.recommended_actions : alert!.actions;
-  const aiSummary = isCapAlert ? capAlert!.ai_explanation?.summary : null;
+  // Resolve AI explanation for current locale
+  const aiExpl = (() => {
+    const raw = capAlert?.ai_explanation;
+    if (!raw) return null;
+    const localized = raw.localized?.[locale];
+    if (localized) return localized;
+    return raw; // fallback to default (es)
+  })();
+
+  const actions = isCapAlert ? aiExpl?.recommended_actions : alert!.actions;
+  const aiSummary = isCapAlert ? aiExpl?.summary : null;
   const source = isCapAlert ? capAlert!.source : null;
-  const affectedPopulation = isCapAlert ? capAlert!.ai_explanation?.affected_population : null;
+  const affectedPopulation = isCapAlert ? aiExpl?.affected_population : null;
 
   const explanationText = isCapAlert
     ? aiSummary
