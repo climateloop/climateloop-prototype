@@ -9,6 +9,7 @@ export interface CapAlert {
   sent: string;
   status: string;
   source: string | null;
+  language: string;
   event: string;
   urgency: string;
   severity: string;
@@ -22,6 +23,7 @@ export interface CapAlert {
   areas: CapAlertArea[];
   parameters: Record<string, string>;
   ai_explanation: CapAIExplanation | null;
+  translations: Record<string, { headline?: string; description?: string; instruction?: string }>;
 }
 
 export interface CapAlertArea {
@@ -57,7 +59,7 @@ function isAlertRelevantToLocation(alert: CapAlert, lat: number, lng: number): b
   return areas.some((area) => isPointInBoundingBox(lat, lng, area.polygon));
 }
 
-function categorizeAlert(alert: CapAlert): AlertTimeCategory {
+export function categorizeAlert(alert: CapAlert): AlertTimeCategory {
   const now = new Date();
   const onset = alert.onset ? new Date(alert.onset) : null;
   const expires = alert.expires ? new Date(alert.expires) : null;
@@ -101,6 +103,7 @@ export function useCapAlerts() {
         areas: row.areas as CapAlertArea[],
         parameters: row.parameters as Record<string, string>,
         ai_explanation: row.ai_explanation as CapAIExplanation | null,
+        translations: (row.translations || {}) as Record<string, { headline?: string; description?: string; instruction?: string }>,
       }));
 
       // Filter by user location
