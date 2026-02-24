@@ -1,91 +1,20 @@
-import AlertCard, { type Alert } from "./AlertCard";
-import { Bell, Filter, Clock, AlertTriangle, History } from "lucide-react";
+import { Bell, Filter, Clock, AlertTriangle, History, Loader2 } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useCapAlerts, capSeverityToColor, type CapAlert } from "@/hooks/useCapAlerts";
+import AlertCard from "./AlertCard";
 
 interface AlertsPageProps {
-  onAskAI?: (alert: Alert) => void;
-}
-
-interface TimedAlert extends Alert {
-  category: "immediate" | "future" | "past";
-  dateLabel: string;
+  onAskAI?: (alert: CapAlert) => void;
 }
 
 const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
   const { t } = useLanguage();
-
-  const alerts: TimedAlert[] = [
-    // Immediate (active now)
-    {
-      id: "1",
-      severity: "red",
-      title: t.alertRedTitle,
-      description: t.alertRedDesc,
-      time: t.alertTimeAgo10,
-      actions: [t.alertAction1, t.alertAction2, t.alertAction3, t.alertAction4],
-      category: "immediate",
-      dateLabel: t.alertCategoryNow,
-    },
-    {
-      id: "2",
-      severity: "orange",
-      title: t.alertOrangeTitle,
-      description: t.alertOrangeDesc,
-      time: t.alertTimeAgo1h,
-      actions: [t.alertAction5, t.alertAction6, t.alertAction7],
-      category: "immediate",
-      dateLabel: t.alertCategoryNow,
-    },
-    // Future
-    {
-      id: "4",
-      severity: "yellow",
-      title: t.alertMLHailTitle,
-      description: t.alertMLHailDesc,
-      time: t.alertTimeAgoML48,
-      category: "future",
-      dateLabel: t.alertCategoryFuture,
-    },
-    {
-      id: "5",
-      severity: "orange",
-      title: t.alertFutureHeatTitle,
-      description: t.alertFutureHeatDesc,
-      time: t.alertFutureHeatTime,
-      actions: [t.alertAction5, t.alertAction6, t.alertAction7],
-      category: "future",
-      dateLabel: t.alertCategoryFuture,
-    },
-    // Past (D-1 and D-2)
-    {
-      id: "3",
-      severity: "yellow",
-      title: t.alertYellowWindTitle,
-      description: t.alertYellowWindDesc,
-      time: t.alertPastYesterday,
-      actions: [t.alertAction8, t.alertAction9],
-      category: "past",
-      dateLabel: t.alertCategoryPast,
-    },
-    {
-      id: "6",
-      severity: "orange",
-      title: t.alertPastRainTitle,
-      description: t.alertPastRainDesc,
-      time: t.alertPast2Days,
-      category: "past",
-      dateLabel: t.alertCategoryPast,
-    },
-  ];
-
-  const immediate = alerts.filter((a) => a.category === "immediate");
-  const future = alerts.filter((a) => a.category === "future");
-  const past = alerts.filter((a) => a.category === "past");
+  const { data, isLoading } = useCapAlerts();
 
   const renderSection = (
     title: string,
     icon: React.ReactNode,
-    items: TimedAlert[],
+    items: CapAlert[],
     dimmed?: boolean
   ) => (
     <div className={dimmed ? "opacity-60" : ""}>
@@ -97,7 +26,7 @@ const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
       <div className="space-y-3 mb-5">
         {items.map((alert) => (
           <div key={alert.id} onClick={() => onAskAI?.(alert)} className="cursor-pointer">
-            <AlertCard alert={alert} onAskAI={onAskAI} />
+            <AlertCard capAlert={alert} onAskAI={onAskAI} />
           </div>
         ))}
       </div>
@@ -117,9 +46,22 @@ const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
         </button>
       </div>
 
-      {immediate.length > 0 && renderSection(t.alertCategoryNow, <AlertTriangle className="w-4 h-4 text-destructive" />, immediate)}
-      {future.length > 0 && renderSection(t.alertCategoryFuture, <Clock className="w-4 h-4 text-accent" />, future)}
-      {past.length > 0 && renderSection(t.alertCategoryPast, <History className="w-4 h-4 text-muted-foreground" />, past, true)}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <>
+          {data && data.immediate.length > 0 && renderSection(t.alertCategoryNow, <AlertTriangle className="w-4 h-4 text-destructive" />, data.immediate)}
+          {data && data.future.length > 0 && renderSection(t.alertCategoryFuture, <Clock className="w-4 h-4 text-accent" />, data.future)}
+          {data && data.past.length > 0 && renderSection(t.alertCategoryPast, <History className="w-4 h-4 text-muted-foreground" />, data.past, true)}
+          {data && data.all.length === 0 && (
+            <div className="text-center py-12 text-muted-foreground text-sm">
+              {t.alertsTitle} — No alerts for your area
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
