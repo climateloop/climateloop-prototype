@@ -45,6 +45,13 @@ type TranslationKeys = {
   // Alerts page
   alertsTitle: string;
   alertsFilter: string;
+  alertsFilterAll: string;
+  alertsFilterSeverity: string;
+  alertsSeverityRed: string;
+  alertsSeverityOrange: string;
+  alertsSeverityYellow: string;
+  alertsNoAlerts: string;
+  alertOriginalLang: string;
   // Alert data
   alertRedTitle: string;
   alertRedDesc: string;
@@ -362,6 +369,13 @@ export const translations: Record<Locale, TranslationKeys> = {
     aiDisclaimer: "You are chatting with an AI assistant.",
     alertsTitle: "Active alerts",
     alertsFilter: "Filter",
+    alertsFilterAll: "All",
+    alertsFilterSeverity: "Severity",
+    alertsSeverityRed: "Red",
+    alertsSeverityOrange: "Orange",
+    alertsSeverityYellow: "Yellow",
+    alertsNoAlerts: "No alerts for your area",
+    alertOriginalLang: "Original",
     alertRedTitle: "Red alert: Heavy rain",
     alertRedDesc: "Forecast of rain above 80mm/h for the next 3 hours. Risk of flooding and landslides.",
     alertOrangeTitle: "Orange alert: High temperature",
@@ -756,6 +770,13 @@ Users may lodge a complaint with their competent data protection authority withi
     aiDisclaimer: "Estás conversando con un asistente de IA.",
     alertsTitle: "Alertas activas",
     alertsFilter: "Filtrar",
+    alertsFilterAll: "Todos",
+    alertsFilterSeverity: "Severidad",
+    alertsSeverityRed: "Roja",
+    alertsSeverityOrange: "Naranja",
+    alertsSeverityYellow: "Amarilla",
+    alertsNoAlerts: "Sin alertas para tu zona",
+    alertOriginalLang: "Original",
     alertRedTitle: "Alerta roja: Lluvia intensa",
     alertRedDesc: "Previsión de lluvia superior a 80mm/h para las próximas 3 horas. Riesgo de inundaciones y deslizamientos.",
     alertOrangeTitle: "Alerta naranja: Temperatura elevada",
@@ -1143,6 +1164,13 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     aiDisclaimer: "Você está conversando com um assistente de IA.",
     alertsTitle: "Alertas ativos",
     alertsFilter: "Filtrar",
+    alertsFilterAll: "Todos",
+    alertsFilterSeverity: "Severidade",
+    alertsSeverityRed: "Vermelho",
+    alertsSeverityOrange: "Laranja",
+    alertsSeverityYellow: "Amarelo",
+    alertsNoAlerts: "Sem alertas para a sua zona",
+    alertOriginalLang: "Original",
     alertRedTitle: "Alerta vermelho: Chuva intensa",
     alertRedDesc: "Previsão de chuva acima de 80mm/h para as próximas 3 horas. Risco de alagamentos e deslizamentos.",
     alertOrangeTitle: "Alerta laranja: Temperatura elevada",
@@ -1535,6 +1563,13 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     aiDisclaimer: "Vous discutez avec un assistant IA.",
     alertsTitle: "Alertes actives",
     alertsFilter: "Filtrer",
+    alertsFilterAll: "Tous",
+    alertsFilterSeverity: "Sévérité",
+    alertsSeverityRed: "Rouge",
+    alertsSeverityOrange: "Orange",
+    alertsSeverityYellow: "Jaune",
+    alertsNoAlerts: "Aucune alerte pour votre zone",
+    alertOriginalLang: "Original",
     alertRedTitle: "Alerte rouge : Pluie intense",
     alertRedDesc: "Prévision de pluie supérieure à 80mm/h pour les 3 prochaines heures. Risque d'inondations et de glissements de terrain.",
     alertOrangeTitle: "Alerte orange : Température élevée",

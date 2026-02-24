@@ -32,15 +32,14 @@ const severityStyles = {
   },
 };
 
-// Official full-text per alert id, per locale (legacy)
+// Legacy official texts
 type AlertOfficialTexts = Record<string, Record<Locale, string>>;
-
 const alertOfficialTexts: AlertOfficialTexts = {
   main: {
-    es: "ALERTA NARANJA — PRECIPITACIONES INTENSAS\n\nEmitido por: Agencia Estatal de Meteorología (AEMET)\nFecha de emisión: Hoy, 09:30 UTC\nÁrea afectada: Comunidad de Madrid — Zona Centro y Sur\nVigencia: Desde las 10:00 hasta las 22:00 UTC\n\nSe prevén precipitaciones superiores a 50 mm en 12 horas, con posibilidad de chubascos puntualmente intensos superiores a 20 mm en 1 hora. Se pueden producir acumulaciones de agua en calzadas y zonas bajas, con riesgo de desbordamiento de pequeños cauces. Se recomienda extremar la precaución durante los desplazamientos.",
-    en: "ORANGE ALERT — HEAVY RAINFALL\n\nIssued by: State Meteorological Agency (AEMET)\nIssued: Today, 09:30 UTC\nAffected area: Community of Madrid — Central and Southern Zone\nValid: From 10:00 to 22:00 UTC\n\nRainfall exceeding 50mm in 12 hours is expected, with locally intense showers above 20mm in 1 hour. Water accumulation may occur on roads and low-lying areas, with risk of small watercourse overflow. Exercise extreme caution when traveling.",
-    pt: "ALERTA LARANJA — CHUVAS INTENSAS\n\nEmitido por: Agência Estatal de Meteorologia (AEMET)\nData de emissão: Hoje, 09:30 UTC\nÁrea afetada: Comunidade de Madri — Zona Central e Sul\nVigência: Das 10:00 às 22:00 UTC\n\nEsperam-se precipitações superiores a 50 mm em 12 horas, com possibilidade de chuvas localmente intensas superiores a 20 mm em 1 hora. Podem ocorrer acumulações de água em vias e zonas baixas, com risco de transbordamento de pequenos cursos d'água. Recomenda-se extrema cautela durante os deslocamentos.",
-    fr: "ALERTE ORANGE — FORTES PRÉCIPITATIONS\n\nÉmis par : Agence d'État de Météorologie (AEMET)\nDate d'émission : Aujourd'hui, 09:30 UTC\nZone concernée : Communauté de Madrid — Zone Centre et Sud\nValidité : De 10:00 à 22:00 UTC\n\nDes précipitations supérieures à 50 mm en 12 heures sont attendues, avec possibilité d'averses localement intenses supérieures à 20 mm en 1 heure. Des accumulations d'eau peuvent se produire sur les chaussées et zones basses, avec risque de débordement de petits cours d'eau. Il est recommandé d'être extrêmement prudent lors des déplacements.",
+    es: "ALERTA NARANJA — PRECIPITACIONES INTENSAS\n\nEmitido por: AEMET\nÁrea afectada: Comunidad de Madrid\n\nSe prevén precipitaciones superiores a 50 mm en 12 horas.",
+    en: "ORANGE ALERT — HEAVY RAINFALL\n\nIssued by: AEMET\nAffected area: Community of Madrid\n\nRainfall exceeding 50mm in 12 hours is expected.",
+    pt: "ALERTA LARANJA — CHUVAS INTENSAS\n\nEmitido por: AEMET\nÁrea afetada: Comunidade de Madri\n\nEsperam-se precipitações superiores a 50 mm em 12 horas.",
+    fr: "ALERTE ORANGE — FORTES PRÉCIPITATIONS\n\nÉmis par: AEMET\nZone concernée: Communauté de Madrid\n\nDes précipitations supérieures à 50 mm sont attendues.",
   },
 };
 
@@ -60,6 +59,15 @@ const severityLabel: Record<string, Record<Locale, string>> = {
 
 const localeOrder: Locale[] = ["es", "en", "pt", "fr"];
 
+// Map CAP language codes to our locales
+function capLangToLocale(lang: string): Locale {
+  if (lang.startsWith("es")) return "es";
+  if (lang.startsWith("en")) return "en";
+  if (lang.startsWith("pt")) return "pt";
+  if (lang.startsWith("fr")) return "fr";
+  return "es";
+}
+
 interface AlertDetailProps {
   alert?: Alert;
   capAlert?: CapAlert;
@@ -69,58 +77,74 @@ interface AlertDetailProps {
 
 const AlertDetail = ({ alert, capAlert, onBack, onOpenChat }: AlertDetailProps) => {
   const { t, locale } = useLanguage();
-
-  // Resolve from CAP or legacy
   const isCapAlert = !!capAlert;
+
   const severity = isCapAlert ? capSeverityToColor(capAlert!.severity) : alert!.severity;
-  const title = isCapAlert ? capAlert!.headline : alert!.title;
+  const styles = severityStyles[severity];
+
+  // Original language of the CAP alert
+  const originalLocale = isCapAlert ? capLangToLocale(capAlert!.language || "es-ES") : "es";
+
+  // Translation state: "original" or a locale code
+  const [textLocale, setTextLocale] = useState<Locale | "original">("original");
+
+  // Resolve translated content
+  const getTranslatedField = (field: "headline" | "description" | "instruction") => {
+    if (!isCapAlert) return undefined;
+    if (textLocale === "original") {
+      return field === "headline" ? capAlert!.headline
+        : field === "description" ? capAlert!.description
+        : capAlert!.instruction;
+    }
+    const tr = capAlert!.translations?.[textLocale];
+    if (tr && tr[field]) return tr[field];
+    // Fallback to original
+    return field === "headline" ? capAlert!.headline
+      : field === "description" ? capAlert!.description
+      : capAlert!.instruction;
+  };
+
+  const title = isCapAlert ? getTranslatedField("headline")! : alert!.title;
+  const description = isCapAlert ? getTranslatedField("description")! : alert!.description;
+  const instruction = isCapAlert ? getTranslatedField("instruction") : null;
   const time = isCapAlert
     ? (capAlert!.onset ? new Date(capAlert!.onset).toLocaleString() : "")
     : alert!.time;
-  const description = isCapAlert ? capAlert!.description : alert!.description;
-  const actions = isCapAlert
-    ? capAlert!.ai_explanation?.recommended_actions
-    : alert!.actions;
+  const actions = isCapAlert ? capAlert!.ai_explanation?.recommended_actions : alert!.actions;
   const aiSummary = isCapAlert ? capAlert!.ai_explanation?.summary : null;
   const source = isCapAlert ? capAlert!.source : null;
   const affectedPopulation = isCapAlert ? capAlert!.ai_explanation?.affected_population : null;
 
-  const styles = severityStyles[severity];
+  const explanationText = isCapAlert
+    ? aiSummary
+    : (t[alertExplanationKeys[alert!.id] as keyof typeof t] as string || alert!.description);
 
-  // Official text: for CAP alerts, build from description + instruction
-  const buildCapOfficialText = () => {
-    if (!capAlert) return "";
+  // Build official text
+  const buildOfficialText = () => {
+    if (!isCapAlert) {
+      return alertOfficialTexts[alert!.id]?.[locale] ?? alertOfficialTexts["main"]?.[locale] ?? alert!.description;
+    }
     const parts: string[] = [];
-    const sev = capAlert.parameters?.alertLevel || capAlert.severity;
-    parts.push(`${sev.toUpperCase()} — ${capAlert.event.toUpperCase()}`);
+    const sev = capAlert!.parameters?.alertLevel || capAlert!.severity;
+    parts.push(`${sev.toUpperCase()} — ${capAlert!.event.toUpperCase()}`);
     parts.push("");
-    if (capAlert.source) parts.push(`Emitido por: ${capAlert.source}`);
-    if (capAlert.sent) parts.push(`Fecha de emisión: ${new Date(capAlert.sent).toLocaleString()}`);
-    const areaDescs = capAlert.areas?.map(a => a.areaDesc).join("; ");
+    if (source) parts.push(`Emitido por: ${source}`);
+    if (capAlert!.sent) parts.push(`Fecha de emisión: ${new Date(capAlert!.sent).toLocaleString()}`);
+    const areaDescs = capAlert!.areas?.map(a => a.areaDesc).join("; ");
     if (areaDescs) parts.push(`Área afectada: ${areaDescs}`);
-    if (capAlert.onset && capAlert.expires) {
-      parts.push(`Vigencia: ${new Date(capAlert.onset).toLocaleString()} — ${new Date(capAlert.expires).toLocaleString()}`);
+    if (capAlert!.onset && capAlert!.expires) {
+      parts.push(`Vigencia: ${new Date(capAlert!.onset).toLocaleString()} — ${new Date(capAlert!.expires).toLocaleString()}`);
     }
     parts.push("");
-    parts.push(capAlert.description);
-    if (capAlert.instruction) {
+    parts.push(description);
+    if (instruction) {
       parts.push("");
-      parts.push(capAlert.instruction);
+      parts.push(instruction);
     }
     return parts.join("\n");
   };
 
-  // For legacy alerts, use stored texts; for CAP, build from data
-  const officialTextBase = isCapAlert
-    ? buildCapOfficialText()
-    : (alertOfficialTexts[alert!.id]?.[locale] ?? alertOfficialTexts["main"]?.[locale] ?? alertOfficialTexts["main"]?.["es"] ?? description);
-
-  const [officialText] = useState(officialTextBase);
-
-  // For legacy alerts: explanation from translations; for CAP: from ai_explanation
-  const explanationText = isCapAlert
-    ? aiSummary
-    : (t[alertExplanationKeys[alert!.id] as keyof typeof t] as string || description);
+  const officialText = buildOfficialText();
 
   const [copied, setCopied] = useState(false);
 
@@ -193,7 +217,6 @@ const AlertDetail = ({ alert, capAlert, onBack, onOpenChat }: AlertDetailProps) 
           </p>
         )}
 
-        {/* Recommended actions inside AI card */}
         {actions && actions.length > 0 && (
           <div className="mt-4 pt-3 border-t border-current/10">
             <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-3">
@@ -261,6 +284,64 @@ const AlertDetail = ({ alert, capAlert, onBack, onOpenChat }: AlertDetailProps) 
           </div>
         </div>
 
+        {/* Language picker */}
+        {isCapAlert && (
+          <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
+            <Languages className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+            <span className="text-[11px] text-muted-foreground">{t.alertOfficialTextTranslate}:</span>
+            <div className="flex gap-1 flex-wrap">
+              {/* Original language button */}
+              <button
+                onClick={() => setTextLocale("original")}
+                className={`text-[11px] font-semibold px-2 py-0.5 rounded-full transition-all ${
+                  textLocale === "original"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t.alertOriginalLang} ({localeNames[originalLocale]})
+              </button>
+              {/* Translation options (only locales different from original) */}
+              {localeOrder.filter(loc => loc !== originalLocale).map((loc) => (
+                <button
+                  key={loc}
+                  onClick={() => setTextLocale(loc)}
+                  className={`text-[11px] font-semibold px-2 py-0.5 rounded-full transition-all ${
+                    loc === textLocale
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {localeNames[loc]}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Legacy language picker */}
+        {!isCapAlert && (
+          <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
+            <Languages className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+            <span className="text-[11px] text-muted-foreground">{t.alertOfficialTextTranslate}:</span>
+            <div className="flex gap-1 flex-wrap">
+              {localeOrder.map((loc) => (
+                <button
+                  key={loc}
+                  onClick={() => setTextLocale(loc)}
+                  className={`text-[11px] font-semibold px-2 py-0.5 rounded-full transition-all ${
+                    loc === textLocale || (textLocale === "original" && loc === locale)
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {localeNames[loc]}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Text body */}
         <div className="px-4 py-3">
           <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap break-words opacity-90">
@@ -268,7 +349,6 @@ const AlertDetail = ({ alert, capAlert, onBack, onOpenChat }: AlertDetailProps) 
           </p>
         </div>
       </div>
-
     </div>
   );
 };
