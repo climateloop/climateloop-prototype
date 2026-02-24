@@ -11,8 +11,8 @@ interface Contribution {
 }
 
 const myContributions: Contribution[] = [
-  { id: "1", typeKey: "typeFlooding", description: "Calle inundada en la Rúa da Raíña", time: "2h", verified: true, hasPhoto: true },
-  { id: "3", typeKey: "typeStrongWind", description: "Árbol caído en la Rúa Nova", time: "1h", verified: true, hasPhoto: true },
+  { id: "1", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "2h", verified: true, hasPhoto: true },
+  { id: "3", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", verified: true, hasPhoto: true },
 ];
 
 const typeColorMap: Record<string, string> = {
