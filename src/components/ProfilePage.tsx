@@ -1,6 +1,7 @@
 import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe, ClipboardList, Ruler } from "lucide-react";
 import { useLanguage, localeNames, type Locale, type UnitSystem } from "@/i18n/LanguageContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ProfilePageProps {
   onOpenContributions?: () => void;
@@ -14,13 +15,46 @@ const unitSystemLabels: Record<UnitSystem, Record<string, string>> = {
   imperial: { en: "Imperial (°F, mph)", es: "Imperial (°F, mph)", pt: "Imperial (°F, mph)", fr: "Impérial (°F, mph)" },
 };
 
+const MOCK_USER_ID = "45f9ab8e-bd92-4798-b9f2-05f61c9d5201";
+const MOCK_REPORT_COUNT = 2; // mock reports assigned to this user
+
 const ProfilePage = ({ onOpenContributions, onOpenLocation, onOpenLegal, onLogout }: ProfilePageProps) => {
   const { t, locale, setLocale, unitSystem, setUnitSystem } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
   const [unitsOpen, setUnitsOpen] = useState(false);
+  const [displayName, setDisplayName] = useState(t.profileDemoUser);
+  const [email, setEmail] = useState("usuario@climateloop.app");
+  const [initial, setInitial] = useState("U");
+  const [reportCount, setReportCount] = useState(0);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const name = user.user_metadata?.display_name || user.email || "";
+        setDisplayName(name);
+        setEmail(user.email || "");
+        setInitial((name.charAt(0) || "U").toUpperCase());
+
+        // Count real reports from DB
+        const { count } = await supabase
+          .from("community_reports")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id);
+
+        let total = count || 0;
+        // Add mock reports if this is the mock user
+        if (user.id === MOCK_USER_ID) {
+          total += MOCK_REPORT_COUNT;
+        }
+        setReportCount(total);
+      }
+    };
+    loadProfile();
+  }, []);
 
   const menuItems = [
-    { icon: ClipboardList, label: t.menuMyContributions, value: "2", onClick: onOpenContributions, id: "contributions" },
+    { icon: ClipboardList, label: t.menuMyContributions, value: String(reportCount), onClick: onOpenContributions, id: "contributions" },
     { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue, onClick: onOpenLocation, id: "location" },
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive, id: "notifications" },
     { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => { setLangOpen(!langOpen); setUnitsOpen(false); }, id: "language" },
@@ -33,13 +67,13 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation, onOpenLegal, onLogou
     <div className="px-4 pb-4">
       <div className="flex flex-col items-center py-6">
         <div className="w-20 h-20 rounded-full gradient-primary flex items-center justify-center mb-3">
-          <User className="w-10 h-10 text-primary-foreground" />
+          <span className="text-3xl font-bold text-primary-foreground">{initial}</span>
         </div>
-        <h2 className="text-lg font-bold text-foreground">{t.profileDemoUser}</h2>
-        <p className="text-sm text-muted-foreground">usuario@climateloop.app</p>
+        <h2 className="text-lg font-bold text-foreground">{displayName}</h2>
+        <p className="text-sm text-muted-foreground">{email}</p>
         <div className="flex items-center gap-4 mt-4">
           <div className="text-center">
-            <p className="text-lg font-bold text-foreground">2</p>
+            <p className="text-lg font-bold text-foreground">{reportCount}</p>
             <p className="text-xs text-muted-foreground">{t.profileReports}</p>
           </div>
           <div className="w-px h-8 bg-border" />

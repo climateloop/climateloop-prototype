@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, ThumbsUp, ThumbsDown, Star } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 import reportPhoto1 from "@/assets/community/report-1-flooding-street.jpg";
 import reportPhoto3 from "@/assets/community/report-3-fallen-tree.jpg";
@@ -18,10 +19,11 @@ interface ReportData {
   time: string;
   hasPhoto: boolean;
   distance: string;
+  userId?: string;
   translations?: Record<string, { title?: string; notes?: string | null }>;
 }
 
-const myReportIds = ["1", "3"];
+const MOCK_USER_ID = "45f9ab8e-bd92-4798-b9f2-05f61c9d5201";
 
 const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; risk: string; positiveRatings: number; totalRatings: number }> = {
   "1": {
@@ -29,7 +31,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Rúa da Raíña completamente inundada tras forte chuveira",
     time: "15 min", hasPhoto: true, distance: "1.2 km",
     location: "Rúa da Raíña 12, Lugo", photoUrl: reportPhoto1, risk: "high",
-    positiveRatings: 12, totalRatings: 13,
+    positiveRatings: 12, totalRatings: 13, userId: MOCK_USER_ID,
     translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } },
   },
   "3": {
@@ -37,7 +39,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Árbore caída na Rúa Nova bloqueando o tráfico",
     time: "1h", hasPhoto: true, distance: "0.8 km",
     location: "Rúa Nova 28, Lugo", photoUrl: reportPhoto3, risk: "moderate",
-    positiveRatings: 11, totalRatings: 12,
+    positiveRatings: 11, totalRatings: 12, userId: MOCK_USER_ID,
     translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } },
   },
   "4": {
@@ -108,6 +110,15 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
   const { t, locale } = useLanguage();
   const report = reportDetails[reportId];
   const [vote, setVote] = useState<"up" | "down" | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) setCurrentUserId(user.id);
+    });
+  }, []);
+
+  const isMine = !!(report?.userId && report.userId === currentUserId);
 
   if (!report) return null;
 
@@ -193,7 +204,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
           </div>
           <div>
             <p className="text-sm font-medium text-foreground">
-              {myReportIds.includes(report.id) ? t.communitySentByMe : report.user}
+              {isMine ? t.communitySentByMe : report.user}
             </p>
             <p className="text-xs text-muted-foreground">{t.communityDetailTime}: {report.time}</p>
           </div>
@@ -201,7 +212,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
       </div>
 
       {/* Rate this report — only if not mine */}
-      {!myReportIds.includes(report.id) && (
+      {!isMine && (
         <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
           <p className="text-sm font-medium text-foreground mb-2">{t.communityRateTitle}</p>
           <p className="text-xs text-muted-foreground mb-3">{t.communityRateDesc}</p>
