@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Sparkles } from "lucide-react";
 import Header, { NotificationPanel } from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
@@ -235,13 +236,7 @@ const Index = () => {
         }`}
         aria-label={t.navAI}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 3a6 6 0 0 0-6 6v2a6 6 0 0 0 12 0V9a6 6 0 0 0-6-6z"/>
-          <path d="M8 21h8"/>
-          <path d="M12 17v4"/>
-          <circle cx="9" cy="10" r="1" fill="white"/>
-          <circle cx="15" cy="10" r="1" fill="white"/>
-        </svg>
+        <Sparkles className="w-5 h-5 text-white" />
       </button>
 
       <AIChat
