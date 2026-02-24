@@ -87,14 +87,15 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
     [userLoc.lat, userLoc.lng]
   );
 
-  let displayReports = preview ? reportsWithDistance.slice(0, 3) : reportsWithDistance;
+  // Always filter by radius (both preview and full view)
+  let displayReports = reportsWithDistance.filter((r) => r.distanceKm <= selectedRadius);
 
   if (!preview) {
-    // Always filter by radius
-    displayReports = displayReports.filter((r) => r.distanceKm <= selectedRadius);
     if (selectedType) {
       displayReports = displayReports.filter((r) => r.typeKey === selectedType);
     }
+  } else {
+    displayReports = displayReports.slice(0, 3);
   }
 
   return (
