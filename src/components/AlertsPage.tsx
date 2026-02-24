@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, Clock, AlertTriangle, History, Loader2 } from "lucide-react";
+import { Bell, Loader2 } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useCapAlerts, capSeverityToColor, categorizeAlert, type CapAlert, type AlertTimeCategory } from "@/hooks/useCapAlerts";
 import AlertCard from "./AlertCard";
@@ -37,22 +37,20 @@ const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
     { value: "yellow", label: t.alertsSeverityYellow, color: "bg-accent/15 text-accent border-accent" },
   ];
 
-  const timeOptions: { value: TimeFilter; label: string; icon: React.ReactNode }[] = [
-    { value: "all", label: t.alertsFilterAll, icon: null },
-    { value: "immediate", label: t.alertCategoryNow, icon: <AlertTriangle className="w-3 h-3" /> },
-    { value: "future", label: t.alertCategoryFuture, icon: <Clock className="w-3 h-3" /> },
-    { value: "past", label: t.alertCategoryPast, icon: <History className="w-3 h-3" /> },
+  const timeOptions: { value: TimeFilter; label: string }[] = [
+    { value: "all", label: t.alertsFilterAll },
+    { value: "immediate", label: t.alertCategoryNow },
+    { value: "future", label: t.alertCategoryFuture },
+    { value: "past", label: t.alertCategoryPast },
   ];
 
   const renderSection = (
     title: string,
-    icon: React.ReactNode,
     items: CapAlert[],
     dimmed?: boolean
   ) => (
     <div className={dimmed ? "opacity-60" : ""}>
       <div className="flex items-center gap-2 mb-2">
-        {icon}
         <h3 className="text-sm font-semibold text-foreground">{title}</h3>
         <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">{items.length}</span>
       </div>
@@ -97,18 +95,17 @@ const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
 
         {/* Time category filter */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mr-1">⏱:</span>
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mr-1">{t.alertsFilterTime}:</span>
           {timeOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setTimeFilter(opt.value)}
-              className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border transition-all flex items-center gap-1 ${
+              className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border transition-all ${
                 timeFilter === opt.value
                   ? "bg-primary text-primary-foreground border-primary"
                   : "bg-muted/50 text-muted-foreground border-transparent hover:bg-muted"
               }`}
             >
-              {opt.icon}
               {opt.label}
             </button>
           ))}
@@ -121,9 +118,9 @@ const AlertsPage = ({ onAskAI }: AlertsPageProps) => {
         </div>
       ) : (
         <>
-          {immediate.length > 0 && renderSection(t.alertCategoryNow, <AlertTriangle className="w-4 h-4 text-destructive" />, immediate)}
-          {future.length > 0 && renderSection(t.alertCategoryFuture, <Clock className="w-4 h-4 text-accent" />, future)}
-          {past.length > 0 && renderSection(t.alertCategoryPast, <History className="w-4 h-4 text-muted-foreground" />, past, true)}
+          {immediate.length > 0 && renderSection(t.alertCategoryNow, immediate)}
+          {future.length > 0 && renderSection(t.alertCategoryFuture, future)}
+          {past.length > 0 && renderSection(t.alertCategoryPast, past, true)}
           {filtered.length === 0 && (
             <div className="text-center py-12 text-muted-foreground text-sm">
               {t.alertsNoAlerts}
