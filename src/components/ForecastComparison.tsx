@@ -103,31 +103,30 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
       wind: weather ? `${Math.round(weather.wind_speed * 3.6)} km/h` : null,
       humidity: weather ? `${weather.humidity}%` : null,
       trend: weather && weather.temp > 15 ? "up" : "stable",
-      
     },
-    {
-      sourceKey: "forecastML",
+    ...(mlData ? [{
+      sourceKey: "forecastML" as const,
       icon: <Brain className="w-4 h-4 text-secondary" />,
-      tempC: mlData?.temperature_2m != null ? Math.round(mlData.temperature_2m * 10) / 10 : null,
-      rainChance: mlData?.precipitation != null ? (mlData.precipitation > 0.1 ? `${Math.round(mlData.precipitation * 100)}%` : "0%") : null,
-      rainMm: mlData?.precipitation != null ? `${mlData.precipitation.toFixed(1)}mm` : null,
-      wind: mlData?.wind_speed_10m != null ? `${Math.round(mlData.wind_speed_10m)} km/h` : null,
-      humidity: mlData?.relative_humidity_2m != null ? `${Math.round(mlData.relative_humidity_2m)}%` : null,
-      trend: mlData?.temperature_2m != null && mlData.temperature_2m > 15 ? "up" : "stable",
-      
-    },
-    {
-      sourceKey: "forecastIoT",
+      tempC: mlData.temperature_2m != null ? Math.round(mlData.temperature_2m * 10) / 10 : null,
+      rainChance: mlData.precipitation != null ? (mlData.precipitation > 0.1 ? `${Math.round(mlData.precipitation * 100)}%` : "0%") : null,
+      rainMm: mlData.precipitation != null ? `${mlData.precipitation.toFixed(1)}mm` : null,
+      wind: mlData.wind_speed_10m != null ? `${Math.round(mlData.wind_speed_10m)} km/h` : null,
+      humidity: mlData.relative_humidity_2m != null ? `${Math.round(mlData.relative_humidity_2m)}%` : null,
+      trend: mlData.temperature_2m != null && mlData.temperature_2m > 15 ? "up" as const : "stable" as const,
+    }] : []),
+    ...(iotData ? [{
+      sourceKey: "forecastIoT" as const,
       icon: <Radio className="w-4 h-4 text-accent" />,
-      tempC: iotData?.temperature_2m != null ? Math.round(iotData.temperature_2m * 10) / 10 : null,
+      tempC: iotData.temperature_2m != null ? Math.round(iotData.temperature_2m * 10) / 10 : null,
       rainChance: null,
-      rainMm: iotData?.precipitation != null ? `${iotData.precipitation.toFixed(1)}mm` : null,
-      wind: iotData?.wind_speed_10m != null ? `${Math.round(iotData.wind_speed_10m)} km/h` : null,
-      humidity: iotData?.relative_humidity_2m != null ? `${Math.round(iotData.relative_humidity_2m)}%` : null,
-      trend: "stable",
-      
-    },
+      rainMm: iotData.precipitation != null ? `${iotData.precipitation.toFixed(1)}mm` : null,
+      wind: iotData.wind_speed_10m != null ? `${Math.round(iotData.wind_speed_10m)} km/h` : null,
+      humidity: iotData.relative_humidity_2m != null ? `${Math.round(iotData.relative_humidity_2m)}%` : null,
+      trend: "stable" as const,
+    }] : []),
   ];
+
+  const colCount = forecastData.length;
 
   const formatTemp = (c: number | null) => {
     if (c == null) return "—";
@@ -141,7 +140,7 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
   return (
     <div className="mx-4">
       <h2 className="text-base font-semibold text-foreground mb-3">{t.forecastTitle}</h2>
-      <div className="grid grid-cols-3 gap-2">
+      <div className={`grid gap-2`} style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}>
         {forecastData.map((f) => (
           <div
             key={f.sourceKey}
