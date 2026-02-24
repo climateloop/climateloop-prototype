@@ -828,12 +828,27 @@ Solo se recopilan:
 
 Las imágenes se almacenan solo si la IA confirma ausencia de personas identificables y coherencia con el evento.
 
-6. AI Act
+6. Transparencia y AI Act (Art. 52 AI Act)
 
-Sistema clasificado como riesgo limitado bajo el AI Act, con obligaciones de transparencia y supervisión proporcional.`,
+Los usuarios son informados claramente cuando interactúan con un sistema de IA. La IA desplegada se clasifica como sistema de riesgo limitado bajo el AI Act de la UE. Climate Loop aplica:
+- Medidas de transparencia;
+- Salvaguardas basadas en riesgo;
+- Supervisión humana proporcional a la función del sistema.
+
+7. Aviso Informativo
+
+La Plataforma no sustituye a las autoridades públicas oficiales ni a los servicios de emergencia.
+
+8. Limitación de Responsabilidad
+
+En la medida permitida por la ley, Climate Loop no será responsable por daños indirectos o consecuentes derivados del uso informativo de la Plataforma.
+
+9. Marco Legal
+
+Estos Términos están alineados con el Reglamento General de Protección de Datos (GDPR) y el Reglamento de Inteligencia Artificial de la UE.`,
     legalPrivacyContent: `1. Responsable del Tratamiento
 
-Climate Loop actúa como responsable del tratamiento.
+Climate Loop actúa como responsable del tratamiento de los datos personales procesados a través de la Plataforma.
 
 2. Datos Recopilados
 
@@ -841,23 +856,47 @@ Climate Loop actúa como responsable del tratamiento.
 - Correo electrónico
 - Contraseña cifrada
 - Datos de sesión
-- Localización opcional
+- Localización opcional (basada en consentimiento)
 
 3. Base Jurídica (Art. 6 GDPR)
 
-Ejecución contractual, interés legítimo y consentimiento.
+El tratamiento se basa en:
+- Ejecución contractual (Art. 6(1)(b));
+- Interés legítimo (Art. 6(1)(f));
+- Consentimiento cuando corresponda (Art. 6(1)(a)).
 
-4. Finalidad
+4. Finalidad del Tratamiento
 
-Autenticación, seguridad y funcionamiento del asistente IA.
+- Autenticación y gestión de cuentas;
+- Seguridad de la plataforma;
+- Funcionalidad explicativa de la IA;
+- Información climática personalizada.
 
-5. Derechos del Usuario
+5. Procesamiento por IA Generativa
 
-Acceso, rectificación, supresión, limitación y portabilidad.
+Los textos enviados para explicación pueden ser procesados por proveedores de IA integrados bajo estricta minimización de datos. No se utilizan datos personales para entrenar modelos de IA propietarios.
 
-6. Seguridad
+6. Retención de Datos
 
-Medidas técnicas y organizativas adecuadas.`,
+Los datos se conservan solo durante el tiempo necesario para la prestación del servicio o el cumplimiento de obligaciones legales.
+
+7. Derechos del Titular (Arts. 15-22 GDPR)
+
+Los usuarios pueden solicitar:
+- Acceso
+- Rectificación
+- Supresión
+- Limitación
+- Portabilidad de datos
+- Oposición
+
+8. Seguridad (Art. 32 GDPR)
+
+Se implementan medidas técnicas y organizativas adecuadas.
+
+9. Autoridad de Control
+
+Los usuarios pueden presentar una reclamación ante la autoridad de protección de datos competente dentro de la UE.`,
     authTermsCheckbox: "He leído y acepto los",
     authTermsLink: "Términos de Uso y Política de Privacidad",
     authErrorTerms: "Debes aceptar los términos para continuar",
@@ -1177,16 +1216,27 @@ Imagens são armazenadas somente se a IA confirmar:
 
 Formato público: Primeiro nome + inicial do sobrenome.
 
-6. Transparência e AI Act
+6. Transparência e AI Act (Art. 52 AI Act)
 
-O usuário é informado quando interage com IA. O sistema enquadra-se como risco limitado sob o AI Act europeu, aplicando medidas proporcionais de mitigação e supervisão.
+Os usuários são claramente informados quando interagem com um sistema de IA. A IA implantada qualifica-se como sistema de risco limitado sob o AI Act da UE. O Climate Loop aplica:
+- Medidas de transparência;
+- Salvaguardas baseadas em risco;
+- Supervisão humana proporcional à função do sistema.
 
 7. Natureza Informativa
 
-Não substitui autoridades oficiais.`,
+A Plataforma não substitui autoridades públicas oficiais ou serviços de emergência.
+
+8. Limitação de Responsabilidade
+
+Na medida permitida por lei, o Climate Loop não será responsável por danos indiretos ou consequentes decorrentes do uso informativo da Plataforma.
+
+9. Marco Legal
+
+Estes Termos estão alinhados com o Regulamento Geral sobre a Proteção de Dados (GDPR) e o Regulamento de Inteligência Artificial da UE.`,
     legalPrivacyContent: `1. Controlador de Dados
 
-O Climate Loop atua como controlador de dados.
+O Climate Loop atua como Controlador de Dados para os dados pessoais processados através da Plataforma.
 
 2. Dados Coletados
 
@@ -1194,27 +1244,47 @@ O Climate Loop atua como controlador de dados.
 - E-mail
 - Senha criptografada
 - Logs de sessão
-- Localização opcional mediante consentimento
+- Localização opcional (baseada em consentimento)
 
 3. Base Legal (Art. 6 GDPR)
 
-Execução de contrato, legítimo interesse e consentimento.
+O processamento baseia-se em:
+- Execução de contrato (Art. 6(1)(b));
+- Interesse legítimo (Art. 6(1)(f));
+- Consentimento quando aplicável (Art. 6(1)(a)).
 
-4. Finalidade
+4. Finalidade do Processamento
 
-Autenticação, segurança, funcionamento da IA e personalização climática.
+- Autenticação e gestão de contas;
+- Segurança da plataforma;
+- Funcionalidade explicativa da IA;
+- Informação climática personalizada.
 
-5. Processamento por IA
+5. Processamento por IA Generativa
 
-Textos podem ser processados por provedores integrados sob minimização de dados. Dados pessoais não são utilizados para treinamento de modelos.
+Textos submetidos para explicação podem ser processados por provedores de IA integrados sob estrita minimização de dados. Dados pessoais não são utilizados para treinar modelos de IA proprietários.
 
-6. Direitos do Titular (Arts. 15-22 GDPR)
+6. Retenção de Dados
 
-Acesso, correção, exclusão, limitação, portabilidade e oposição.
+Os dados são retidos apenas pelo tempo necessário para a prestação do serviço ou cumprimento de obrigações legais.
 
-7. Segurança (Art. 32 GDPR)
+7. Direitos do Titular (Arts. 15-22 GDPR)
 
-Medidas técnicas e organizacionais adequadas são aplicadas.`,
+Os usuários podem solicitar:
+- Acesso
+- Retificação
+- Exclusão
+- Limitação
+- Portabilidade de dados
+- Oposição
+
+8. Segurança (Art. 32 GDPR)
+
+Medidas técnicas e organizacionais adequadas são implementadas.
+
+9. Autoridade Supervisora
+
+Os usuários podem apresentar reclamação à autoridade de proteção de dados competente dentro da UE.`,
     authTermsCheckbox: "Li e concordo com os",
     authTermsLink: "Termos de Uso e Política de Privacidade",
     authErrorTerms: "Você precisa aceitar os termos para continuar",
@@ -1525,36 +1595,75 @@ Collecte limitée à :
 
 Images stockées uniquement après validation IA confirmant absence de personnes identifiables.
 
-6. AI Act
+6. Transparence et AI Act (Art. 52 AI Act)
 
-Système classé risque limité selon le AI Act, avec obligations de transparence.`,
+Les utilisateurs sont clairement informés lorsqu'ils interagissent avec un système d'IA. L'IA déployée est classée comme système à risque limité en vertu du AI Act de l'UE. Climate Loop applique :
+- Des mesures de transparence ;
+- Des garanties basées sur le risque ;
+- Une supervision humaine proportionnelle à la fonction du système.
+
+7. Avertissement Informatif
+
+La Plateforme ne remplace pas les autorités publiques officielles ni les services d'urgence.
+
+8. Limitation de Responsabilité
+
+Dans la mesure permise par la loi, Climate Loop ne sera pas responsable des dommages indirects ou consécutifs résultant de l'utilisation informative de la Plateforme.
+
+9. Cadre Juridique
+
+Ces Conditions sont alignées sur le Règlement Général sur la Protection des Données (RGPD) et le Règlement sur l'Intelligence Artificielle de l'UE.`,
     legalPrivacyContent: `1. Responsable du Traitement
 
-Climate Loop agit comme responsable du traitement.
+Climate Loop agit comme responsable du traitement des données personnelles traitées via la Plateforme.
 
 2. Données Collectées
 
 - Prénom
-- Email
+- E-mail
 - Mot de passe chiffré
 - Données de session
-- Localisation optionnelle
+- Localisation optionnelle (basée sur le consentement)
 
 3. Base Légale (Art. 6 RGPD)
 
-Exécution du contrat, intérêt légitime et consentement.
+Le traitement est fondé sur :
+- L'exécution du contrat (Art. 6(1)(b)) ;
+- L'intérêt légitime (Art. 6(1)(f)) ;
+- Le consentement le cas échéant (Art. 6(1)(a)).
 
-4. Finalité
+4. Finalité du Traitement
 
-Authentification, sécurité et fonctionnement IA.
+- Authentification et gestion des comptes ;
+- Sécurité de la plateforme ;
+- Fonctionnalité explicative de l'IA ;
+- Information climatique personnalisée.
 
-5. Droits
+5. Traitement par IA Générative
 
-Accès, rectification, effacement, limitation et portabilité.
+Les textes soumis pour explication peuvent être traités par des fournisseurs d'IA intégrés sous stricte minimisation des données. Aucune donnée personnelle n'est utilisée pour entraîner des modèles d'IA propriétaires.
 
-6. Sécurité
+6. Conservation des Données
 
-Mesures techniques appropriées.`,
+Les données ne sont conservées que le temps nécessaire à la fourniture du service ou au respect des obligations légales.
+
+7. Droits des Personnes Concernées (Arts. 15-22 RGPD)
+
+Les utilisateurs peuvent demander :
+- L'accès
+- La rectification
+- L'effacement
+- La limitation
+- La portabilité des données
+- L'opposition
+
+8. Sécurité (Art. 32 RGPD)
+
+Des mesures techniques et organisationnelles appropriées sont mises en œuvre.
+
+9. Autorité de Contrôle
+
+Les utilisateurs peuvent déposer une plainte auprès de l'autorité de protection des données compétente au sein de l'UE.`,
     authTermsCheckbox: "J'ai lu et j'accepte les",
     authTermsLink: "Conditions d'Utilisation et Politique de Confidentialité",
     authErrorTerms: "Vous devez accepter les conditions pour continuer",
