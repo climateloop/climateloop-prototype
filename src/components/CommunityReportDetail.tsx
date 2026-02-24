@@ -108,9 +108,10 @@ interface CommunityReportDetailProps {
 
 const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReportDetailProps) => {
   const { t, locale } = useLanguage();
-  const report = reportDetails[reportId];
   const [vote, setVote] = useState<"up" | "down" | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [dbReport, setDbReport] = useState<(typeof reportDetails)[string] | null>(null);
+  const [loadingDb, setLoadingDb] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -118,7 +119,59 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
     });
   }, []);
 
+  // If not a mock report, fetch from DB
+  useEffect(() => {
+    if (!reportDetails[reportId]) {
+      setLoadingDb(true);
+      supabase
+        .from("community_reports")
+        .select("*")
+        .eq("id", reportId)
+        .single()
+        .then(({ data }) => {
+          if (data) {
+            const categoryToTypeKey: Record<string, string> = {
+              flooding: "typeFlooding",
+              extreme_heat: "typeExtremeHeat",
+              strong_wind: "typeStrongWind",
+              fire: "typeFire",
+            };
+            const diff = Date.now() - new Date(data.created_at).getTime();
+            const mins = Math.floor(diff / 60000);
+            const timeStr = mins < 60 ? `${mins} min` : mins < 1440 ? `${Math.floor(mins / 60)}h` : `${Math.floor(mins / 1440)}d`;
+            setDbReport({
+              id: data.id,
+              user: "",
+              typeKey: categoryToTypeKey[data.category] || data.category,
+              description: data.title,
+              time: timeStr,
+              hasPhoto: !!data.photo_url,
+              distance: "",
+              userId: data.user_id,
+              translations: data.translations as any,
+              photoUrl: data.photo_url || "",
+              location: data.address,
+              risk: "moderate",
+              positiveRatings: 0,
+              totalRatings: 0,
+            });
+          }
+          setLoadingDb(false);
+        });
+    }
+  }, [reportId]);
+
+  const report = reportDetails[reportId] || dbReport;
+
   const isMine = !!(report?.userId && report.userId === currentUserId);
+
+  if (loadingDb) {
+    return (
+      <div className="px-4 pb-4 flex items-center justify-center py-12">
+        <div className="animate-spin w-6 h-6 border-3 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   if (!report) return null;
 
