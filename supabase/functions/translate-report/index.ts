@@ -42,13 +42,24 @@ serve(async (req) => {
 
     const textToTranslate = `Title: ${report.title}${report.notes ? `\nNotes: ${report.notes}` : ""}`;
 
-    const prompt = `Translate the following community weather report to English (en), Portuguese (pt), and French (fr). The original is in Spanish.
+    const targetLanguages = [
+      { code: "en", name: "English" },
+      { code: "es", name: "Spanish" },
+      { code: "pt", name: "Portuguese" },
+      { code: "fr", name: "French" },
+    ];
 
+    const prompt = `You will receive a community weather report. First, detect the language it is written in. Then translate it to ALL four target languages: English (en), Spanish (es), Portuguese (pt), and French (fr).
+
+For the language the original is already in, just copy the original text as-is.
+
+Original text:
 ${textToTranslate}
 
 Return ONLY a valid JSON object with this exact structure (no markdown, no code blocks):
 {
   "en": { "title": "...", "notes": "..." },
+  "es": { "title": "...", "notes": "..." },
   "pt": { "title": "...", "notes": "..." },
   "fr": { "title": "...", "notes": "..." }
 }
@@ -96,8 +107,7 @@ If notes is empty, set it to null. Keep translations natural and concise.`;
       });
     }
 
-    // Also add the original Spanish
-    translations["es"] = { title: report.title, notes: report.notes };
+    // No need to manually add original — AI already includes all 4 languages
 
     // Save translations to DB
     const { error: updateError } = await supabase
