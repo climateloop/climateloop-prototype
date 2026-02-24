@@ -120,7 +120,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
           notes: notes.trim() || null,
           address: address.trim(),
           photo_url: photoUrl || null,
-          status: "pending",
+          status: "verified",
         })
         .select("id")
         .single();
