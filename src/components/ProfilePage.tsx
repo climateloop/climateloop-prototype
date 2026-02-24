@@ -49,9 +49,9 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation, onOpenLegal, onLogou
           </div>
           <div className="w-px h-8 bg-border" />
           <div className="text-center">
-            <p className="text-lg font-bold text-secondary">92%</p>
-            <p className="text-xs text-muted-foreground">{t.profileAccuracy}</p>
-            <p className="text-[9px] text-muted-foreground/70 mt-0.5">{t.profileAccuracyHint}</p>
+            <p className="text-lg font-bold text-secondary">4.6 ★</p>
+            <p className="text-xs text-muted-foreground">{t.profileRating}</p>
+            <p className="text-[9px] text-muted-foreground/70 mt-0.5">{t.profileRatingHint}</p>
           </div>
         </div>
       </div>
