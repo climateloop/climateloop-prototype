@@ -32,11 +32,15 @@ export interface CapAlertArea {
   geocodes?: { valueName: string; value: string }[];
 }
 
-export interface CapAIExplanation {
+export interface CapAIExplanationLocale {
   summary: string;
   recommended_actions: string[];
   risk_level: string;
   affected_population?: string;
+}
+
+export interface CapAIExplanation extends CapAIExplanationLocale {
+  localized?: Record<string, CapAIExplanationLocale>;
 }
 
 export type AlertTimeCategory = "immediate" | "future" | "past";
