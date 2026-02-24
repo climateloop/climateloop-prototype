@@ -3,6 +3,15 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+function getRelativeTime(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins}m`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h`;
+  return `${Math.floor(hrs / 24)}d`;
+}
+
 interface Contribution {
   id: string;
   typeKey: string;
@@ -35,15 +44,49 @@ interface MyContributionsProps {
 const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
   const { t, locale } = useLanguage();
   const [userInitial, setUserInitial] = useState("U");
+  const [dbContributions, setDbContributions] = useState<Contribution[]>([]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (user) {
         const name = user.user_metadata?.display_name || user.email || "";
         setUserInitial((name.charAt(0) || "U").toUpperCase());
+
+        // Fetch real contributions from database
+        supabase
+          .from("community_reports")
+          .select("*")
+          .eq("user_id", user.id)
+          .eq("status", "verified")
+          .order("created_at", { ascending: false })
+          .then(({ data }) => {
+            if (data) {
+              const categoryToTypeKey: Record<string, string> = {
+                flooding: "typeFlooding",
+                extreme_heat: "typeExtremeHeat",
+                strong_wind: "typeStrongWind",
+                fire: "typeFire",
+              };
+              setDbContributions(
+                data.map((r) => ({
+                  id: r.id,
+                  typeKey: categoryToTypeKey[r.category] || r.category,
+                  description: r.title,
+                  time: getRelativeTime(r.created_at),
+                  verified: true,
+                  hasPhoto: !!r.photo_url,
+                  positiveRatings: 0,
+                  totalRatings: 0,
+                  translations: r.translations as any,
+                }))
+              );
+            }
+          });
       }
     });
   }, []);
+
+  const allContributions = [...myContributions, ...dbContributions];
 
   return (
     <div className="px-4 pb-4 animate-in fade-in duration-200">
@@ -58,7 +101,7 @@ const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
       <h2 className="text-lg font-bold text-foreground mb-4">{t.myContribTitle}</h2>
 
       <div className="space-y-3">
-        {myContributions.map((c) => {
+        {allContributions.map((c) => {
           const typeLabel = (t as any)[c.typeKey] || c.typeKey;
           return (
             <button key={c.id} onClick={() => onOpenReport?.(c.id)} className="w-full text-left bg-surface-elevated rounded-xl p-4 shadow-card border border-border hover:bg-muted transition-colors">
