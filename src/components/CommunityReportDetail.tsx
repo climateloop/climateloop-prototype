@@ -135,6 +135,21 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
               extreme_heat: "typeExtremeHeat",
               strong_wind: "typeStrongWind",
               fire: "typeFire",
+              rain: "typeRain",
+              hail: "typeHail",
+              frost: "typeFrost",
+              chuva: "typeRain",
+              vento: "typeStrongWind",
+              calor: "typeExtremeHeat",
+              incendio: "typeFire",
+              helada: "typeFrost",
+              granizo: "typeHail",
+              enchente: "typeFlooding",
+              ciclone: "typeStrongWind",
+              deslizamento: "typeFlooding",
+              seca: "typeExtremeHeat",
+              tempestade: "typeRain",
+              tornado: "typeStrongWind",
             };
             const diff = Date.now() - new Date(data.created_at).getTime();
             const mins = Math.floor(diff / 60000);

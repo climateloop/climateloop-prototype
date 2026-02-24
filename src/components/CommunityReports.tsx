@@ -25,6 +25,7 @@ interface CommunityReport {
   positiveRatings: number;
   totalRatings: number;
   translations?: Record<string, { title?: string; notes?: string | null }>;
+  createdAt?: number;
 }
 
 const reportPhotos: Record<string, string> = {
@@ -109,6 +110,19 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
             rain: "typeRain",
             hail: "typeHail",
             frost: "typeFrost",
+            // ReportModal uses these CategoryId values
+            chuva: "typeRain",
+            vento: "typeStrongWind",
+            calor: "typeExtremeHeat",
+            incendio: "typeFire",
+            helada: "typeFrost",
+            granizo: "typeHail",
+            enchente: "typeFlooding",
+            ciclone: "typeStrongWind",
+            deslizamento: "typeFlooding",
+            seca: "typeExtremeHeat",
+            tempestade: "typeRain",
+            tornado: "typeStrongWind",
           };
           const diff = (d: string) => {
             const mins = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
@@ -133,13 +147,18 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                 totalRatings: 0,
                 translations: r.translations as any,
                 photoUrl: r.photo_url,
+                createdAt: new Date(r.created_at).getTime(),
               }))
           );
         }
       });
   }, []);
 
-  const allReports = useMemo(() => [...reports, ...dbReports], [dbReports]);
+  // DB reports (with real timestamps) come first (newest), then mocks
+  const allReports = useMemo(() => {
+    const combined = [...reports, ...dbReports];
+    return combined.sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+  }, [dbReports]);
 
   const reportsWithDistance = useMemo(
     () =>
