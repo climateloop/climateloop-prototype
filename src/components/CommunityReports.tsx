@@ -84,6 +84,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
   const [selectedRadius, setSelectedRadius] = useState<number>(10);
   const [showFilters, setShowFilters] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [dbReports, setDbReports] = useState<CommunityReport[]>([]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -91,13 +92,62 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
     });
   }, []);
 
+  // Fetch real reports from DB
+  useEffect(() => {
+    supabase
+      .from("community_reports")
+      .select("*")
+      .eq("status", "verified")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data) {
+          const categoryToTypeKey: Record<string, string> = {
+            flooding: "typeFlooding",
+            extreme_heat: "typeExtremeHeat",
+            strong_wind: "typeStrongWind",
+            fire: "typeFire",
+            rain: "typeRain",
+            hail: "typeHail",
+            frost: "typeFrost",
+          };
+          const diff = (d: string) => {
+            const mins = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
+            if (mins < 60) return `${mins} min`;
+            if (mins < 1440) return `${Math.floor(mins / 60)}h`;
+            return `${Math.floor(mins / 1440)}d`;
+          };
+          setDbReports(
+            data
+              .filter((r) => !reports.some((m) => m.id === r.id))
+              .map((r) => ({
+                id: r.id,
+                user: "",
+                typeKey: categoryToTypeKey[r.category] || r.category,
+                description: r.title,
+                time: diff(r.created_at),
+                hasPhoto: !!r.photo_url,
+                lat: r.latitude ?? userLoc.lat,
+                lng: r.longitude ?? userLoc.lng,
+                userId: r.user_id,
+                positiveRatings: 0,
+                totalRatings: 0,
+                translations: r.translations as any,
+                photoUrl: r.photo_url,
+              }))
+          );
+        }
+      });
+  }, []);
+
+  const allReports = useMemo(() => [...reports, ...dbReports], [dbReports]);
+
   const reportsWithDistance = useMemo(
     () =>
-      reports.map((r) => ({
+      allReports.map((r) => ({
         ...r,
         distanceKm: haversineKm(userLoc.lat, userLoc.lng, r.lat, r.lng),
       })),
-    [userLoc.lat, userLoc.lng]
+    [userLoc.lat, userLoc.lng, allReports]
   );
 
   // Always filter by radius (both preview and full view)
@@ -193,7 +243,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
               <div className="p-3 flex gap-3">
                 {r.hasPhoto && (
                   <img
-                    src={reportPhotos[r.id] || "/placeholder.svg"}
+                    src={reportPhotos[r.id] || (r as any).photoUrl || "/placeholder.svg"}
                     alt=""
                     className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                     onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
