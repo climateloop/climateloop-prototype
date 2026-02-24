@@ -138,6 +138,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
           setDbReports(
             data
               .filter((r) => !reports.some((m) => m.id === r.id))
+              .filter((r) => r.latitude != null && r.longitude != null)
               .map((r) => ({
                 id: r.id,
                 user: "",
@@ -145,8 +146,8 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                 description: r.title,
                 time: diff(r.created_at),
                 hasPhoto: !!r.photo_url,
-                lat: r.latitude ?? userLoc.lat,
-                lng: r.longitude ?? userLoc.lng,
+                lat: r.latitude!,
+                lng: r.longitude!,
                 userId: r.user_id,
                 positiveRatings: 0,
                 totalRatings: 0,
