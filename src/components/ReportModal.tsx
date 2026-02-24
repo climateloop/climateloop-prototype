@@ -83,8 +83,14 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
     setIsSending(true);
 
     try {
-      // Get current user (for demo, use a mock user_id since auth is simulated)
-      const mockUserId = "00000000-0000-0000-0000-000000000001";
+      // Get current authenticated user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error("Você precisa estar logado para enviar um relato.");
+        setIsSending(false);
+        return;
+      }
+      const userId = user.id;
 
       // Upload photo to storage
       const fileExt = photoFile.name.split(".").pop() || "jpg";
@@ -107,7 +113,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
       const { data: insertedReport, error: insertError } = await supabase
         .from("community_reports")
         .insert({
-          user_id: mockUserId,
+          user_id: userId,
           title: title.trim(),
           category: selectedCategory,
           sub_category: selectedSub,
