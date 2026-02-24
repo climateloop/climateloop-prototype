@@ -99,9 +99,15 @@ const AlertCard = ({ alert, capAlert, compact = false, onAskAI }: AlertCardProps
 
       {!compact && actions && actions.length > 0 && (
         <div className="mt-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-foreground mb-2">
-            {t.alertRecommendedActions}
-          </p>
+          <div className="flex items-center gap-1.5 mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-accent" />
+            <p className="text-xs font-semibold uppercase tracking-wide text-foreground">
+              {t.alertRecommendedActions}
+            </p>
+            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent pointer-events-none select-none">
+              {t.aiPowered}
+            </span>
+          </div>
           <ul className="space-y-1">
             {actions.slice(0, 3).map((action, i) => (
               <li key={i} className="text-sm text-foreground flex items-start gap-2">
