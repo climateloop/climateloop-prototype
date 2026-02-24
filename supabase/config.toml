@@ -5,3 +5,9 @@ verify_jwt = false
 
 [functions.weather]
 verify_jwt = false
+
+[functions.translate-report]
+verify_jwt = false
+
+[functions.validate-photo]
+verify_jwt = false
