@@ -42,11 +42,23 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
     if (!navigator.geolocation) return;
     setDetecting(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const { latitude, longitude } = pos.coords;
-        const name = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
-        setCurrentLocation(name);
-        setLocation({ name, lat: latitude, lng: longitude });
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&zoom=10&addressdetails=1`,
+            { headers: { "Accept-Language": "es,pt,en" } }
+          );
+          const data = await res.json();
+          const addr = data.address;
+          const name = addr?.city || addr?.town || addr?.village || addr?.municipality || data.display_name?.split(",").slice(0, 2).join(",").trim() || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+          setCurrentLocation(name);
+          setLocation({ name, lat: latitude, lng: longitude });
+        } catch {
+          const name = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+          setCurrentLocation(name);
+          setLocation({ name, lat: latitude, lng: longitude });
+        }
         setDetecting(false);
       },
       () => setDetecting(false),

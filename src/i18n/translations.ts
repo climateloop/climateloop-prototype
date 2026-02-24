@@ -88,8 +88,8 @@ type TranslationKeys = {
   profileDemoUser: string;
   profileReports: string;
   profileDaysActive: string;
-  profileAccuracy: string;
-  profileAccuracyHint: string;
+  profileRating: string;
+  profileRatingHint: string;
   profileMyLocation: string;
   profileLocationValue: string;
   profileNotifications: string;
@@ -403,8 +403,8 @@ export const translations: Record<Locale, TranslationKeys> = {
     profileDemoUser: "Demo User",
     profileReports: "Reports",
     profileDaysActive: "Days active",
-    profileAccuracy: "Verified",
-    profileAccuracyHint: "Reports confirmed by AI",
+    profileRating: "Rating",
+    profileRatingHint: "Avg. community votes",
     profileMyLocation: "My location",
     profileLocationValue: "Galicia, Spain",
     profileNotifications: "Notifications",
@@ -799,8 +799,8 @@ Users may lodge a complaint with their competent data protection authority withi
     profileDemoUser: "Usuario Demo",
     profileReports: "Reportes",
     profileDaysActive: "Días activo",
-    profileAccuracy: "Verificados",
-    profileAccuracyHint: "Relatos confirmados por IA",
+    profileRating: "Valoración",
+    profileRatingHint: "Votos medios de la comunidad",
     profileMyLocation: "Mi ubicación",
     profileLocationValue: "Galicia, España",
     profileNotifications: "Notificaciones",
@@ -1188,8 +1188,8 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     profileDemoUser: "Usuário Demo",
     profileReports: "Relatos",
     profileDaysActive: "Dias ativo",
-    profileAccuracy: "Verificados",
-    profileAccuracyHint: "Relatos confirmados pela IA",
+    profileRating: "Avaliação",
+    profileRatingHint: "Votos médios da comunidade",
     profileMyLocation: "Minha localização",
     profileLocationValue: "Galicia, Espanha",
     profileNotifications: "Notificações",
@@ -1582,8 +1582,8 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     profileDemoUser: "Utilisateur Démo",
     profileReports: "Signalements",
     profileDaysActive: "Jours actif",
-    profileAccuracy: "Vérifiés",
-    profileAccuracyHint: "Signalements confirmés par l'IA",
+    profileRating: "Évaluation",
+    profileRatingHint: "Votes moyens de la communauté",
     profileMyLocation: "Ma position",
     profileLocationValue: "Galicia, Espagne",
     profileNotifications: "Notifications",
