@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Users, Camera, MapPin, Filter, Search, Star } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useLocation } from "@/hooks/useLocationContext";
 
@@ -20,7 +21,7 @@ interface CommunityReport {
   hasPhoto: boolean;
   lat: number;
   lng: number;
-  isMine?: boolean;
+  userId?: string;
   positiveRatings: number;
   totalRatings: number;
   translations?: Record<string, { title?: string; notes?: string | null }>;
@@ -46,9 +47,11 @@ function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): nu
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+const MOCK_USER_ID = "45f9ab8e-bd92-4798-b9f2-05f61c9d5201";
+
 const reports: CommunityReport[] = [
-  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, lat: 43.0101, lng: -7.5570, isMine: true, positiveRatings: 12, totalRatings: 13, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
-  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, lat: 43.0090, lng: -7.5545, isMine: true, positiveRatings: 11, totalRatings: 12, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
+  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, lat: 43.0101, lng: -7.5570, userId: MOCK_USER_ID, positiveRatings: 12, totalRatings: 13, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
+  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, lat: 43.0090, lng: -7.5545, userId: MOCK_USER_ID, positiveRatings: 11, totalRatings: 12, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
   { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado preto da Muralla Romana", time: "2h", hasPhoto: true, lat: 43.0120, lng: -7.5530, positiveRatings: 8, totalRatings: 10, translations: { es: { title: "Paso subterráneo inundado preto da Muralla Romana" }, en: { title: "Underground passage flooded near the Roman Wall" }, pt: { title: "Passagem subterrânea inundada perto da Muralha Romana" }, fr: { title: "Passage souterrain inondé près de la Muraille Romaine" } } },
   { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuvia forte persistente na Praza Maior de Lugo", time: "45 min", hasPhoto: true, lat: 43.0098, lng: -7.5565, positiveRatings: 6, totalRatings: 7, translations: { es: { title: "Chuvia forte persistente na Praza Maior de Lugo" }, en: { title: "Persistent heavy rain at Praza Maior de Lugo" }, pt: { title: "Chuva forte persistente na Praza Maior de Lugo" }, fr: { title: "Pluie forte persistante sur la Praza Maior de Lugo" } } },
   { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Ramas partidas e destrozos polo vento na Praza de Santa María", time: "1h 20 min", hasPhoto: true, lat: 43.0130, lng: -7.5610, positiveRatings: 14, totalRatings: 18, translations: { es: { title: "Ramas partidas e destrozos polo vento na Praza de Santa María" }, en: { title: "Broken branches and wind damage at Praza de Santa María" }, pt: { title: "Ramos partidos e estragos do vento na Praza de Santa María" }, fr: { title: "Branches cassées et dégâts dus au vent sur la Praza de Santa María" } } },
@@ -80,6 +83,13 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedRadius, setSelectedRadius] = useState<number>(10);
   const [showFilters, setShowFilters] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) setCurrentUserId(user.id);
+    });
+  }, []);
 
   const reportsWithDistance = useMemo(
     () =>
@@ -198,7 +208,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                   </div>
                   <p className="text-sm text-foreground">{r.translations?.[locale]?.title || r.description}</p>
                   <div className="flex items-center gap-3 mt-1.5">
-                    <span className="text-xs text-muted-foreground">{r.isMine ? t.communitySentByMe : r.user}</span>
+                    <span className="text-xs text-muted-foreground">{r.userId && r.userId === currentUserId ? t.communitySentByMe : r.user}</span>
                     <span className="text-xs text-muted-foreground">{r.time}</span>
                     <span className="text-xs text-muted-foreground flex items-center gap-0.5">
                       <MapPin className="w-3 h-3" /> {r.distanceKm.toFixed(1)} km
