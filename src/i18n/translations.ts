@@ -29,6 +29,7 @@ type TranslationKeys = {
   forecastOfficial: string;
   forecastML: string;
   forecastIoT: string;
+  forecastNoData: string;
   forecastRain: string;
   forecastMLNote: string;
   // Community
@@ -358,6 +359,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     forecastOfficial: "Official",
     forecastML: "ML Forecast",
     forecastIoT: "IoT Sensors",
+    forecastNoData: "No data",
     forecastRain: "Rain",
     forecastMLNote: "ML model detects +15% chance of heavy rain in the next 6h",
     communityTitle: "Community nearby",
@@ -761,6 +763,7 @@ Users may lodge a complaint with their competent data protection authority withi
     forecastOfficial: "Oficial",
     forecastML: "Previsión ML",
     forecastIoT: "Sensores IoT",
+    forecastNoData: "Sin datos",
     forecastRain: "Lluvia",
     forecastMLNote: "El modelo ML detecta +15% de probabilidad de lluvia intensa en las próximas 6h",
     communityTitle: "Comunidad cercana",
@@ -1157,6 +1160,7 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     forecastOfficial: "Oficial",
     forecastML: "Previsão ML",
     forecastIoT: "Sensores IoT",
+    forecastNoData: "Sem dados",
     forecastRain: "Chuva",
     forecastMLNote: "O modelo ML detecta +15% de chance de chuva intensa nas próximas 6h",
     communityTitle: "Comunidade ao redor",
@@ -1558,6 +1562,7 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     forecastOfficial: "Officielle",
     forecastML: "Prévision ML",
     forecastIoT: "Capteurs IoT",
+    forecastNoData: "Pas de données",
     forecastRain: "Pluie",
     forecastMLNote: "Le modèle ML détecte +15% de risque de pluie intense dans les 6 prochaines heures",
     communityTitle: "Communauté à proximité",
