@@ -201,7 +201,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
           </svg>
           <div>
             <p className="text-base font-bold text-foreground leading-none">{communityMapMarkers.length + 4}</p>
-            <p className="text-[8px] text-muted-foreground">{t.communityReportsToday}</p>
+            <p className="text-[8px] text-muted-foreground">{t.profileReports}</p>
           </div>
         </div>
         {/* Alerts */}

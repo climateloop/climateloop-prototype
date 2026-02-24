@@ -35,9 +35,7 @@ type TranslationKeys = {
   communityTitle: string;
   communitySubtitle: string;
   communitySeeAllCTA: string;
-  communityActiveNow: string;
-  communityReportsToday: string;
-  communityAccuracy: string;
+  communityNoReportsNearby: string;
   // AI Chat
   aiTitle: string;
   aiPlaceholder: string;
@@ -356,9 +354,7 @@ export const translations: Record<Locale, TranslationKeys> = {
     communityTitle: "Community nearby",
     communitySubtitle: "Reports within 5km of your location",
     communitySeeAllCTA: "Tap the Community icon below to see all reports",
-    communityActiveNow: "Active now",
-    communityReportsToday: "Reports today",
-    communityAccuracy: "Accuracy",
+    communityNoReportsNearby: "No reports nearby. Try increasing the radius or check back later!",
     aiTitle: "AI Assistant",
     aiPlaceholder: "Ask about the weather...",
     aiInitialMessage: "Hello! I'm the ClimateLoop AI assistant. How can I help you today?",
@@ -752,9 +748,7 @@ Users may lodge a complaint with their competent data protection authority withi
     communityTitle: "Comunidad cercana",
     communitySubtitle: "Reportes en un radio de 5km de tu ubicación",
     communitySeeAllCTA: "Toca el ícono Comunidad abajo para ver todos los reportes",
-    communityActiveNow: "Activos ahora",
-    communityReportsToday: "Reportes hoy",
-    communityAccuracy: "Precisión",
+    communityNoReportsNearby: "No hay reportes cercanos. ¡Prueba a ampliar el radio o vuelve más tarde!",
     aiTitle: "Asistente IA",
     aiPlaceholder: "Pregunta sobre el clima...",
     aiInitialMessage: "¡Hola! Soy el asistente de IA de ClimateLoop. ¿En qué puedo ayudarte hoy?",
@@ -1141,9 +1135,7 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     communityTitle: "Comunidade ao redor",
     communitySubtitle: "Relatos num raio de 5km da sua localização",
     communitySeeAllCTA: "Toque no ícone Comunidade abaixo para ver todos os relatos",
-    communityActiveNow: "Ativos agora",
-    communityReportsToday: "Relatos hoje",
-    communityAccuracy: "Precisão",
+    communityNoReportsNearby: "Sem relatos por perto. Tente aumentar o raio ou volte mais tarde!",
     aiTitle: "Assistente IA",
     aiPlaceholder: "Pergunte sobre o clima...",
     aiInitialMessage: "Olá! Sou o assistente de IA do ClimateLoop. Como posso te ajudar hoje?",
@@ -1535,9 +1527,7 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     communityTitle: "Communauté à proximité",
     communitySubtitle: "Signalements dans un rayon de 5km de votre position",
     communitySeeAllCTA: "Appuyez sur l'icône Communauté ci-dessous pour voir tous les signalements",
-    communityActiveNow: "Actifs maintenant",
-    communityReportsToday: "Signalements aujourd'hui",
-    communityAccuracy: "Précision",
+    communityNoReportsNearby: "Aucun signalement à proximité. Essayez d'augmenter le rayon ou revenez plus tard !",
     aiTitle: "Assistant IA",
     aiPlaceholder: "Posez une question sur la météo...",
     aiInitialMessage: "Bonjour ! Je suis l'assistant IA de ClimateLoop. Comment puis-je vous aider aujourd'hui ?",

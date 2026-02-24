@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Users, FileText, TrendingUp, Camera, MapPin, Filter } from "lucide-react";
+import { Users, Camera, MapPin, Filter, Search } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useLocation } from "@/hooks/useLocationContext";
 
@@ -64,7 +64,7 @@ const typeColorMap: Record<string, string> = {
 };
 
 const availableTypes = ["typeFlooding", "typeStrongWind", "typeRain", "typeExtremeHeat", "typeFire", "typeHail", "typeFrost"];
-const radiusOptions = [1, 2, 5, 10, 25, 50];
+
 
 interface CommunityReportsProps {
   onOpenReport?: (reportId: string) => void;
@@ -141,53 +141,35 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
               ))}
             </div>
           </div>
-          {/* Radius filter */}
+          {/* Radius filter — slider */}
           <div>
-            <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-1.5">{t.filterByRadius}</p>
-            <div className="flex flex-wrap gap-1.5">
-              {radiusOptions.map((r) => (
-                <button
-                  key={r}
-                  onClick={() => setSelectedRadius(r)}
-                  className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors ${
-                    selectedRadius === r ? "gradient-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {r} km
-                </button>
-              ))}
+            <div className="flex items-center justify-between mb-1.5">
+              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">{t.filterByRadius}</p>
+              <span className="text-xs font-semibold text-foreground">{selectedRadius} km</span>
+            </div>
+            <input
+              type="range"
+              min={1}
+              max={200}
+              step={1}
+              value={selectedRadius}
+              onChange={(e) => setSelectedRadius(Number(e.target.value))}
+              className="w-full accent-primary h-1.5"
+            />
+            <div className="flex justify-between text-[9px] text-muted-foreground mt-0.5">
+              <span>1 km</span>
+              <span>200 km</span>
             </div>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-2 mb-3">
-        <div className="bg-surface-elevated rounded-lg px-2 py-1.5 text-center border border-border">
-          <div className="flex items-center justify-center gap-1">
-            <Users className="w-3 h-3 text-primary" />
-            <span className="text-sm font-bold text-foreground">84</span>
-          </div>
-          <p className="text-[9px] text-muted-foreground leading-tight">{t.communityActiveNow}</p>
-        </div>
-        <div className="bg-surface-elevated rounded-lg px-2 py-1.5 text-center border border-border">
-          <div className="flex items-center justify-center gap-1">
-            <FileText className="w-3 h-3 text-secondary" />
-            <span className="text-sm font-bold text-foreground">156</span>
-          </div>
-          <p className="text-[9px] text-muted-foreground leading-tight">{t.communityReportsToday}</p>
-        </div>
-        <div className="bg-surface-elevated rounded-lg px-2 py-1.5 text-center border border-border">
-          <div className="flex items-center justify-center gap-1">
-            <TrendingUp className="w-3 h-3 text-accent" />
-            <span className="text-sm font-bold text-foreground">91%</span>
-          </div>
-          <p className="text-[9px] text-muted-foreground leading-tight">{t.communityAccuracy}</p>
-        </div>
-      </div>
-
       <div className="space-y-3">
         {displayReports.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-6">{t.myContribEmpty}</p>
+          <div className="flex flex-col items-center py-8 text-center">
+            <Search className="w-8 h-8 text-muted-foreground/50 mb-2" />
+            <p className="text-sm text-muted-foreground">{t.communityNoReportsNearby}</p>
+          </div>
         ) : (
           displayReports.map((r) => (
             <button
