@@ -98,6 +98,8 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const radiusCircleRef = useRef<L.Circle | null>(null);
+  const communityMarkersRef = useRef<{ marker: L.Marker; data: typeof communityMapMarkers[0] }[]>([]);
+  const capMarkersRef = useRef<{ marker: L.Marker; data: typeof capAlertMarkers[0] }[]>([]);
   const [selectedRadius, setSelectedRadius] = useState(1);
   const [activeFilters, setActiveFilters] = useState<Set<string>>(new Set(mapFilterDefs.map(f => f.key)));
 
@@ -107,7 +109,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     const counts: Record<string, number> = {};
     mapFilterDefs.forEach(f => { counts[f.key] = 0; });
 
-    // Community markers
     communityMapMarkers.forEach((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
       if (dist <= radiusMeters && m.filterCat) {
@@ -115,7 +116,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       }
     });
 
-    // CAP alert markers
     capAlertMarkers.forEach((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
       if (dist <= radiusMeters) {
@@ -128,6 +128,23 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
 
     return counts;
   }, [selectedRadius, USER_LAT, USER_LNG]);
+
+  // Visible counts for the top bar stats (within radius AND matching active filters)
+  const visibleReportsCount = useMemo(() => {
+    const radiusMeters = radiusOptions[selectedRadius].meters;
+    return communityMapMarkers.filter((m) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
+      return dist <= radiusMeters && activeFilters.has(m.filterCat);
+    }).length;
+  }, [selectedRadius, USER_LAT, USER_LNG, activeFilters]);
+
+  const visibleAlertsCount = useMemo(() => {
+    const radiusMeters = radiusOptions[selectedRadius].meters;
+    return capAlertMarkers.filter((m) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
+      return dist <= radiusMeters && activeFilters.has("alerts");
+    }).length;
+  }, [selectedRadius, USER_LAT, USER_LNG, activeFilters]);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
@@ -146,7 +163,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
     L.control.zoom({ position: "topright" }).addTo(map);
 
-    // Move zoom control to vertical center via CSS
     setTimeout(() => {
       const zoomEl = mapRef.current?.querySelector('.leaflet-top.leaflet-right') as HTMLElement;
       if (zoomEl) {
@@ -155,7 +171,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       }
     }, 100);
 
-    // User location dot
     const userIcon = L.divIcon({
       className: "",
       iconSize: [14, 14],
@@ -164,7 +179,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     });
     L.marker([USER_LAT, USER_LNG], { icon: userIcon }).addTo(map);
 
-    // Radius circle
     const circle = L.circle([USER_LAT, USER_LNG], {
       radius: radiusOptions[selectedRadius].meters,
       color: "hsl(210,61%,29%)",
@@ -175,6 +189,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     radiusCircleRef.current = circle;
 
     // Community report markers
+    const communityEntries: typeof communityMarkersRef.current = [];
     communityMapMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
         icon: communityMarkerIcon(m.typeKey, m.risk, m.filterCat),
@@ -183,9 +198,12 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
       });
+      communityEntries.push({ marker, data: m });
     });
+    communityMarkersRef.current = communityEntries;
 
     // CAP alert markers
+    const capEntries: typeof capMarkersRef.current = [];
     capAlertMarkers.forEach((m) => {
       const marker = L.marker([m.lat, m.lng], {
         icon: capMarkerIcon(m.severity),
@@ -193,17 +211,22 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
       });
+      capEntries.push({ marker, data: m });
     });
+    capMarkersRef.current = capEntries;
 
     mapInstanceRef.current = map;
     return () => {
       map.remove();
       mapInstanceRef.current = null;
       radiusCircleRef.current = null;
+      communityMarkersRef.current = [];
+      capMarkersRef.current = [];
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Update radius circle
   useEffect(() => {
     const circle = radiusCircleRef.current;
     const map = mapInstanceRef.current;
@@ -212,6 +235,27 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     circle.setRadius(meters);
     map.fitBounds(circle.getBounds(), { padding: [16, 16] });
   }, [selectedRadius]);
+
+  // Show/hide markers based on filters and radius
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+    const radiusMeters = radiusOptions[selectedRadius].meters;
+
+    communityMarkersRef.current.forEach(({ marker, data }) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, data.lat, data.lng);
+      const visible = dist <= radiusMeters && activeFilters.has(data.filterCat);
+      if (visible && !map.hasLayer(marker)) marker.addTo(map);
+      if (!visible && map.hasLayer(marker)) map.removeLayer(marker);
+    });
+
+    capMarkersRef.current.forEach(({ marker, data }) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, data.lat, data.lng);
+      const visible = dist <= radiusMeters && activeFilters.has("alerts");
+      if (visible && !map.hasLayer(marker)) marker.addTo(map);
+      if (!visible && map.hasLayer(marker)) map.removeLayer(marker);
+    });
+  }, [selectedRadius, activeFilters, USER_LAT, USER_LNG]);
 
   const toggleFilter = (key: string) => {
     setActiveFilters(prev => {
@@ -234,7 +278,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
           </svg>
           <div>
-            <p className="text-base font-bold text-foreground leading-none">{communityMapMarkers.length + 4}</p>
+            <p className="text-base font-bold text-foreground leading-none">{visibleReportsCount}</p>
             <p className="text-[8px] text-muted-foreground">{t.profileReports}</p>
           </div>
         </div>
@@ -244,7 +288,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
           </svg>
           <div>
-            <p className="text-base font-bold text-foreground leading-none">{capAlertMarkers.length}</p>
+            <p className="text-base font-bold text-foreground leading-none">{visibleAlertsCount}</p>
             <p className="text-[8px] text-muted-foreground">{t.catAlerts}</p>
           </div>
         </div>
