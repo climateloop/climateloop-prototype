@@ -14,6 +14,87 @@ export type Database = {
   }
   public: {
     Tables: {
+      cap_alerts: {
+        Row: {
+          ai_explanation: Json | null
+          areas: Json
+          category: string
+          certainty: string
+          created_at: string
+          description: string
+          effective: string | null
+          event: string
+          expires: string | null
+          headline: string
+          id: string
+          identifier: string
+          instruction: string | null
+          language: string
+          msg_type: string
+          onset: string | null
+          parameters: Json | null
+          scope: string
+          sender: string
+          sent: string
+          severity: string
+          source: string | null
+          status: string
+          urgency: string
+        }
+        Insert: {
+          ai_explanation?: Json | null
+          areas?: Json
+          category?: string
+          certainty: string
+          created_at?: string
+          description: string
+          effective?: string | null
+          event: string
+          expires?: string | null
+          headline: string
+          id?: string
+          identifier: string
+          instruction?: string | null
+          language?: string
+          msg_type?: string
+          onset?: string | null
+          parameters?: Json | null
+          scope?: string
+          sender: string
+          sent: string
+          severity: string
+          source?: string | null
+          status?: string
+          urgency: string
+        }
+        Update: {
+          ai_explanation?: Json | null
+          areas?: Json
+          category?: string
+          certainty?: string
+          created_at?: string
+          description?: string
+          effective?: string | null
+          event?: string
+          expires?: string | null
+          headline?: string
+          id?: string
+          identifier?: string
+          instruction?: string | null
+          language?: string
+          msg_type?: string
+          onset?: string | null
+          parameters?: Json | null
+          scope?: string
+          sender?: string
+          sent?: string
+          severity?: string
+          source?: string | null
+          status?: string
+          urgency?: string
+        }
+        Relationships: []
+      }
       community_reports: {
         Row: {
           address: string

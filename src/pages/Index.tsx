@@ -4,6 +4,7 @@ import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
 import HomeMap from "@/components/HomeMap";
 import AlertCard, { type Alert } from "@/components/AlertCard";
+import { type CapAlert } from "@/hooks/useCapAlerts";
 import ForecastComparison from "@/components/ForecastComparison";
 import IoTStationCard from "@/components/IoTStationCard";
 import CommunityReports from "@/components/CommunityReports";
@@ -24,6 +25,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 
 type DetailView =
   | { type: "alert"; alert: Alert }
+  | { type: "cap-alert"; capAlert: CapAlert }
   | { type: "forecast" }
   | { type: "community"; reportId: string }
   | { type: "contributions" }
@@ -89,6 +91,10 @@ const Index = () => {
     setDetailView({ type: "alert", alert });
   };
 
+  const handleOpenCapAlertDetail = (capAlert: CapAlert) => {
+    setDetailView({ type: "cap-alert", capAlert });
+  };
+
   // For map marker clicks — look up alert by id from the known set
   const mapAlerts: Alert[] = [
     { id: "1", severity: "red",    title: t.activeAlertTitle, description: t.activeAlertDesc, time: t.activeAlertTime, actions: [t.activeAlertAction1, t.activeAlertAction2, t.activeAlertAction3, t.activeAlertAction4] },
@@ -136,6 +142,14 @@ const Index = () => {
               onOpenChat={() => setChatOpen(true)}
             />
           );
+        case "cap-alert":
+          return (
+            <AlertDetail
+              capAlert={detailView.capAlert}
+              onBack={() => setDetailView(null)}
+              onOpenChat={() => setChatOpen(true)}
+            />
+          );
         case "forecast":
           return (
             <ForecastDetail
@@ -177,7 +191,7 @@ const Index = () => {
     }
 
     if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} />;
-    if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenAlertDetail} />;
+    if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenCapAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
     if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onOpenLegal={handleOpenLegal} onLogout={() => setIsAuthenticated(false)} />;
     return null;
