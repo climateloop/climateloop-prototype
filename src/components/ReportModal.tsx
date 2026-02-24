@@ -104,7 +104,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
       }
 
       // Insert report into database
-      const { error: insertError } = await supabase
+      const { data: insertedReport, error: insertError } = await supabase
         .from("community_reports")
         .insert({
           user_id: mockUserId,
@@ -115,7 +115,9 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
           address: address.trim(),
           photo_url: photoUrl || null,
           status: "pending",
-        });
+        })
+        .select("id")
+        .single();
 
       if (insertError) {
         console.error("Error inserting report:", insertError);
@@ -124,6 +126,13 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
         toast.success(t.reportSuccess);
         resetForm();
         onClose();
+
+        // Trigger async translation (fire-and-forget)
+        if (insertedReport?.id) {
+          supabase.functions.invoke("translate-report", {
+            body: { report_id: insertedReport.id },
+          }).catch((err) => console.error("Translation error:", err));
+        }
       }
     } catch (err) {
       console.error("Error submitting report:", err);

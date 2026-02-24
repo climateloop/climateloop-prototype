@@ -18,94 +18,60 @@ interface ReportData {
   time: string;
   hasPhoto: boolean;
   distance: string;
+  translations?: Record<string, { title?: string; notes?: string | null }>;
 }
 
 const myReportIds = ["1", "3"];
 
 const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; risk: string }> = {
   "1": {
-    id: "1",
-    user: "María S.",
-    typeKey: "typeFlooding",
+    id: "1", user: "María S.", typeKey: "typeFlooding",
     description: "Rúa da Raíña completamente inundada tras forte chuveira",
-    time: "15 min",
-    hasPhoto: true,
-    distance: "1.2 km",
-    location: "Rúa da Raíña 12, Lugo",
-    photoUrl: reportPhoto1,
-    risk: "high",
+    time: "15 min", hasPhoto: true, distance: "1.2 km",
+    location: "Rúa da Raíña 12, Lugo", photoUrl: reportPhoto1, risk: "high",
+    translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } },
   },
   "3": {
-    id: "3",
-    user: "Ana L.",
-    typeKey: "typeStrongWind",
+    id: "3", user: "Ana L.", typeKey: "typeStrongWind",
     description: "Árbore caída na Rúa Nova bloqueando o tráfico",
-    time: "1h",
-    hasPhoto: true,
-    distance: "0.8 km",
-    location: "Rúa Nova 28, Lugo",
-    photoUrl: reportPhoto3,
-    risk: "moderate",
+    time: "1h", hasPhoto: true, distance: "0.8 km",
+    location: "Rúa Nova 28, Lugo", photoUrl: reportPhoto3, risk: "moderate",
+    translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } },
   },
   "4": {
-    id: "4",
-    user: "Pedro M.",
-    typeKey: "typeFlooding",
+    id: "4", user: "Pedro M.", typeKey: "typeFlooding",
     description: "Paso subterráneo inundado preto da Muralla Romana",
-    time: "2h",
-    hasPhoto: true,
-    distance: "2.1 km",
-    location: "Paso subterráneo da Muralla, Lugo",
-    photoUrl: reportPhoto4,
-    risk: "high",
+    time: "2h", hasPhoto: true, distance: "2.1 km",
+    location: "Paso subterráneo da Muralla, Lugo", photoUrl: reportPhoto4, risk: "high",
+    translations: { es: { title: "Paso subterráneo inundado preto da Muralla Romana" }, en: { title: "Underground passage flooded near the Roman Wall" }, pt: { title: "Passagem subterrânea inundada perto da Muralha Romana" }, fr: { title: "Passage souterrain inondé près de la Muraille Romaine" } },
   },
   "5": {
-    id: "5",
-    user: "Lucía G.",
-    typeKey: "typeRain",
+    id: "5", user: "Lucía G.", typeKey: "typeRain",
     description: "Chuvia forte persistente na Praza Maior de Lugo",
-    time: "45 min",
-    hasPhoto: true,
-    distance: "0.5 km",
-    location: "Praza Maior, Lugo",
-    photoUrl: reportPhoto5,
-    risk: "moderate",
+    time: "45 min", hasPhoto: true, distance: "0.5 km",
+    location: "Praza Maior, Lugo", photoUrl: reportPhoto5, risk: "moderate",
+    translations: { es: { title: "Chuvia forte persistente na Praza Maior de Lugo" }, en: { title: "Persistent heavy rain at Praza Maior de Lugo" }, pt: { title: "Chuva forte persistente na Praza Maior de Lugo" }, fr: { title: "Pluie forte persistante sur la Praza Maior de Lugo" } },
   },
   "6": {
-    id: "6",
-    user: "Carlos R.",
-    typeKey: "typeStrongWind",
+    id: "6", user: "Carlos R.", typeKey: "typeStrongWind",
     description: "Ramas partidas e destrozos polo vento na Praza de Santa María",
-    time: "1h 20 min",
-    hasPhoto: true,
-    distance: "4.2 km",
-    location: "Praza de Santa María, Lugo",
-    photoUrl: reportPhoto6,
-    risk: "moderate",
+    time: "1h 20 min", hasPhoto: true, distance: "4.2 km",
+    location: "Praza de Santa María, Lugo", photoUrl: reportPhoto6, risk: "moderate",
+    translations: { es: { title: "Ramas partidas e destrozos polo vento na Praza de Santa María" }, en: { title: "Broken branches and wind damage at Praza de Santa María" }, pt: { title: "Ramos partidos e estragos do vento na Praza de Santa María" }, fr: { title: "Branches cassées et dégâts dus au vent sur la Praza de Santa María" } },
   },
   "7": {
-    id: "7",
-    user: "Isabel F.",
-    typeKey: "typeFlooding",
+    id: "7", user: "Isabel F.", typeKey: "typeFlooding",
     description: "Río Miño crecido con desbordamento parcial na zona do Balneario",
-    time: "55 min",
-    hasPhoto: true,
-    distance: "1.8 km",
-    location: "Paseo do Río Miño, Lugo",
-    photoUrl: reportPhoto7,
-    risk: "moderate",
+    time: "55 min", hasPhoto: true, distance: "1.8 km",
+    location: "Paseo do Río Miño, Lugo", photoUrl: reportPhoto7, risk: "moderate",
+    translations: { es: { title: "Río Miño crecido con desbordamento parcial na zona do Balneario" }, en: { title: "River Miño risen with partial overflow near the Balneario area" }, pt: { title: "Rio Miño crescido com transbordamento parcial na zona do Balneário" }, fr: { title: "Río Miño en crue avec débordement partiel dans la zone du Balneario" } },
   },
   "8": {
-    id: "8",
-    user: "Diego T.",
-    typeKey: "typeRain",
+    id: "8", user: "Diego T.", typeKey: "typeRain",
     description: "Chuvia intermitente con pozas na Rúa San Pedro",
-    time: "25 min",
-    hasPhoto: true,
-    distance: "0.3 km",
-    location: "Rúa San Pedro, Lugo",
-    photoUrl: reportPhoto8,
-    risk: "low",
+    time: "25 min", hasPhoto: true, distance: "0.3 km",
+    location: "Rúa San Pedro, Lugo", photoUrl: reportPhoto8, risk: "low",
+    translations: { es: { title: "Chuvia intermitente con pozas na Rúa San Pedro" }, en: { title: "Intermittent rain with puddles on Rúa San Pedro" }, pt: { title: "Chuva intermitente com poças na Rúa San Pedro" }, fr: { title: "Pluie intermittente avec flaques sur la Rúa San Pedro" } },
   },
 };
 
@@ -132,11 +98,14 @@ interface CommunityReportDetailProps {
 }
 
 const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReportDetailProps) => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const report = reportDetails[reportId];
   const [vote, setVote] = useState<"up" | "down" | null>(null);
 
   if (!report) return null;
+
+  // Resolve localized description (title from translations if available)
+  const localizedDescription = report.translations?.[locale]?.title || report.description;
 
   const typeLabel = (t as any)[report.typeKey] || report.typeKey;
   const riskInfo = riskColorMap[report.risk] || riskColorMap["moderate"];
@@ -183,7 +152,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </span>
       </div>
 
-      <p className="text-base text-foreground font-medium mb-4">{report.description}</p>
+      <p className="text-base text-foreground font-medium mb-4">{localizedDescription}</p>
 
       {/* Metadata */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 space-y-3 mb-4">

@@ -111,6 +111,7 @@ export type Database = {
           status: string
           sub_category: string | null
           title: string
+          translations: Json | null
           updated_at: string
           user_id: string
         }
@@ -126,6 +127,7 @@ export type Database = {
           status?: string
           sub_category?: string | null
           title: string
+          translations?: Json | null
           updated_at?: string
           user_id: string
         }
@@ -141,6 +143,7 @@ export type Database = {
           status?: string
           sub_category?: string | null
           title?: string
+          translations?: Json | null
           updated_at?: string
           user_id?: string
         }
