@@ -4,7 +4,7 @@ import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
 import HomeMap from "@/components/HomeMap";
 import AlertCard, { type Alert } from "@/components/AlertCard";
-import { type CapAlert } from "@/hooks/useCapAlerts";
+import { type CapAlert, useCapAlerts } from "@/hooks/useCapAlerts";
 import ForecastComparison from "@/components/ForecastComparison";
 import IoTStationCard from "@/components/IoTStationCard";
 import CommunityReports from "@/components/CommunityReports";
@@ -42,6 +42,7 @@ const Index = () => {
   const [detailView, setDetailView] = useState<DetailView>(null);
   const [notifOpen, setNotifOpen] = useState(false);
   const { t } = useLanguage();
+  const { data: capData } = useCapAlerts();
 
   const [showLegalFromAuth, setShowLegalFromAuth] = useState(false);
 
@@ -56,19 +57,8 @@ const Index = () => {
     return <AuthPage onLogin={() => setIsAuthenticated(true)} onOpenLegal={() => setShowLegalFromAuth(true)} />;
   }
 
-  const activeAlert: Alert = {
-    id: "main",
-    severity: "orange",
-    title: t.activeAlertTitle,
-    description: t.activeAlertDesc,
-    time: t.activeAlertTime,
-    actions: [
-      t.activeAlertAction1,
-      t.activeAlertAction2,
-      t.activeAlertAction3,
-      t.activeAlertAction4,
-    ],
-  };
+  // Most recent active (immediate) CAP alert for the user's region
+  const latestCapAlert: CapAlert | null = capData?.immediate?.[0] ?? null;
 
   const handleTabChange = (tab: string) => {
     if (tab === "reportar") {
@@ -177,9 +167,11 @@ const Index = () => {
     if (activeTab === "inicio") {
       return (
         <>
-          <div className="px-4">
-            <AlertCard alert={activeAlert} compact onAskAI={handleOpenAlertDetail} />
-          </div>
+          {latestCapAlert && (
+            <div className="px-4">
+              <AlertCard capAlert={latestCapAlert} compact onAskAI={() => handleOpenCapAlertDetail(latestCapAlert)} />
+            </div>
+          )}
           <WeatherCard />
           <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} preview />
