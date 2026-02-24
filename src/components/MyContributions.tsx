@@ -1,5 +1,7 @@
 import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, ChevronRight, Star } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Contribution {
   id: string;
@@ -32,6 +34,16 @@ interface MyContributionsProps {
 
 const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
   const { t, locale } = useLanguage();
+  const [userInitial, setUserInitial] = useState("U");
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        const name = user.user_metadata?.display_name || user.email || "";
+        setUserInitial((name.charAt(0) || "U").toUpperCase());
+      }
+    });
+  }, []);
 
   return (
     <div className="px-4 pb-4 animate-in fade-in duration-200">
@@ -50,8 +62,11 @@ const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
           const typeLabel = (t as any)[c.typeKey] || c.typeKey;
           return (
             <button key={c.id} onClick={() => onOpenReport?.(c.id)} className="w-full text-left bg-surface-elevated rounded-xl p-4 shadow-card border border-border hover:bg-muted transition-colors">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-xs font-bold text-primary-foreground">{userInitial}</span>
+                </div>
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColorMap[c.typeKey] || "bg-muted text-muted-foreground"}`}>
                       {typeLabel}
