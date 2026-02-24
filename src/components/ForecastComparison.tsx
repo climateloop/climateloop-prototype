@@ -49,24 +49,34 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
   const [mlData, setMlData] = useState<{ temperature_2m: number | null; precipitation: number | null; relative_humidity_2m: number | null; wind_speed_10m: number | null } | null>(null);
   const [iotData, setIotData] = useState<{ temperature_2m: number | null; precipitation: number | null; relative_humidity_2m: number | null; wind_speed_10m: number | null } | null>(null);
 
-  // Fetch ML prediction closest to now
+  const MAX_DISTANCE_KM = 50;
+
+  // Fetch ML prediction closest to now, filtered by proximity
   useEffect(() => {
+    setMlData(null);
     const fetchML = async () => {
       const now = new Date().toISOString();
-      const { data } = await supabase
+      const { data: rows } = await supabase
         .from("ml_predictions")
-        .select("temperature_2m, precipitation, relative_humidity_2m, wind_speed_10m")
+        .select("temperature_2m, precipitation, relative_humidity_2m, wind_speed_10m, latitude, longitude")
         .gte("datetime", now)
         .order("datetime", { ascending: true })
-        .limit(1)
-        .single();
-      if (data) setMlData(data);
+        .limit(50);
+      if (!rows?.length) return;
+      let best: typeof rows[0] | null = null;
+      let bestDist = Infinity;
+      for (const r of rows) {
+        const d = haversineDistance(location.lat, location.lng, r.latitude, r.longitude);
+        if (d < bestDist) { bestDist = d; best = r; }
+      }
+      if (best && bestDist <= MAX_DISTANCE_KM) setMlData(best);
     };
     fetchML();
-  }, []);
+  }, [location.lat, location.lng]);
 
-  // Fetch nearest IoT station's latest reading
+  // Fetch nearest IoT station's latest reading (within max distance)
   useEffect(() => {
+    setIotData(null);
     const fetchIoT = async () => {
       const { data: stations } = await supabase
         .from("iot_stations")
@@ -80,6 +90,8 @@ const ForecastComparison = ({ onOpenDetail }: ForecastComparisonProps) => {
         const d = haversineDistance(location.lat, location.lng, s.latitude, s.longitude);
         if (d < minDist) { minDist = d; nearestId = s.id; }
       }
+
+      if (minDist > MAX_DISTANCE_KM) return;
 
       const { data } = await supabase
         .from("iot_readings")
