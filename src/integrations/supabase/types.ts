@@ -39,6 +39,7 @@ export type Database = {
           severity: string
           source: string | null
           status: string
+          translations: Json | null
           urgency: string
         }
         Insert: {
@@ -65,6 +66,7 @@ export type Database = {
           severity: string
           source?: string | null
           status?: string
+          translations?: Json | null
           urgency: string
         }
         Update: {
@@ -91,6 +93,7 @@ export type Database = {
           severity?: string
           source?: string | null
           status?: string
+          translations?: Json | null
           urgency?: string
         }
         Relationships: []
