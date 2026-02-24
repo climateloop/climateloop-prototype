@@ -141,15 +141,37 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
     }
   };
 
-  const simulateAICheck = (file: File) => {
+  const validatePhotoWithAI = async (file: File) => {
     const url = URL.createObjectURL(file);
     setPhotoPreview(url);
     setPhotoStatus("analyzing");
     setPhotoFile(file);
 
-    setTimeout(() => {
-      const hasPeople = Math.random() < 0.3;
-      if (hasPeople) {
+    try {
+      // Convert file to base64
+      const buffer = await file.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      const imageBase64 = btoa(binary);
+
+      const resp = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/validate-photo`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ imageBase64, mimeType: file.type }),
+        }
+      );
+
+      const data = await resp.json();
+
+      if (data.hasPeople) {
         setPhotoStatus("rejected");
         setTimeout(() => {
           setPhotoPreview(null);
@@ -160,13 +182,17 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
       } else {
         setPhotoStatus("accepted");
       }
-    }, 2000);
+    } catch (err) {
+      console.error("Photo validation error:", err);
+      // On error, allow photo (fail-open)
+      setPhotoStatus("accepted");
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    simulateAICheck(file);
+    validatePhotoWithAI(file);
     e.target.value = "";
   };
 
