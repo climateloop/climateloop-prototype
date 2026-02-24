@@ -21,6 +21,7 @@ interface CommunityReport {
   lat: number;
   lng: number;
   isMine?: boolean;
+  translations?: Record<string, { title?: string; notes?: string | null }>;
 }
 
 const reportPhotos: Record<string, string> = {
@@ -44,13 +45,13 @@ function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): nu
 }
 
 const reports: CommunityReport[] = [
-  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, lat: 43.0101, lng: -7.5570, isMine: true },
-  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, lat: 43.0090, lng: -7.5545, isMine: true },
-  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado preto da Muralla Romana", time: "2h", hasPhoto: true, lat: 43.0120, lng: -7.5530 },
-  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuvia forte persistente na Praza Maior de Lugo", time: "45 min", hasPhoto: true, lat: 43.0098, lng: -7.5565 },
-  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Ramas partidas e destrozos polo vento na Praza de Santa María", time: "1h 20 min", hasPhoto: true, lat: 43.0130, lng: -7.5610 },
-  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Río Miño crecido con desbordamento parcial na zona do Balneario", time: "55 min", hasPhoto: true, lat: 43.0060, lng: -7.5620 },
-  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Chuvia intermitente con pozas na Rúa San Pedro", time: "25 min", hasPhoto: true, lat: 43.0105, lng: -7.5555 },
+  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, lat: 43.0101, lng: -7.5570, isMine: true, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
+  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, lat: 43.0090, lng: -7.5545, isMine: true, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
+  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado preto da Muralla Romana", time: "2h", hasPhoto: true, lat: 43.0120, lng: -7.5530, translations: { es: { title: "Paso subterráneo inundado preto da Muralla Romana" }, en: { title: "Underground passage flooded near the Roman Wall" }, pt: { title: "Passagem subterrânea inundada perto da Muralha Romana" }, fr: { title: "Passage souterrain inondé près de la Muraille Romaine" } } },
+  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuvia forte persistente na Praza Maior de Lugo", time: "45 min", hasPhoto: true, lat: 43.0098, lng: -7.5565, translations: { es: { title: "Chuvia forte persistente na Praza Maior de Lugo" }, en: { title: "Persistent heavy rain at Praza Maior de Lugo" }, pt: { title: "Chuva forte persistente na Praza Maior de Lugo" }, fr: { title: "Pluie forte persistante sur la Praza Maior de Lugo" } } },
+  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Ramas partidas e destrozos polo vento na Praza de Santa María", time: "1h 20 min", hasPhoto: true, lat: 43.0130, lng: -7.5610, translations: { es: { title: "Ramas partidas e destrozos polo vento na Praza de Santa María" }, en: { title: "Broken branches and wind damage at Praza de Santa María" }, pt: { title: "Ramos partidos e estragos do vento na Praza de Santa María" }, fr: { title: "Branches cassées et dégâts dus au vent sur la Praza de Santa María" } } },
+  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Río Miño crecido con desbordamento parcial na zona do Balneario", time: "55 min", hasPhoto: true, lat: 43.0060, lng: -7.5620, translations: { es: { title: "Río Miño crecido con desbordamento parcial na zona do Balneario" }, en: { title: "River Miño risen with partial overflow near the Balneario area" }, pt: { title: "Rio Miño crescido com transbordamento parcial na zona do Balneário" }, fr: { title: "Río Miño en crue avec débordement partiel dans la zone du Balneario" } } },
+  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Chuvia intermitente con pozas na Rúa San Pedro", time: "25 min", hasPhoto: true, lat: 43.0105, lng: -7.5555, translations: { es: { title: "Chuvia intermitente con pozas na Rúa San Pedro" }, en: { title: "Intermittent rain with puddles on Rúa San Pedro" }, pt: { title: "Chuva intermitente com poças na Rúa San Pedro" }, fr: { title: "Pluie intermittente avec flaques sur la Rúa San Pedro" } } },
 ];
 
 const typeColorMap: Record<string, string> = {
@@ -72,7 +73,7 @@ interface CommunityReportsProps {
 }
 
 const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { location: userLoc } = useLocation();
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedRadius, setSelectedRadius] = useState<number>(10);
@@ -193,7 +194,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                     </span>
                     {r.hasPhoto && <Camera className="w-3.5 h-3.5 text-muted-foreground" />}
                   </div>
-                  <p className="text-sm text-foreground">{r.description}</p>
+                  <p className="text-sm text-foreground">{r.translations?.[locale]?.title || r.description}</p>
                   <div className="flex items-center gap-3 mt-1.5">
                     <span className="text-xs text-muted-foreground">{r.isMine ? t.communitySentByMe : r.user}</span>
                     <span className="text-xs text-muted-foreground">{r.time}</span>
