@@ -12,7 +12,7 @@ interface LocationContextType {
 }
 
 const DEFAULT_LOCATION: Location = {
-  name: "Lugo, Galicia",
+  name: "Lugo, España",
   lat: 43.0096,
   lng: -7.5560,
 };
