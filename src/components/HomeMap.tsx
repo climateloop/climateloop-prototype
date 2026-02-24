@@ -163,7 +163,7 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
         {/* Simple radius selector overlay */}
-        <div className="absolute bottom-0 left-0 right-0 z-[400]">
+        <div className="absolute bottom-0 left-0 right-0 z-[10]">
           <div className="mx-3 mb-3 bg-background/95 backdrop-blur-sm rounded-xl border border-border shadow-card px-3 py-2">
             <p className="text-[9px] text-muted-foreground font-medium mb-1.5 uppercase tracking-wide">{t.mapRadius}</p>
             <div className="flex gap-1.5">
