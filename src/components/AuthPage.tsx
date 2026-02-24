@@ -23,8 +23,8 @@ interface AuthPageProps {
 const AuthPage = ({ onOpenLegal }: AuthPageProps) => {
   const [isSignup, setIsSignup] = useState(false);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ecmateszbueno@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
