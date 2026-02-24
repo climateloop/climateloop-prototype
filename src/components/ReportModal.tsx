@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import { X, Camera, Send, CloudRain, Wind, Thermometer, Flame, Snowflake, CloudHail, Waves, CloudLightning, Mountain, Droplets, Zap, Tornado, AlertTriangle, Loader2, CheckCircle, XCircle, MapPin } from "lucide-react";
+import { X, Camera, Send, CloudRain, Wind, Thermometer, Flame, Snowflake, CloudHail, Waves, CloudLightning, Mountain, Droplets, Zap, Tornado, AlertTriangle, Loader2, CheckCircle, XCircle } from "lucide-react";
+import AddressAutocomplete from "@/components/AddressAutocomplete";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -241,17 +242,11 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
 
               {/* Address field */}
               <div>
-                <p className="text-sm font-medium text-foreground mb-2 flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  {t.reportAddressLabel}
-                </p>
-                <input
-                  type="text"
+                <p className="text-sm font-medium text-foreground mb-2">{t.reportAddressLabel}</p>
+                <AddressAutocomplete
                   value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  onChange={(val) => setAddress(val)}
                   placeholder={t.reportAddressPlaceholder}
-                  className="w-full p-3 rounded-xl border border-border bg-surface-elevated text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors"
-                  maxLength={300}
                 />
               </div>
 
