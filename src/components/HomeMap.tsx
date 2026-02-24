@@ -6,6 +6,16 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { communityMapMarkers, communityMarkerIcon } from "@/components/WeatherCard";
 
+// Haversine distance in meters
+function haversineMeters(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const R = 6371000;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 const radiusOptions = [
   { label: "1 km", meters: 1000 },
   { label: "5 km", meters: 5000 },
@@ -105,8 +115,11 @@ const HomeMap = ({ onOpenCommunityDetail }: HomeMapProps) => {
     }).addTo(map);
     radiusCircleRef.current = circle;
 
-    // Community report markers
+    // Community report markers — only show if within current radius
+    const currentRadiusMeters = radiusOptions[selectedRadius].meters;
     communityMapMarkers.forEach((m) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
+      if (dist > currentRadiusMeters) return;
       const marker = L.marker([m.lat, m.lng], {
         icon: communityMarkerIcon(m.typeKey, m.risk, m.filterCat),
       }).addTo(map);
