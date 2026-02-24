@@ -9,11 +9,11 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import logo from "@/assets/climateloop-logo.png";
 
-const flags: { locale: Locale; emoji: string }[] = [
-  { locale: "en", emoji: "🇬🇧" },
-  { locale: "es", emoji: "🇪🇸" },
-  { locale: "pt", emoji: "🇧🇷" },
-  { locale: "fr", emoji: "🇫🇷" },
+const flags: { locale: Locale; label: string }[] = [
+  { locale: "en", label: "EN" },
+  { locale: "es", label: "ES" },
+  { locale: "pt", label: "PT" },
+  { locale: "fr", label: "FR" },
 ];
 
 interface AuthPageProps {
@@ -101,13 +101,13 @@ const AuthPage = ({ onOpenLegal }: AuthPageProps) => {
               key={f.locale}
               type="button"
               onClick={() => setLocale(f.locale)}
-              className={`text-2xl p-1.5 rounded-lg transition-all ${
+              className={`text-sm font-semibold px-3 py-1.5 rounded-lg transition-all ${
                 locale === f.locale
-                  ? "bg-primary/15 ring-2 ring-primary scale-110"
-                  : "opacity-60 hover:opacity-100"
+                  ? "bg-primary text-primary-foreground ring-2 ring-primary scale-105"
+                  : "bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               }`}
             >
-              {f.emoji}
+              {f.label}
             </button>
           ))}
         </div>
