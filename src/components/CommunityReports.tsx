@@ -2,6 +2,14 @@ import { useState } from "react";
 import { Users, FileText, TrendingUp, Camera, MapPin, Filter } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
+import reportPhoto1 from "@/assets/community/report-1-flooding-street.jpg";
+import reportPhoto3 from "@/assets/community/report-3-fallen-tree.jpg";
+import reportPhoto4 from "@/assets/community/report-4-flooded-underpass.jpg";
+import reportPhoto5 from "@/assets/community/report-5-heavy-rain-plaza.jpg";
+import reportPhoto6 from "@/assets/community/report-6-wind-damage.jpg";
+import reportPhoto7 from "@/assets/community/report-7-river-overflow.jpg";
+import reportPhoto8 from "@/assets/community/report-8-rain-puddles.jpg";
+
 interface CommunityReport {
   id: string;
   user: string;
@@ -15,23 +23,23 @@ interface CommunityReport {
 }
 
 const reportPhotos: Record<string, string> = {
-  "1": "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=400&h=300&fit=crop",
-  "3": "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=400&h=300&fit=crop",
-  "4": "https://images.unsplash.com/photo-1600336153113-d66c79de3e91?w=400&h=300&fit=crop",
-  "5": "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=400&h=300&fit=crop",
-  "6": "https://images.unsplash.com/photo-1599245066244-12ef tried2c5?w=400&h=300&fit=crop",
-  "7": "https://images.unsplash.com/photo-1446034295857-c899f4c5e2c5?w=400&h=300&fit=crop",
-  "8": "https://images.unsplash.com/photo-1509803874385-db7c23652552?w=400&h=300&fit=crop",
+  "1": reportPhoto1,
+  "3": reportPhoto3,
+  "4": reportPhoto4,
+  "5": reportPhoto5,
+  "6": reportPhoto6,
+  "7": reportPhoto7,
+  "8": reportPhoto8,
 };
 
 const reports: CommunityReport[] = [
-  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Calle completamente inundada en la Rúa da Raíña", time: "15 min", hasPhoto: true, distance: "1.2 km", distanceKm: 1.2, isMine: true },
-  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbol caído en la Rúa Nova tras vendaval", time: "1h", hasPhoto: true, distance: "0.8 km", distanceKm: 0.8, isMine: true },
-  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado en Praza Maior", time: "2h", hasPhoto: true, distance: "2.1 km", distanceKm: 2.1 },
-  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Lluvia fuerte persistente en el Parque Rosalía", time: "45 min", hasPhoto: true, distance: "0.5 km", distanceKm: 0.5 },
-  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Daños por viento fuerte en la Muralla Romana", time: "1h 20 min", hasPhoto: true, distance: "4.2 km", distanceKm: 4.2 },
-  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Alcantarilla desbordada en la Rúa San Pedro", time: "55 min", hasPhoto: true, distance: "1.8 km", distanceKm: 1.8 },
-  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Lluvia intermitente con charcos en la Praza de Santa María", time: "25 min", hasPhoto: true, distance: "0.3 km", distanceKm: 0.3 },
+  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, distance: "1.2 km", distanceKm: 1.2, isMine: true },
+  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, distance: "0.8 km", distanceKm: 0.8, isMine: true },
+  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado preto da Muralla Romana", time: "2h", hasPhoto: true, distance: "2.1 km", distanceKm: 2.1 },
+  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuvia forte persistente na Praza Maior de Lugo", time: "45 min", hasPhoto: true, distance: "0.5 km", distanceKm: 0.5 },
+  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Ramas partidas e destrozos polo vento na Praza de Santa María", time: "1h 20 min", hasPhoto: true, distance: "4.2 km", distanceKm: 4.2 },
+  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Río Miño crecido con desbordamento parcial na zona do Balneario", time: "55 min", hasPhoto: true, distance: "1.8 km", distanceKm: 1.8 },
+  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Chuvia intermitente con pozas na Rúa San Pedro", time: "25 min", hasPhoto: true, distance: "0.3 km", distanceKm: 0.3 },
 ];
 
 const typeColorMap: Record<string, string> = {
