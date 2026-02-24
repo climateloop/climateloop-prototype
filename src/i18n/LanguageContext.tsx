@@ -18,8 +18,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [locale, setLocale] = useState<Locale>("es");
   const [unitSystem, setUnitSystem] = useState<UnitSystem>("metric");
 
+  const value = { locale, setLocale, t: translations[locale], unitSystem, setUnitSystem };
+
   return (
-    <LanguageContext.Provider value={{ locale, setLocale, t: translations[locale], unitSystem, setUnitSystem }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
