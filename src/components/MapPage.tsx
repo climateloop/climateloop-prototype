@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import {} from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useLocation } from "@/hooks/useLocationContext";
@@ -70,9 +70,15 @@ const filterCatColor: Record<string, string> = Object.fromEntries(
   mapFilterDefs.map(f => [f.key, f.color])
 );
 
-const filterCounts: Record<string, number> = {
-  rain: 2, wind: 2, heat: 2, flood: 3, fire: 1, frost: 1, hail: 1, air: 1, alerts: 3, metrics: 3,
-};
+// Haversine distance in meters
+function haversineMeters(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const R = 6371000;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 
 const filterLabelKey: Record<string, string> = {
   rain: "catRain", wind: "catWind", heat: "catHeat", flood: "catFlood",
@@ -94,6 +100,34 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
   const radiusCircleRef = useRef<L.Circle | null>(null);
   const [selectedRadius, setSelectedRadius] = useState(1);
   const [activeFilters, setActiveFilters] = useState<Set<string>>(new Set(mapFilterDefs.map(f => f.key)));
+
+  // Compute filter counts dynamically based on markers within the selected radius
+  const filterCounts = useMemo(() => {
+    const radiusMeters = radiusOptions[selectedRadius].meters;
+    const counts: Record<string, number> = {};
+    mapFilterDefs.forEach(f => { counts[f.key] = 0; });
+
+    // Community markers
+    communityMapMarkers.forEach((m) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
+      if (dist <= radiusMeters && m.filterCat) {
+        counts[m.filterCat] = (counts[m.filterCat] || 0) + 1;
+      }
+    });
+
+    // CAP alert markers
+    capAlertMarkers.forEach((m) => {
+      const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
+      if (dist <= radiusMeters) {
+        counts["alerts"] = (counts["alerts"] || 0) + 1;
+        if (m.filterCat) {
+          counts[m.filterCat] = (counts[m.filterCat] || 0) + 1;
+        }
+      }
+    });
+
+    return counts;
+  }, [selectedRadius, USER_LAT, USER_LNG]);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;

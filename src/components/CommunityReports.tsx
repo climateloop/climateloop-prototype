@@ -85,11 +85,16 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
   const [selectedRadius, setSelectedRadius] = useState<number>(10);
   const [showFilters, setShowFilters] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [userInitial, setUserInitial] = useState("?");
   const [dbReports, setDbReports] = useState<CommunityReport[]>([]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) setCurrentUserId(user.id);
+      if (user) {
+        setCurrentUserId(user.id);
+        const name = user.user_metadata?.display_name || user.email || "";
+        setUserInitial((name.charAt(0) || "U").toUpperCase());
+      }
     });
   }, []);
 
@@ -277,15 +282,26 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                   </div>
                   <p className="text-sm text-foreground">{r.translations?.[locale]?.title || r.description}</p>
                   <div className="flex items-center gap-3 mt-1.5">
-                    <span className="text-xs text-muted-foreground">{r.userId && r.userId === currentUserId ? t.communitySentByMe : r.user}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {r.userId && r.userId === currentUserId ? (
+                        <span className="flex items-center gap-1">
+                          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary/15 text-[8px] font-bold text-primary">
+                            {userInitial}
+                          </span>
+                          {t.communitySentByMe}
+                        </span>
+                      ) : r.user}
+                    </span>
                     <span className="text-xs text-muted-foreground">{r.time}</span>
                     <span className="text-xs text-muted-foreground flex items-center gap-0.5">
                       <MapPin className="w-3 h-3" /> {r.distanceKm.toFixed(1)} km
                     </span>
-                    {r.totalRatings > 0 && (
+                    {r.totalRatings > 0 ? (
                       <span className="text-xs text-warning flex items-center gap-0.5 font-medium">
                         <Star className="w-3 h-3 fill-warning" /> {((r.positiveRatings / r.totalRatings) * 5).toFixed(1)}
                       </span>
+                    ) : (
+                      <span className="text-xs text-muted-foreground italic">{t.communityNoRatings}</span>
                     )}
                   </div>
                   <div className="flex items-center gap-1 mt-2 text-xs text-primary">

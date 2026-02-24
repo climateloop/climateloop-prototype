@@ -336,6 +336,7 @@ type TranslationKeys = {
   catAlerts: string;
   catMetrics: string;
   catFrost: string;
+  communityNoRatings: string;
 };
 
 export const translations: Record<Locale, TranslationKeys> = {
@@ -740,6 +741,7 @@ Users may lodge a complaint with their competent data protection authority withi
     catAlerts: "Alerts",
     catMetrics: "Metrics",
     catFrost: "Frost",
+    communityNoRatings: "No ratings yet",
   },
   es: {
     location: "Galicia, España",
@@ -1135,6 +1137,7 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     catAlerts: "Alertas",
     catMetrics: "Métricas",
     catFrost: "Helada",
+    communityNoRatings: "Sin valoraciones aún",
   },
   pt: {
     location: "Galicia, Espanha",
@@ -1535,6 +1538,7 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     catAlerts: "Alertas",
     catMetrics: "Métricas",
     catFrost: "Geada",
+    communityNoRatings: "Sem avaliações ainda",
   },
   fr: {
     location: "Galicia, Espagne",
@@ -1926,5 +1930,6 @@ Les utilisateurs peuvent déposer une plainte auprès de l'autorité de protecti
     catAlerts: "Alertes",
     catMetrics: "Métriques",
     catFrost: "Gel",
+    communityNoRatings: "Pas encore d'évaluations",
   },
 };

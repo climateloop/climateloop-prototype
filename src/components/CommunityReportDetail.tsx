@@ -110,12 +110,17 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
   const { t, locale } = useLanguage();
   const [vote, setVote] = useState<"up" | "down" | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [userInitial, setUserInitial] = useState("?");
   const [dbReport, setDbReport] = useState<(typeof reportDetails)[string] | null>(null);
   const [loadingDb, setLoadingDb] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) setCurrentUserId(user.id);
+      if (user) {
+        setCurrentUserId(user.id);
+        const name = user.user_metadata?.display_name || user.email || "";
+        setUserInitial((name.charAt(0) || "U").toUpperCase());
+      }
     });
   }, []);
 
@@ -232,11 +237,13 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${riskInfo.bg} ${riskInfo.text}`}>
           {(t as any)[riskInfo.label]}
         </span>
-        {report.totalRatings > 0 && (
+        {report.totalRatings > 0 ? (
           <span className="flex items-center gap-1 text-xs text-warning font-medium">
             <Star className="w-3.5 h-3.5 fill-warning" />
             {((report.positiveRatings / report.totalRatings) * 5).toFixed(1)} ({report.totalRatings})
           </span>
+        ) : (
+          <span className="text-xs text-muted-foreground italic">{t.communityNoRatings}</span>
         )}
         <span className="flex items-center gap-1 text-xs text-secondary font-medium">
           <CheckCircle className="w-3.5 h-3.5" />
@@ -267,8 +274,12 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
       {/* Reporter info */}
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-            <span className="text-sm font-bold text-muted-foreground">{report.user.charAt(0)}</span>
+          <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center">
+            <span className="text-sm font-bold text-primary">
+              {isMine
+                ? userInitial
+                : report.user.charAt(0).toUpperCase()}
+            </span>
           </div>
           <div>
             <p className="text-sm font-medium text-foreground">

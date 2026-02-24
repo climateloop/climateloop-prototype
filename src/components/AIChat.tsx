@@ -19,11 +19,13 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 async function streamChat({
   messages,
+  locale,
   onDelta,
   onDone,
   onError,
 }: {
   messages: Message[];
+  locale?: string;
   onDelta: (text: string) => void;
   onDone: () => void;
   onError: (msg: string) => void;
@@ -34,7 +36,7 @@ async function streamChat({
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, locale }),
   });
 
   if (!resp.ok) {
@@ -105,7 +107,7 @@ async function streamChat({
 }
 
 const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [messages, setMessages] = useState<Message[]>(() => [
     { role: "assistant", content: t.aiInitialMessage },
   ]);
@@ -133,6 +135,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
 
       streamChat({
         messages: baseMessages,
+        locale,
         onDelta: (chunk) => {
           assistantSoFar += chunk;
           setMessages([...baseMessages, { role: "assistant", content: assistantSoFar }]);
@@ -194,6 +197,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
     try {
       await streamChat({
         messages: newMessages,
+        locale,
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: () => setIsLoading(false),
         onError: (msg) => {
