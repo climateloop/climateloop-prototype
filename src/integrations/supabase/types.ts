@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      community_reports: {
+        Row: {
+          address: string
+          category: string
+          created_at: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          notes: string | null
+          photo_url: string | null
+          status: string
+          sub_category: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address: string
+          category: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          photo_url?: string | null
+          status?: string
+          sub_category?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          category?: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          photo_url?: string | null
+          status?: string
+          sub_category?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       iot_readings: {
         Row: {
           apparent_temperature: number | null

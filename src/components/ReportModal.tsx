@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
-import { X, Camera, Send, CloudRain, Wind, Thermometer, Flame, Snowflake, CloudHail, Waves, CloudLightning, Mountain, Droplets, Zap, Tornado, AlertTriangle, Loader2, CheckCircle, XCircle } from "lucide-react";
+import { X, Camera, Send, CloudRain, Wind, Thermometer, Flame, Snowflake, CloudHail, Waves, CloudLightning, Mountain, Droplets, Zap, Tornado, AlertTriangle, Loader2, CheckCircle, XCircle, MapPin } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -51,36 +53,97 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
   const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId | null>(null);
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
+  const [title, setTitle] = useState("");
+  const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoStatus, setPhotoStatus] = useState<PhotoStatus>("idle");
+  const [isSending, setIsSending] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = () => {
-    alert(t.reportSuccess);
+  const resetForm = () => {
     setSelectedCategory(null);
     setSelectedSub(null);
+    setTitle("");
+    setAddress("");
     setNotes("");
+    setPhotoFile(null);
     setPhotoPreview(null);
     setPhotoStatus("idle");
-    onClose();
+    setIsSending(false);
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedCategory || !selectedSub || !title.trim() || !address.trim() || photoStatus !== "accepted" || !photoFile) return;
+
+    setIsSending(true);
+
+    try {
+      // Get current user (for demo, use a mock user_id since auth is simulated)
+      const mockUserId = "00000000-0000-0000-0000-000000000001";
+
+      // Upload photo to storage
+      const fileExt = photoFile.name.split(".").pop() || "jpg";
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `reports/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("report-photos")
+        .upload(filePath, photoFile, { contentType: photoFile.type });
+
+      let photoUrl = "";
+      if (!uploadError) {
+        const { data: urlData } = supabase.storage
+          .from("report-photos")
+          .getPublicUrl(filePath);
+        photoUrl = urlData.publicUrl;
+      }
+
+      // Insert report into database
+      const { error: insertError } = await supabase
+        .from("community_reports")
+        .insert({
+          user_id: mockUserId,
+          title: title.trim(),
+          category: selectedCategory,
+          sub_category: selectedSub,
+          notes: notes.trim() || null,
+          address: address.trim(),
+          photo_url: photoUrl || null,
+          status: "pending",
+        });
+
+      if (insertError) {
+        console.error("Error inserting report:", insertError);
+        toast.error(insertError.message);
+      } else {
+        toast.success(t.reportSuccess);
+        resetForm();
+        onClose();
+      }
+    } catch (err) {
+      console.error("Error submitting report:", err);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const simulateAICheck = (file: File) => {
     const url = URL.createObjectURL(file);
     setPhotoPreview(url);
     setPhotoStatus("analyzing");
+    setPhotoFile(file);
 
-    // Mock: randomly reject ~40% of photos to simulate person detection
     setTimeout(() => {
-      const hasPeople = Math.random() < 0.4;
+      const hasPeople = Math.random() < 0.3;
       if (hasPeople) {
         setPhotoStatus("rejected");
-        // Clear photo after a moment so user can retry
         setTimeout(() => {
           setPhotoPreview(null);
+          setPhotoFile(null);
           setPhotoStatus("idle");
           URL.revokeObjectURL(url);
         }, 3000);
@@ -94,7 +157,6 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
     simulateAICheck(file);
-    // Reset input so same file can be re-selected
     e.target.value = "";
   };
 
@@ -103,16 +165,18 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
     fileInputRef.current?.click();
   };
 
+  const canSubmit = selectedCategory && selectedSub && title.trim() && address.trim() && photoStatus === "accepted" && !isSending;
+
   return (
     <div className="fixed inset-0 z-[9999] flex items-end justify-center bg-foreground/40 backdrop-blur-sm">
       <div className="bg-background w-full max-w-lg rounded-t-2xl max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
-        <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border">
+        <div className="sticky top-0 bg-background flex items-center justify-between p-4 border-b border-border z-10">
           <h2 className="text-lg font-bold text-foreground">
             {selectedCategory
               ? `${t.reportCategory} ${(t as any)[categories.find((c) => c.id === selectedCategory)?.labelKey || ""]}`
               : t.reportTitle}
           </h2>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-muted transition-colors">
+          <button onClick={() => { resetForm(); onClose(); }} className="p-2 rounded-full hover:bg-muted transition-colors">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
@@ -139,6 +203,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
             </>
           ) : (
             <>
+              {/* Sub-category selection */}
               <div>
                 <p className="text-sm font-medium text-foreground mb-2">{t.reportWhat}</p>
                 <div className="flex flex-wrap gap-2">
@@ -161,6 +226,36 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                 </div>
               </div>
 
+              {/* Title field */}
+              <div>
+                <p className="text-sm font-medium text-foreground mb-2">{t.reportTitleLabel}</p>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={t.reportTitlePlaceholder}
+                  className="w-full p-3 rounded-xl border border-border bg-surface-elevated text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors"
+                  maxLength={200}
+                />
+              </div>
+
+              {/* Address field */}
+              <div>
+                <p className="text-sm font-medium text-foreground mb-2 flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  {t.reportAddressLabel}
+                </p>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder={t.reportAddressPlaceholder}
+                  className="w-full p-3 rounded-xl border border-border bg-surface-elevated text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors"
+                  maxLength={300}
+                />
+              </div>
+
+              {/* Notes */}
               <div>
                 <p className="text-sm font-medium text-foreground mb-2">{t.reportNotes}</p>
                 <textarea
@@ -171,6 +266,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                 />
               </div>
 
+              {/* Photo upload */}
               <div className="space-y-2">
                 <input
                   ref={fileInputRef}
@@ -181,7 +277,6 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                   onChange={handleFileChange}
                 />
 
-                {/* Photo preview / upload area */}
                 {photoPreview ? (
                   <div className="relative rounded-xl overflow-hidden border border-border">
                     <img
@@ -189,21 +284,18 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                       alt=""
                       className={`w-full h-40 object-cover ${photoStatus === "rejected" ? "opacity-40" : ""}`}
                     />
-                    {/* Analyzing overlay */}
                     {photoStatus === "analyzing" && (
                       <div className="absolute inset-0 bg-foreground/50 flex flex-col items-center justify-center gap-2">
                         <Loader2 className="w-6 h-6 text-background animate-spin" />
                         <span className="text-xs font-medium text-background">{t.reportPhotoAnalyzing}</span>
                       </div>
                     )}
-                    {/* Rejected overlay */}
                     {photoStatus === "rejected" && (
                       <div className="absolute inset-0 bg-destructive/20 flex flex-col items-center justify-center gap-2 px-4">
                         <XCircle className="w-6 h-6 text-destructive" />
                         <span className="text-xs font-medium text-destructive text-center">{t.reportPhotoRejected}</span>
                       </div>
                     )}
-                    {/* Accepted overlay */}
                     {photoStatus === "accepted" && (
                       <div className="absolute top-2 right-2 bg-secondary/90 rounded-full p-1.5">
                         <CheckCircle className="w-4 h-4 text-secondary-foreground" />
@@ -220,11 +312,17 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                   </button>
                 )}
 
-                {/* Status message for accepted */}
                 {photoStatus === "accepted" && (
                   <div className="flex items-center gap-2 px-2">
                     <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
                     <p className="text-xs text-secondary">{t.reportPhotoAccepted}</p>
+                  </div>
+                )}
+
+                {photoStatus === "idle" && (
+                  <div className="flex items-start gap-2 px-2">
+                    <Camera className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-muted-foreground">{t.reportPhotoRequired}</p>
                   </div>
                 )}
 
@@ -234,20 +332,33 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                 </div>
               </div>
 
+              {/* Submit button */}
               <button
                 onClick={handleSubmit}
-                disabled={!selectedSub || photoStatus === "analyzing" || photoStatus === "rejected"}
+                disabled={!canSubmit}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm shadow-card hover:shadow-elevated transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-4 h-4" />
-                {t.reportSend}
+                {isSending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {t.reportSending}
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    {t.reportSend}
+                  </>
+                )}
               </button>
 
               <button
                 onClick={() => {
                   setSelectedCategory(null);
                   setSelectedSub(null);
+                  setTitle("");
+                  setAddress("");
                   setPhotoPreview(null);
+                  setPhotoFile(null);
                   setPhotoStatus("idle");
                 }}
                 className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors"

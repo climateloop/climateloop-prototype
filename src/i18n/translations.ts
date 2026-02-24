@@ -122,6 +122,12 @@ type TranslationKeys = {
   reportBack: string;
   reportSuccess: string;
   reportCategory: string;
+  reportTitleLabel: string;
+  reportTitlePlaceholder: string;
+  reportAddressLabel: string;
+  reportAddressPlaceholder: string;
+  reportPhotoRequired: string;
+  reportSending: string;
   // Report categories
   catRain: string;
   catWind: string;
@@ -534,6 +540,12 @@ Users may lodge a complaint with their competent data protection authority withi
     reportBack: "← Back to categories",
     reportSuccess: "Report sent successfully! Thank you for contributing.",
     reportCategory: "Report",
+    reportTitleLabel: "Title",
+    reportTitlePlaceholder: "E.g.: Fallen tree on Rúa Nova",
+    reportAddressLabel: "Location",
+    reportAddressPlaceholder: "Type the address or street name...",
+    reportPhotoRequired: "A photo is required to submit your report.",
+    reportSending: "Sending...",
     catRain: "Rain",
     catWind: "Wind",
     catHeat: "Heat",
@@ -917,6 +929,12 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     reportBack: "← Volver a categorías",
     reportSuccess: "¡Reporte enviado con éxito! Gracias por contribuir.",
     reportCategory: "Reportar",
+    reportTitleLabel: "Título",
+    reportTitlePlaceholder: "Ej.: Árbol caído en la Rúa Nova",
+    reportAddressLabel: "Ubicación",
+    reportAddressPlaceholder: "Escribe la dirección o nombre de la calle...",
+    reportPhotoRequired: "Se requiere una foto para enviar el reporte.",
+    reportSending: "Enviando...",
     catRain: "Lluvia",
     catWind: "Viento",
     catHeat: "Calor",
@@ -1305,6 +1323,12 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     reportBack: "← Voltar às categorias",
     reportSuccess: "Relato enviado com sucesso! Obrigado por contribuir.",
     reportCategory: "Reportar",
+    reportTitleLabel: "Título",
+    reportTitlePlaceholder: "Ex.: Árvore caída na Rúa Nova",
+    reportAddressLabel: "Localização",
+    reportAddressPlaceholder: "Digite o endereço ou nome da rua...",
+    reportPhotoRequired: "Uma foto é obrigatória para enviar o relato.",
+    reportSending: "Enviando...",
     catRain: "Chuva",
     catWind: "Vento",
     catHeat: "Calor",
@@ -1684,6 +1708,12 @@ Les utilisateurs peuvent déposer une plainte auprès de l'autorité de protecti
     reportBack: "← Retour aux catégories",
     reportSuccess: "Signalement envoyé avec succès ! Merci de contribuer.",
     reportCategory: "Signaler",
+    reportTitleLabel: "Titre",
+    reportTitlePlaceholder: "Ex. : Arbre tombé sur la Rúa Nova",
+    reportAddressLabel: "Localisation",
+    reportAddressPlaceholder: "Tapez l'adresse ou le nom de la rue...",
+    reportPhotoRequired: "Une photo est requise pour soumettre le signalement.",
+    reportSending: "Envoi en cours...",
     catRain: "Pluie",
     catWind: "Vent",
     catHeat: "Chaleur",
