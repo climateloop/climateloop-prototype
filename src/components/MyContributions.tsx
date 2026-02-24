@@ -1,4 +1,4 @@
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, ChevronRight } from "lucide-react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, ChevronRight, Star } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Contribution {
@@ -8,12 +8,14 @@ interface Contribution {
   time: string;
   verified: boolean;
   hasPhoto: boolean;
+  positiveRatings: number;
+  totalRatings: number;
   translations?: Record<string, { title?: string; notes?: string | null }>;
 }
 
 const myContributions: Contribution[] = [
-  { id: "1", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "2h", verified: true, hasPhoto: true, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
-  { id: "3", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", verified: true, hasPhoto: true, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
+  { id: "1", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "2h", verified: true, hasPhoto: true, positiveRatings: 12, totalRatings: 13, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
+  { id: "3", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", verified: true, hasPhoto: true, positiveRatings: 11, totalRatings: 12, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
 ];
 
 const typeColorMap: Record<string, string> = {
@@ -65,6 +67,11 @@ const MyContributions = ({ onBack, onOpenReport }: MyContributionsProps) => {
                       <CheckCircle className="w-3 h-3" />
                       {t.myContribVerified}
                     </span>
+                    {c.totalRatings > 0 && (
+                      <span className="flex items-center gap-1 text-xs text-warning font-medium">
+                        <Star className="w-3 h-3 fill-warning" /> {((c.positiveRatings / c.totalRatings) * 5).toFixed(1)}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground mt-1" />

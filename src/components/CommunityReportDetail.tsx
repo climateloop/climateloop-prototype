@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, ThumbsUp, ThumbsDown } from "lucide-react";
+import { ArrowLeft, Camera, MapPin, Clock, CheckCircle, MessageCircle, ThumbsUp, ThumbsDown, Star } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 import reportPhoto1 from "@/assets/community/report-1-flooding-street.jpg";
@@ -23,12 +23,13 @@ interface ReportData {
 
 const myReportIds = ["1", "3"];
 
-const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; risk: string }> = {
+const reportDetails: Record<string, ReportData & { photoUrl: string; location: string; risk: string; positiveRatings: number; totalRatings: number }> = {
   "1": {
     id: "1", user: "María S.", typeKey: "typeFlooding",
     description: "Rúa da Raíña completamente inundada tras forte chuveira",
     time: "15 min", hasPhoto: true, distance: "1.2 km",
     location: "Rúa da Raíña 12, Lugo", photoUrl: reportPhoto1, risk: "high",
+    positiveRatings: 12, totalRatings: 13,
     translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } },
   },
   "3": {
@@ -36,6 +37,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Árbore caída na Rúa Nova bloqueando o tráfico",
     time: "1h", hasPhoto: true, distance: "0.8 km",
     location: "Rúa Nova 28, Lugo", photoUrl: reportPhoto3, risk: "moderate",
+    positiveRatings: 11, totalRatings: 12,
     translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } },
   },
   "4": {
@@ -43,6 +45,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Paso subterráneo inundado preto da Muralla Romana",
     time: "2h", hasPhoto: true, distance: "2.1 km",
     location: "Paso subterráneo da Muralla, Lugo", photoUrl: reportPhoto4, risk: "high",
+    positiveRatings: 8, totalRatings: 10,
     translations: { es: { title: "Paso subterráneo inundado preto da Muralla Romana" }, en: { title: "Underground passage flooded near the Roman Wall" }, pt: { title: "Passagem subterrânea inundada perto da Muralha Romana" }, fr: { title: "Passage souterrain inondé près de la Muraille Romaine" } },
   },
   "5": {
@@ -50,6 +53,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Chuvia forte persistente na Praza Maior de Lugo",
     time: "45 min", hasPhoto: true, distance: "0.5 km",
     location: "Praza Maior, Lugo", photoUrl: reportPhoto5, risk: "moderate",
+    positiveRatings: 6, totalRatings: 7,
     translations: { es: { title: "Chuvia forte persistente na Praza Maior de Lugo" }, en: { title: "Persistent heavy rain at Praza Maior de Lugo" }, pt: { title: "Chuva forte persistente na Praza Maior de Lugo" }, fr: { title: "Pluie forte persistante sur la Praza Maior de Lugo" } },
   },
   "6": {
@@ -57,6 +61,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Ramas partidas e destrozos polo vento na Praza de Santa María",
     time: "1h 20 min", hasPhoto: true, distance: "4.2 km",
     location: "Praza de Santa María, Lugo", photoUrl: reportPhoto6, risk: "moderate",
+    positiveRatings: 14, totalRatings: 18,
     translations: { es: { title: "Ramas partidas e destrozos polo vento na Praza de Santa María" }, en: { title: "Broken branches and wind damage at Praza de Santa María" }, pt: { title: "Ramos partidos e estragos do vento na Praza de Santa María" }, fr: { title: "Branches cassées et dégâts dus au vent sur la Praza de Santa María" } },
   },
   "7": {
@@ -64,6 +69,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Río Miño crecido con desbordamento parcial na zona do Balneario",
     time: "55 min", hasPhoto: true, distance: "1.8 km",
     location: "Paseo do Río Miño, Lugo", photoUrl: reportPhoto7, risk: "moderate",
+    positiveRatings: 9, totalRatings: 11,
     translations: { es: { title: "Río Miño crecido con desbordamento parcial na zona do Balneario" }, en: { title: "River Miño risen with partial overflow near the Balneario area" }, pt: { title: "Rio Miño crescido com transbordamento parcial na zona do Balneário" }, fr: { title: "Río Miño en crue avec débordement partiel dans la zone du Balneario" } },
   },
   "8": {
@@ -71,6 +77,7 @@ const reportDetails: Record<string, ReportData & { photoUrl: string; location: s
     description: "Chuvia intermitente con pozas na Rúa San Pedro",
     time: "25 min", hasPhoto: true, distance: "0.3 km",
     location: "Rúa San Pedro, Lugo", photoUrl: reportPhoto8, risk: "low",
+    positiveRatings: 3, totalRatings: 5,
     translations: { es: { title: "Chuvia intermitente con pozas na Rúa San Pedro" }, en: { title: "Intermittent rain with puddles on Rúa San Pedro" }, pt: { title: "Chuva intermitente com poças na Rúa San Pedro" }, fr: { title: "Pluie intermittente avec flaques sur la Rúa San Pedro" } },
   },
 };
@@ -138,7 +145,7 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         </div>
       )}
 
-      {/* Type badge, risk & verification */}
+      {/* Type badge, risk, rating & verification */}
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${typeColorMap[report.typeKey] || "bg-muted text-muted-foreground"}`}>
           {typeLabel}
@@ -146,6 +153,12 @@ const CommunityReportDetail = ({ reportId, onBack, onOpenChat }: CommunityReport
         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${riskInfo.bg} ${riskInfo.text}`}>
           {(t as any)[riskInfo.label]}
         </span>
+        {report.totalRatings > 0 && (
+          <span className="flex items-center gap-1 text-xs text-warning font-medium">
+            <Star className="w-3.5 h-3.5 fill-warning" />
+            {((report.positiveRatings / report.totalRatings) * 5).toFixed(1)} ({report.totalRatings})
+          </span>
+        )}
         <span className="flex items-center gap-1 text-xs text-secondary font-medium">
           <CheckCircle className="w-3.5 h-3.5" />
           {t.communityDetailVerified}
