@@ -1,4 +1,4 @@
-import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X } from "lucide-react";
+import { MapPin, Bell, ArrowLeft, Info, HelpCircle, FileText, Share2, ClipboardList, X, User } from "lucide-react";
 import logoImg from "@/assets/climateloop-logo.png";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useLocation } from "@/hooks/useLocationContext";
@@ -8,9 +8,10 @@ interface HeaderProps {
   onOpenNotifications?: () => void;
   onOpenMap?: () => void;
   onOpenLocation?: () => void;
+  onOpenProfile?: () => void;
 }
 
-const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: HeaderProps) => {
+const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation, onOpenProfile }: HeaderProps) => {
   const { t } = useLanguage();
   const { location } = useLocation();
 
@@ -26,8 +27,8 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: 
           <span>{location.name}</span>
         </button>
       </div>
-      {notificationCount > 0 && (
-        <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
+        {notificationCount > 0 && (
           <button
             onClick={onOpenNotifications}
             className="relative p-2 rounded-full hover:bg-muted transition-colors"
@@ -37,8 +38,14 @@ const Header = ({ notificationCount = 3, onOpenNotifications, onOpenLocation }: 
               {notificationCount}
             </span>
           </button>
-        </div>
-      )}
+        )}
+        <button
+          onClick={onOpenProfile}
+          className="p-2 rounded-full hover:bg-muted transition-colors"
+        >
+          <User className="w-5 h-5 text-foreground" />
+        </button>
+      </div>
     </header>
   );
 };

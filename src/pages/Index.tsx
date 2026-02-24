@@ -217,14 +217,33 @@ const Index = () => {
       <Header
         onOpenNotifications={() => setNotifOpen(true)}
         onOpenLocation={handleOpenLocation}
+        onOpenProfile={() => { setActiveTab("perfil"); setDetailView(null); }}
       />
 
       <main className="pt-4 pb-24 space-y-5">
         {renderContent()}
       </main>
 
-      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} isChatOpen={chatOpen} onToggleChat={() => setChatOpen(!chatOpen)} />
+      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
       <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} />
+
+      {/* Floating AI button */}
+      <button
+        onClick={() => setChatOpen(!chatOpen)}
+        className={`fixed bottom-20 right-4 z-[500] w-12 h-12 rounded-full shadow-elevated flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
+          chatOpen ? "gradient-heat" : "gradient-primary"
+        }`}
+        aria-label={t.navAI}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 3a6 6 0 0 0-6 6v2a6 6 0 0 0 12 0V9a6 6 0 0 0-6-6z"/>
+          <path d="M8 21h8"/>
+          <path d="M12 17v4"/>
+          <circle cx="9" cy="10" r="1" fill="white"/>
+          <circle cx="15" cy="10" r="1" fill="white"/>
+        </svg>
+      </button>
+
       <AIChat
         isOpen={chatOpen}
         onToggle={() => setChatOpen(!chatOpen)}
