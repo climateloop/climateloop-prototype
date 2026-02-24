@@ -166,15 +166,9 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
 
       <div className="space-y-3">
         {displayReports.length === 0 ? (
-          <div className="flex flex-col items-center py-8 text-center">
+          <div className="flex flex-col items-center py-8 text-center px-4">
             <Search className="w-8 h-8 text-muted-foreground/50 mb-2" />
             <p className="text-sm text-muted-foreground">{t.communityNoReportsNearby}</p>
-            {preview && (
-              <p className="text-xs text-muted-foreground/70 mt-2 flex items-center gap-1.5">
-                <Users className="w-3.5 h-3.5" />
-                {t.communitySeeAllCTA}
-              </p>
-            )}
           </div>
         ) : (
           displayReports.map((r) => (
