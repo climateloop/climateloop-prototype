@@ -4,6 +4,10 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useLocation } from "@/hooks/useLocationContext";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
 
+const localeToLang: Record<string, string> = {
+  es: "es", pt: "pt-BR,pt", en: "en", fr: "fr",
+};
+
 interface SavedLocation {
   id: string;
   name: string;
@@ -18,7 +22,7 @@ interface MyLocationPageProps {
 }
 
 const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { location: currentLoc, setLocation } = useLocation();
   const [currentLocation, setCurrentLocation] = useState(currentLoc.name);
   const [detecting, setDetecting] = useState(false);
@@ -45,13 +49,16 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
       async (pos) => {
         const { latitude, longitude } = pos.coords;
         try {
+          const acceptLang = localeToLang[locale] || "en";
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&zoom=10&addressdetails=1`,
-            { headers: { "Accept-Language": "es,pt,en" } }
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&zoom=10&addressdetails=1&accept-language=${acceptLang}`,
+            { headers: { "Accept-Language": acceptLang } }
           );
           const data = await res.json();
           const addr = data.address;
-          const name = addr?.city || addr?.town || addr?.village || addr?.municipality || data.display_name?.split(",").slice(0, 2).join(",").trim() || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+          const city = addr?.city || addr?.town || addr?.village || addr?.municipality || "";
+          const country = addr?.country || "";
+          const name = city && country ? `${city}, ${country}` : city || data.display_name?.split(",").slice(0, 2).join(",").trim() || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
           setCurrentLocation(name);
           setLocation({ name, lat: latitude, lng: longitude });
         } catch {

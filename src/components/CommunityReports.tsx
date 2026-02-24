@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Users, FileText, TrendingUp, Camera, MapPin, Filter } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 
 import reportPhoto1 from "@/assets/community/report-1-flooding-street.jpg";
 import reportPhoto3 from "@/assets/community/report-3-fallen-tree.jpg";
@@ -17,8 +18,8 @@ interface CommunityReport {
   description: string;
   time: string;
   hasPhoto: boolean;
-  distance: string;
-  distanceKm: number;
+  lat: number;
+  lng: number;
   isMine?: boolean;
 }
 
@@ -32,14 +33,24 @@ const reportPhotos: Record<string, string> = {
   "8": reportPhoto8,
 };
 
+// Haversine distance in km
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 const reports: CommunityReport[] = [
-  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, distance: "1.2 km", distanceKm: 1.2, isMine: true },
-  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, distance: "0.8 km", distanceKm: 0.8, isMine: true },
-  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado preto da Muralla Romana", time: "2h", hasPhoto: true, distance: "2.1 km", distanceKm: 2.1 },
-  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuvia forte persistente na Praza Maior de Lugo", time: "45 min", hasPhoto: true, distance: "0.5 km", distanceKm: 0.5 },
-  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Ramas partidas e destrozos polo vento na Praza de Santa María", time: "1h 20 min", hasPhoto: true, distance: "4.2 km", distanceKm: 4.2 },
-  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Río Miño crecido con desbordamento parcial na zona do Balneario", time: "55 min", hasPhoto: true, distance: "1.8 km", distanceKm: 1.8 },
-  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Chuvia intermitente con pozas na Rúa San Pedro", time: "25 min", hasPhoto: true, distance: "0.3 km", distanceKm: 0.3 },
+  { id: "1", user: "María S.", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "15 min", hasPhoto: true, lat: 43.0101, lng: -7.5570, isMine: true },
+  { id: "3", user: "Ana L.", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", hasPhoto: true, lat: 43.0090, lng: -7.5545, isMine: true },
+  { id: "4", user: "Pedro M.", typeKey: "typeFlooding", description: "Paso subterráneo inundado preto da Muralla Romana", time: "2h", hasPhoto: true, lat: 43.0120, lng: -7.5530 },
+  { id: "5", user: "Lucía G.", typeKey: "typeRain", description: "Chuvia forte persistente na Praza Maior de Lugo", time: "45 min", hasPhoto: true, lat: 43.0098, lng: -7.5565 },
+  { id: "6", user: "Carlos R.", typeKey: "typeStrongWind", description: "Ramas partidas e destrozos polo vento na Praza de Santa María", time: "1h 20 min", hasPhoto: true, lat: 43.0130, lng: -7.5610 },
+  { id: "7", user: "Isabel F.", typeKey: "typeFlooding", description: "Río Miño crecido con desbordamento parcial na zona do Balneario", time: "55 min", hasPhoto: true, lat: 43.0060, lng: -7.5620 },
+  { id: "8", user: "Diego T.", typeKey: "typeRain", description: "Chuvia intermitente con pozas na Rúa San Pedro", time: "25 min", hasPhoto: true, lat: 43.0105, lng: -7.5555 },
 ];
 
 const typeColorMap: Record<string, string> = {
@@ -62,18 +73,27 @@ interface CommunityReportsProps {
 
 const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
   const { t } = useLanguage();
+  const { location: userLoc } = useLocation();
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [selectedRadius, setSelectedRadius] = useState<number | null>(null);
+  const [selectedRadius, setSelectedRadius] = useState<number>(10);
   const [showFilters, setShowFilters] = useState(false);
 
-  let displayReports = preview ? reports.slice(0, 3) : reports;
+  const reportsWithDistance = useMemo(
+    () =>
+      reports.map((r) => ({
+        ...r,
+        distanceKm: haversineKm(userLoc.lat, userLoc.lng, r.lat, r.lng),
+      })),
+    [userLoc.lat, userLoc.lng]
+  );
+
+  let displayReports = preview ? reportsWithDistance.slice(0, 3) : reportsWithDistance;
 
   if (!preview) {
+    // Always filter by radius
+    displayReports = displayReports.filter((r) => r.distanceKm <= selectedRadius);
     if (selectedType) {
       displayReports = displayReports.filter((r) => r.typeKey === selectedType);
-    }
-    if (selectedRadius) {
-      displayReports = displayReports.filter((r) => r.distanceKm <= selectedRadius);
     }
   }
 
@@ -124,18 +144,10 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
           <div>
             <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-1.5">{t.filterByRadius}</p>
             <div className="flex flex-wrap gap-1.5">
-              <button
-                onClick={() => setSelectedRadius(null)}
-                className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors ${
-                  !selectedRadius ? "gradient-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {t.filterAll}
-              </button>
               {radiusOptions.map((r) => (
                 <button
                   key={r}
-                  onClick={() => setSelectedRadius(selectedRadius === r ? null : r)}
+                  onClick={() => setSelectedRadius(r)}
                   className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors ${
                     selectedRadius === r ? "gradient-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
                   }`}
@@ -203,7 +215,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                     <span className="text-xs text-muted-foreground">{r.isMine ? t.communitySentByMe : r.user}</span>
                     <span className="text-xs text-muted-foreground">{r.time}</span>
                     <span className="text-xs text-muted-foreground flex items-center gap-0.5">
-                      <MapPin className="w-3 h-3" /> {r.distance}
+                      <MapPin className="w-3 h-3" /> {r.distanceKm.toFixed(1)} km
                     </span>
                   </div>
                   <div className="flex items-center gap-1 mt-2 text-xs text-primary">
