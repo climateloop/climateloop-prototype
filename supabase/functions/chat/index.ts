@@ -6,7 +6,20 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const SYSTEM_PROMPT = `You are the ClimateLoop AI Assistant — a friendly, knowledgeable expert on weather, climate, and meteorological events.
+const LOCALE_NAMES: Record<string, string> = {
+  en: "English",
+  es: "Spanish",
+  pt: "Portuguese",
+  fr: "French",
+};
+
+const buildSystemPrompt = (locale?: string) => {
+  const langName = LOCALE_NAMES[locale || ""] || null;
+  const langInstruction = langName
+    ? `\n\nCRITICAL LANGUAGE RULE: You MUST ALWAYS respond in ${langName}, regardless of the language of any context, alert, or community report shared in the conversation. The only exception is if the user explicitly asks you to respond in a different language.`
+    : "";
+
+  return `You are the ClimateLoop AI Assistant — a friendly, knowledgeable expert on weather, climate, and meteorological events.
 
 Your role:
 - Help users understand weather alerts, forecasts, and community reports in their area
@@ -20,7 +33,6 @@ Guidelines:
 - Use a warm, reassuring tone — users may be worried about weather events
 - When discussing alerts, always emphasize safety first
 - Do not use markdown formatting — respond in plain text
-- Respond in the same language the user writes in
 - If you don't have specific real-time data, be transparent about it and provide general guidance
 
 IMPORTANT — Community reports context:
@@ -28,7 +40,8 @@ IMPORTANT — Community reports context:
 - The person chatting with you is the logged-in user who is viewing the report and wants to understand it better
 - Never address the user by the reporter's name
 - You can refer to the reporter in third person (e.g. "The report submitted by María S. indicates...")
-- Focus on helping the current user understand the situation, assess risks, and take appropriate action`;
+- Focus on helping the current user understand the situation, assess risks, and take appropriate action${langInstruction}`;
+};
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -36,7 +49,7 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, locale } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
@@ -51,7 +64,7 @@ serve(async (req) => {
         body: JSON.stringify({
           model: "google/gemini-3-flash-preview",
           messages: [
-            { role: "system", content: SYSTEM_PROMPT },
+            { role: "system", content: buildSystemPrompt(locale) },
             ...messages,
           ],
           stream: true,
