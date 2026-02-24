@@ -29,9 +29,9 @@ const MyLocationPage = ({ onBack }: MyLocationPageProps) => {
   const [searchAddress, setSearchAddress] = useState("");
   const [savedLocations, setSavedLocations] = useState<SavedLocation[]>(() => {
     const defaultSaved: SavedLocation[] = [
-      { id: "lugo", name: "Lugo, Galicia", lat: 43.0096, lng: -7.5560 },
+      { id: "lugo", name: "Lugo, España", lat: 43.0096, lng: -7.5560 },
       { id: "rio", name: "Rio de Janeiro, Brasil", lat: -22.9068, lng: -43.1729 },
-      { id: "bakel", name: "Bakel, Senegal", lat: 14.9025, lng: -12.4572 },
+      { id: "dakar", name: "Dakar, Senegal", lat: 14.6928, lng: -17.4467 },
     ];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSaved));
     return defaultSaved;
