@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header, { NotificationPanel } from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import WeatherCard from "@/components/WeatherCard";
@@ -22,6 +22,8 @@ import MyLocationPage from "@/components/MyLocationPage";
 import AuthPage from "@/components/AuthPage";
 import LegalPage from "@/components/LegalPage";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import type { Session } from "@supabase/supabase-js";
 
 type DetailView =
   | { type: "alert"; alert: Alert }
@@ -34,7 +36,8 @@ type DetailView =
   | null;
 
 const Index = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
   const [activeTab, setActiveTab] = useState("inicio");
   const [reportOpen, setReportOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -46,7 +49,27 @@ const Index = () => {
 
   const [showLegalFromAuth, setShowLegalFromAuth] = useState(false);
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => {
+      setSession(sess);
+      setLoadingAuth(false);
+    });
+    supabase.auth.getSession().then(({ data: { session: sess } }) => {
+      setSession(sess);
+      setLoadingAuth(false);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loadingAuth) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
+  if (!session) {
     if (showLegalFromAuth) {
       return (
         <div className="min-h-screen bg-background max-w-lg mx-auto">
@@ -54,7 +77,7 @@ const Index = () => {
         </div>
       );
     }
-    return <AuthPage onLogin={() => setIsAuthenticated(true)} onOpenLegal={() => setShowLegalFromAuth(true)} />;
+    return <AuthPage onOpenLegal={() => setShowLegalFromAuth(true)} />;
   }
 
   // Most recent active (immediate) CAP alert for the user's region
@@ -185,7 +208,7 @@ const Index = () => {
     if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} />;
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenCapAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
-    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onOpenLegal={handleOpenLegal} onLogout={() => setIsAuthenticated(false)} />;
+    if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onOpenLegal={handleOpenLegal} onLogout={() => supabase.auth.signOut()} />;
     return null;
   };
 

@@ -4,6 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLanguage, type Locale } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import logo from "@/assets/climateloop-logo.png";
 
 const flags: { locale: Locale; emoji: string }[] = [
@@ -14,28 +17,29 @@ const flags: { locale: Locale; emoji: string }[] = [
 ];
 
 interface AuthPageProps {
-  onLogin: () => void;
   onOpenLegal?: () => void;
 }
 
-const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
+const AuthPage = ({ onOpenLegal }: AuthPageProps) => {
   const [isSignup, setIsSignup] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { t, locale, setLocale } = useLanguage();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
+    if (!email.trim() || !password.trim()) {
+      setError(t.authErrorRequired);
+      return;
+    }
+
     if (isSignup) {
-      if (!email.trim() || !password.trim()) {
-        setError(t.authErrorRequired);
-        return;
-      }
       if (!name.trim()) {
         setError(t.authErrorName);
         return;
@@ -50,8 +54,37 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
       }
     }
 
-    // Prototype: just navigate to home
-    onLogin();
+    setLoading(true);
+
+    try {
+      if (isSignup) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: {
+            data: { display_name: name.trim() },
+            emailRedirectTo: window.location.origin,
+          },
+        });
+        if (signUpError) {
+          setError(signUpError.message);
+        } else {
+          toast.success("Check your email to confirm your account!");
+        }
+      } else {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+        if (signInError) {
+          setError(signInError.message);
+        }
+      }
+    } catch (err) {
+      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -97,6 +130,7 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   maxLength={100}
+                  disabled={loading}
                 />
               )}
               <Input
@@ -105,6 +139,7 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 maxLength={255}
+                disabled={loading}
               />
               <Input
                 type="password"
@@ -112,6 +147,7 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 maxLength={128}
+                disabled={loading}
               />
 
               {isSignup && (
@@ -121,6 +157,7 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
                     checked={acceptedTerms}
                     onCheckedChange={(v) => setAcceptedTerms(v === true)}
                     className="mt-0.5"
+                    disabled={loading}
                   />
                   <label htmlFor="terms" className="text-xs text-muted-foreground leading-tight">
                     {t.authTermsCheckbox}{" "}
@@ -139,8 +176,12 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
                 <p className="text-sm text-destructive font-medium">{error}</p>
               )}
 
-              <Button type="submit" className="w-full">
-                {isSignup ? t.authSignup : t.authLogin}
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  isSignup ? t.authSignup : t.authLogin
+                )}
               </Button>
             </form>
 
@@ -149,6 +190,7 @@ const AuthPage = ({ onLogin, onOpenLegal }: AuthPageProps) => {
                 type="button"
                 onClick={() => { setIsSignup(!isSignup); setError(""); }}
                 className="text-sm text-primary hover:underline"
+                disabled={loading}
               >
                 {isSignup ? t.authHaveAccount : t.authNoAccount}
               </button>
