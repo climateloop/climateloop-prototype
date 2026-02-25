@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Sparkles } from "lucide-react";
 import Header, { NotificationPanel } from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
@@ -62,6 +62,11 @@ const Index = () => {
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  // Scroll to top on tab or view change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [activeTab, detailView]);
 
   if (loadingAuth) {
     return (
@@ -264,4 +269,3 @@ const Index = () => {
 };
 
 export default Index;
-
