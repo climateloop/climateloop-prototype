@@ -260,6 +260,7 @@ type TranslationKeys = {
   photoBlurWarning: string;
   // Emergency
   emergencyTitle: string;
+  emergencyTitlePrefix: string;
   emergencyPolice: string;
   emergencyFire: string;
   emergencyMedical: string;
@@ -676,6 +677,7 @@ Users may lodge a complaint with their competent data protection authority withi
     alertDetailAskDesc: "Tap the AI Assistant icon in the bottom bar for personalized guidance about this alert.",
     alertDetailChatButton: "Chat about this alert",
     emergencyTitle: "Emergency numbers — Spain",
+    emergencyTitlePrefix: "Emergency numbers",
     emergencyPolice: "Police",
     emergencyFire: "Fire department",
     emergencyMedical: "Medical emergency",
@@ -1073,6 +1075,7 @@ Los usuarios pueden presentar una reclamación ante la autoridad de protección 
     alertDetailAskDesc: "Toca el ícono del Asistente IA en la barra inferior para orientación personalizada sobre esta alerta.",
     alertDetailChatButton: "Conversar sobre esta alerta",
     emergencyTitle: "Teléfonos de emergencia — España",
+    emergencyTitlePrefix: "Teléfonos de emergencia",
     emergencyPolice: "Policía",
     emergencyFire: "Bomberos",
     emergencyMedical: "Emergencia médica",
@@ -1475,6 +1478,7 @@ Os usuários podem apresentar reclamação à autoridade de proteção de dados 
     alertDetailAskDesc: "Toque no ícone do Assistente IA na barra inferior para orientação personalizada sobre este alerta.",
     alertDetailChatButton: "Conversar sobre este alerta",
     emergencyTitle: "Telefones de emergência — Espanha",
+    emergencyTitlePrefix: "Telefones de emergência",
     emergencyPolice: "Polícia",
     emergencyFire: "Bombeiros",
     emergencyMedical: "Emergência médica",
@@ -1868,6 +1872,7 @@ Les utilisateurs peuvent déposer une plainte auprès de l'autorité de protecti
     alertDetailAskDesc: "Appuyez sur l'icône flottante de l'Assistant IA pour un accompagnement personnalisé sur cette alerte.",
     alertDetailChatButton: "Discuter de cette alerte",
     emergencyTitle: "Numéros d'urgence — Espagne",
+    emergencyTitlePrefix: "Numéros d'urgence",
     emergencyPolice: "Police",
     emergencyFire: "Pompiers",
     emergencyMedical: "Urgence médicale",

@@ -20,9 +20,10 @@ const fallbackData: EmergencyEntry[] = [
 ];
 
 const EmergencyNumbers = () => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { location } = useLocation();
   const [numbers, setNumbers] = useState<EmergencyEntry[]>(fallbackData);
+  const [countryName, setCountryName] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,11 @@ const EmergencyNumbers = () => {
         });
         if (!cancelled && data?.numbers) {
           setNumbers(data.numbers);
-          // country_code no longer displayed
+          if (data.country_names) {
+            setCountryName(data.country_names[locale] || data.country_names["en"] || null);
+          } else {
+            setCountryName(null);
+          }
         }
       } catch {
         // keep fallback
@@ -52,7 +57,9 @@ const EmergencyNumbers = () => {
       <div className="bg-surface-elevated rounded-xl border border-border shadow-card p-4">
         <div className="flex items-center gap-2 mb-3">
           <Phone className="w-4 h-4 text-destructive" />
-          <h3 className="text-sm font-semibold text-foreground">{t.emergencyTitle}</h3>
+          <h3 className="text-sm font-semibold text-foreground">
+            {t.emergencyTitlePrefix}{countryName ? ` — ${countryName}` : ""}
+          </h3>
           {loading && <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />}
         </div>
         <div className="space-y-2">
