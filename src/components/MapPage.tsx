@@ -88,9 +88,10 @@ const filterLabelKey: Record<string, string> = {
 
 interface MapPageProps {
   onOpenCommunityDetail?: (reportId: string) => void;
+  onOpenCapAlert?: (capAlertId: string) => void;
 }
 
-const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
+const MapPage = ({ onOpenCommunityDetail, onOpenCapAlert }: MapPageProps) => {
   const { t } = useLanguage();
   const { location } = useLocation();
   const USER_LAT = location.lat;
@@ -205,6 +206,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       const marker = L.marker([m.lat, m.lng], {
         icon: capMarkerIcon(m.severity),
       }).addTo(map);
+      marker.on("click", () => onOpenCapAlert?.(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
       });
