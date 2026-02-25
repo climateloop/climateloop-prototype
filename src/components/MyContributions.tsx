@@ -25,8 +25,8 @@ interface Contribution {
 }
 
 const myContributions: Contribution[] = [
-  { id: "1", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "2h", verified: true, hasPhoto: true, positiveRatings: 12, totalRatings: 13, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
-  { id: "3", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", verified: true, hasPhoto: true, positiveRatings: 11, totalRatings: 12, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
+  { id: "1", typeKey: "typeFlooding", description: "Rúa da Raíña completamente inundada tras forte chuveira", time: "2h", verified: true, hasPhoto: true, positiveRatings: 18, totalRatings: 21, translations: { es: { title: "Rúa da Raíña completamente inundada tras forte chuveira" }, en: { title: "Rúa da Raíña completely flooded after heavy rain" }, pt: { title: "Rúa da Raíña completamente inundada após chuva forte" }, fr: { title: "Rúa da Raíña complètement inondée après de fortes pluies" } } },
+  { id: "3", typeKey: "typeStrongWind", description: "Árbore caída na Rúa Nova bloqueando o tráfico", time: "1h", verified: true, hasPhoto: true, positiveRatings: 15, totalRatings: 17, translations: { es: { title: "Árbore caída na Rúa Nova bloqueando o tráfico" }, en: { title: "Fallen tree on Rúa Nova blocking traffic" }, pt: { title: "Árvore caída na Rúa Nova bloqueando o trânsito" }, fr: { title: "Arbre tombé sur la Rúa Nova bloquant la circulation" } } },
 ];
 
 const typeColorMap: Record<string, string> = {
