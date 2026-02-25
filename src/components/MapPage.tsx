@@ -120,9 +120,6 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
       if (dist <= radiusMeters) {
         counts["alerts"] = (counts["alerts"] || 0) + 1;
-        if (m.filterCat) {
-          counts[m.filterCat] = (counts[m.filterCat] || 0) + 1;
-        }
       }
     });
 
