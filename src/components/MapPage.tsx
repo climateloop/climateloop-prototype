@@ -103,8 +103,15 @@ const MapPage = ({ onOpenCommunityDetail, onOpenCapAlert }: MapPageProps) => {
   const capMarkersRef = useRef<{ marker: L.Marker; data: typeof capAlertMarkers[0] }[]>([]);
   const [selectedRadius, setSelectedRadius] = useState(1);
   const [activeFilters, setActiveFilters] = useState<Set<string>>(new Set(mapFilterDefs.map(f => f.key)));
+  const [mapBounds, setMapBounds] = useState<L.LatLngBounds | null>(null);
 
-  // Compute filter counts dynamically based on markers within the selected radius
+  // Helper: check if point is within current map viewport
+  const isInViewport = (lat: number, lng: number) => {
+    if (!mapBounds) return true;
+    return mapBounds.contains([lat, lng]);
+  };
+
+  // Compute filter counts based on markers within radius AND viewport
   const filterCounts = useMemo(() => {
     const radiusMeters = radiusOptions[selectedRadius].meters;
     const counts: Record<string, number> = {};
@@ -112,37 +119,37 @@ const MapPage = ({ onOpenCommunityDetail, onOpenCapAlert }: MapPageProps) => {
 
     communityMapMarkers.forEach((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
-      if (dist <= radiusMeters && m.filterCat) {
+      if (dist <= radiusMeters && m.filterCat && isInViewport(m.lat, m.lng)) {
         counts[m.filterCat] = (counts[m.filterCat] || 0) + 1;
       }
     });
 
     capAlertMarkers.forEach((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
-      if (dist <= radiusMeters) {
+      if (dist <= radiusMeters && isInViewport(m.lat, m.lng)) {
         counts["alerts"] = (counts["alerts"] || 0) + 1;
       }
     });
 
     return counts;
-  }, [selectedRadius, USER_LAT, USER_LNG]);
+  }, [selectedRadius, USER_LAT, USER_LNG, mapBounds]);
 
-  // Visible counts for the top bar stats (within radius AND matching active filters)
+  // Visible counts for the top bar stats (within radius AND viewport AND matching active filters)
   const visibleReportsCount = useMemo(() => {
     const radiusMeters = radiusOptions[selectedRadius].meters;
     return communityMapMarkers.filter((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
-      return dist <= radiusMeters && activeFilters.has(m.filterCat);
+      return dist <= radiusMeters && activeFilters.has(m.filterCat) && isInViewport(m.lat, m.lng);
     }).length;
-  }, [selectedRadius, USER_LAT, USER_LNG, activeFilters]);
+  }, [selectedRadius, USER_LAT, USER_LNG, activeFilters, mapBounds]);
 
   const visibleAlertsCount = useMemo(() => {
     const radiusMeters = radiusOptions[selectedRadius].meters;
     return capAlertMarkers.filter((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
-      return dist <= radiusMeters && activeFilters.has("alerts");
+      return dist <= radiusMeters && activeFilters.has("alerts") && isInViewport(m.lat, m.lng);
     }).length;
-  }, [selectedRadius, USER_LAT, USER_LNG, activeFilters]);
+  }, [selectedRadius, USER_LAT, USER_LNG, activeFilters, mapBounds]);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
@@ -157,6 +164,13 @@ const MapPage = ({ onOpenCommunityDetail, onOpenCapAlert }: MapPageProps) => {
       boxZoom: false,
       keyboard: false,
     }).setView([USER_LAT, USER_LNG], 13);
+
+    // Track viewport bounds for dynamic counts
+    const updateBounds = () => setMapBounds(map.getBounds());
+    map.on("moveend", updateBounds);
+    map.on("zoomend", updateBounds);
+    // Set initial bounds after first render
+    setTimeout(updateBounds, 100);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
     L.control.zoom({ position: "topright" }).addTo(map);
