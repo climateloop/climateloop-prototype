@@ -79,6 +79,10 @@ const HomeMap = ({ onOpenCommunityDetail, onOpenCapAlert }: HomeMapProps) => {
   const mapInstanceRef = useRef<L.Map | null>(null);
   const radiusCircleRef = useRef<L.Circle | null>(null);
   const [selectedRadius, setSelectedRadius] = useState(1);
+  const onOpenCommunityDetailRef = useRef(onOpenCommunityDetail);
+  onOpenCommunityDetailRef.current = onOpenCommunityDetail;
+  const onOpenCapAlertRef = useRef(onOpenCapAlert);
+  onOpenCapAlertRef.current = onOpenCapAlert;
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
@@ -124,7 +128,7 @@ const HomeMap = ({ onOpenCommunityDetail, onOpenCapAlert }: HomeMapProps) => {
       const marker = L.marker([m.lat, m.lng], {
         icon: communityMarkerIcon(m.typeKey, m.risk, m.filterCat),
       }).addTo(map);
-      marker.on("click", () => onOpenCommunityDetail?.(m.id));
+      marker.on("click", () => onOpenCommunityDetailRef.current?.(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
       });
@@ -135,7 +139,7 @@ const HomeMap = ({ onOpenCommunityDetail, onOpenCapAlert }: HomeMapProps) => {
       const marker = L.marker([m.lat, m.lng], {
         icon: capMarkerIcon(m.severity),
       }).addTo(map);
-      marker.on("click", () => onOpenCapAlert?.(m.id));
+      marker.on("click", () => onOpenCapAlertRef.current?.(m.id));
       marker.bindTooltip(`<span style="font-size:11px;white-space:nowrap">${m.label}</span>`, {
         permanent: false, direction: "top", offset: [0, -14],
       });
