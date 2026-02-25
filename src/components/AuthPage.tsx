@@ -91,7 +91,7 @@ const AuthPage = ({ onOpenLegal }: AuthPageProps) => {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-6">
         <div className="flex flex-col items-center">
-          <img src={logo} alt="ClimateLoop" className="h-14 w-auto" />
+          <img src={logo} alt="Climate Loop" className="h-14 w-auto" />
         </div>
 
         {/* Language selector */}

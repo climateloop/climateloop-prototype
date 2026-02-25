@@ -1,4 +1,4 @@
-# ClimateLoop — Backend API Documentation
+# Climate Loop — Backend API Documentation
 
 > **Base URL**: `https://<SUPABASE_PROJECT_REF>.supabase.co`  
 > All Edge Function endpoints are under `/functions/v1/<function-name>`  
@@ -407,4 +407,4 @@ Machine Learning weather predictions.
 
 ---
 
-*Generated on 2026-02-24 — ClimateLoop v1.0*
+*Generated on 2026-02-24 — Climate Loop v1.0*
