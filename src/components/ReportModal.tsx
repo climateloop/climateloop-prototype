@@ -8,6 +8,7 @@ import { toast } from "sonner";
 interface ReportModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
 type CategoryId = "chuva" | "vento" | "calor" | "incendio" | "helada" | "granizo" | "enchente" | "ciclone" | "deslizamento" | "seca" | "tempestade" | "tornado";
@@ -50,7 +51,7 @@ const subOptionKeys: Record<CategoryId, string[]> = {
 
 type PhotoStatus = "idle" | "analyzing" | "accepted" | "rejected";
 
-const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
+const ReportModal = ({ isOpen, onClose, onSuccess }: ReportModalProps) => {
   const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CategoryId | null>(null);
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
@@ -132,6 +133,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
         toast.success(t.reportSuccess, { duration: 2000 });
         resetForm();
         onClose();
+        onSuccess?.();
 
         // Trigger async translation (fire-and-forget)
         if (insertedReport?.id) {
