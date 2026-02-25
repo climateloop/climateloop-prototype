@@ -57,6 +57,8 @@ const ReportModal = ({ isOpen, onClose, onSuccess }: ReportModalProps) => {
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
+  const [addressLat, setAddressLat] = useState<number | null>(null);
+  const [addressLng, setAddressLng] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -71,6 +73,8 @@ const ReportModal = ({ isOpen, onClose, onSuccess }: ReportModalProps) => {
     setSelectedSub(null);
     setTitle("");
     setAddress("");
+    setAddressLat(null);
+    setAddressLng(null);
     setNotes("");
     setPhotoFile(null);
     setPhotoPreview(null);
@@ -122,6 +126,8 @@ const ReportModal = ({ isOpen, onClose, onSuccess }: ReportModalProps) => {
           address: address.trim(),
           photo_url: photoUrl || null,
           status: "verified",
+          latitude: addressLat,
+          longitude: addressLng,
         })
         .select("id")
         .single();
@@ -288,7 +294,13 @@ const ReportModal = ({ isOpen, onClose, onSuccess }: ReportModalProps) => {
                 <p className="text-sm font-medium text-foreground mb-2">{t.reportAddressLabel}</p>
                 <AddressAutocomplete
                   value={address}
-                  onChange={(val) => setAddress(val)}
+                  onChange={(val, lat, lng) => {
+                    setAddress(val);
+                    if (lat !== undefined && lng !== undefined) {
+                      setAddressLat(lat);
+                      setAddressLng(lng);
+                    }
+                  }}
                   placeholder={t.reportAddressPlaceholder}
                 />
               </div>
@@ -386,6 +398,8 @@ const ReportModal = ({ isOpen, onClose, onSuccess }: ReportModalProps) => {
                   setSelectedSub(null);
                   setTitle("");
                   setAddress("");
+                  setAddressLat(null);
+                  setAddressLng(null);
                   setPhotoPreview(null);
                   setPhotoFile(null);
                   setPhotoStatus("idle");
