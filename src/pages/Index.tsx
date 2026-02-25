@@ -238,7 +238,7 @@ const Index = () => {
       </main>
 
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
-      <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} />
+      <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} onSuccess={() => { setActiveTab("inicio"); setDetailView(null); }} />
 
       {/* Floating AI button */}
       <button
