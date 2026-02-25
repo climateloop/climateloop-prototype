@@ -1,5 +1,6 @@
 import { User, Settings, Bell, Shield, MapPin, LogOut, ChevronRight, Globe, ClipboardList, Ruler } from "lucide-react";
 import { useLanguage, localeNames, type Locale, type UnitSystem } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -20,6 +21,7 @@ const MOCK_REPORT_COUNT = 2; // mock reports assigned to this user
 
 const ProfilePage = ({ onOpenContributions, onOpenLocation, onOpenLegal, onLogout }: ProfilePageProps) => {
   const { t, locale, setLocale, unitSystem, setUnitSystem } = useLanguage();
+  const { location: currentLocation } = useLocation();
   const [langOpen, setLangOpen] = useState(false);
   const [unitsOpen, setUnitsOpen] = useState(false);
   const [displayName, setDisplayName] = useState(t.profileDemoUser);
@@ -55,7 +57,7 @@ const ProfilePage = ({ onOpenContributions, onOpenLocation, onOpenLegal, onLogou
 
   const menuItems = [
     { icon: ClipboardList, label: t.menuMyContributions, value: String(reportCount), onClick: onOpenContributions, id: "contributions" },
-    { icon: MapPin, label: t.profileMyLocation, value: t.profileLocationValue, onClick: onOpenLocation, id: "location" },
+    { icon: MapPin, label: t.profileMyLocation, value: currentLocation.name, onClick: onOpenLocation, id: "location" },
     { icon: Bell, label: t.profileNotifications, value: t.profileNotifActive, id: "notifications" },
     { icon: Globe, label: t.profileLanguage, value: localeNames[locale], onClick: () => { setLangOpen(!langOpen); setUnitsOpen(false); }, id: "language" },
     { icon: Ruler, label: t.profileUnits, value: unitSystemLabels[unitSystem][locale], onClick: () => { setUnitsOpen(!unitsOpen); setLangOpen(false); }, id: "units" },

@@ -142,7 +142,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
     const radiusMeters = radiusOptions[selectedRadius].meters;
     return capAlertMarkers.filter((m) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, m.lat, m.lng);
-      return dist <= radiusMeters && activeFilters.has("alerts");
+      return dist <= radiusMeters && (activeFilters.has("alerts") || (m.filterCat && activeFilters.has(m.filterCat)));
     }).length;
   }, [selectedRadius, USER_LAT, USER_LNG, activeFilters]);
 
@@ -251,7 +251,7 @@ const MapPage = ({ onOpenCommunityDetail }: MapPageProps) => {
 
     capMarkersRef.current.forEach(({ marker, data }) => {
       const dist = haversineMeters(USER_LAT, USER_LNG, data.lat, data.lng);
-      const visible = dist <= radiusMeters && activeFilters.has("alerts");
+      const visible = dist <= radiusMeters && (activeFilters.has("alerts") || (data.filterCat && activeFilters.has(data.filterCat)));
       if (visible && !map.hasLayer(marker)) marker.addTo(map);
       if (!visible && map.hasLayer(marker)) map.removeLayer(marker);
     });
