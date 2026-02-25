@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Send, Bot, User, X, Loader2 } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useLocation } from "@/hooks/useLocationContext";
 import { toast } from "@/hooks/use-toast";
 
 interface Message {
@@ -20,12 +21,14 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 async function streamChat({
   messages,
   locale,
+  locationName,
   onDelta,
   onDone,
   onError,
 }: {
   messages: Message[];
   locale?: string;
+  locationName?: string;
   onDelta: (text: string) => void;
   onDone: () => void;
   onError: (msg: string) => void;
@@ -36,7 +39,7 @@ async function streamChat({
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages, locale }),
+    body: JSON.stringify({ messages, locale, locationName }),
   });
 
   if (!resp.ok) {
@@ -108,6 +111,8 @@ async function streamChat({
 
 const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) => {
   const { t, locale } = useLanguage();
+  const { location } = useLocation();
+  const locName = location.name;
   const [messages, setMessages] = useState<Message[]>(() => [
     { role: "assistant", content: t.aiInitialMessage },
   ]);
@@ -136,6 +141,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
       streamChat({
         messages: baseMessages,
         locale,
+        locationName: locName,
         onDelta: (chunk) => {
           assistantSoFar += chunk;
           setMessages([...baseMessages, { role: "assistant", content: assistantSoFar }]);
@@ -198,6 +204,7 @@ const AIChat = ({ isOpen, onToggle, context, onContextHandled }: AIChatProps) =>
       await streamChat({
         messages: newMessages,
         locale,
+        locationName: locName,
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: () => setIsLoading(false),
         onError: (msg) => {

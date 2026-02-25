@@ -13,8 +13,11 @@ const LOCALE_NAMES: Record<string, string> = {
   fr: "French",
 };
 
-const buildSystemPrompt = (locale?: string) => {
+const buildSystemPrompt = (locale?: string, locationName?: string) => {
   const langName = LOCALE_NAMES[locale || ""] || null;
+  const locationInstruction = locationName
+    ? `\n\nUSER LOCATION: The user is currently located in "${locationName}". Use this information to provide relevant, localized advice about weather, alerts, and emergency preparedness for that area.`
+    : "";
   const langInstruction = langName
     ? `\n\nCRITICAL LANGUAGE RULE: You MUST ALWAYS respond in ${langName}, regardless of the language of any context, alert, or community report shared in the conversation. The only exception is if the user explicitly asks you to respond in a different language.`
     : "";
@@ -48,7 +51,7 @@ IMPORTANT — Community reports context:
 - The person chatting with you is the logged-in user who is viewing the report and wants to understand it better
 - Never address the user by the reporter's name
 - You can refer to the reporter in third person (e.g. "The report submitted by María S. indicates...")
-- Focus on helping the current user understand the situation, assess risks, and take appropriate action${langInstruction}`;
+- Focus on helping the current user understand the situation, assess risks, and take appropriate action${locationInstruction}${langInstruction}`;
 };
 
 serve(async (req) => {
@@ -57,7 +60,7 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, locale } = await req.json();
+    const { messages, locale, locationName } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
@@ -72,7 +75,7 @@ serve(async (req) => {
         body: JSON.stringify({
           model: "google/gemini-3-flash-preview",
           messages: [
-            { role: "system", content: buildSystemPrompt(locale) },
+            { role: "system", content: buildSystemPrompt(locale, locationName) },
             ...messages,
           ],
           stream: true,
