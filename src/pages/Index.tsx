@@ -45,6 +45,7 @@ const Index = () => {
   const [chatContext, setChatContext] = useState<string | null>(null);
   const [detailView, setDetailView] = useState<DetailView>(null);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [communityRefreshKey, setCommunityRefreshKey] = useState(0);
   const { t } = useLanguage();
   const { data: capData } = useCapAlerts();
 
@@ -210,7 +211,7 @@ const Index = () => {
           )}
           <WeatherCard />
           <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} />
-          <CommunityReports onOpenReport={handleOpenCommunityDetail} preview />
+          <CommunityReports onOpenReport={handleOpenCommunityDetail} preview refreshKey={communityRefreshKey} />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
           <EmergencyNumbers />
@@ -218,7 +219,7 @@ const Index = () => {
       );
     }
 
-    if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} />;
+    if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} refreshKey={communityRefreshKey} />;
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenCapAlertDetail} />;
     if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
     if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onOpenLegal={handleOpenLegal} onLogout={() => supabase.auth.signOut()} />;
@@ -238,7 +239,7 @@ const Index = () => {
       </main>
 
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
-      <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} onSuccess={() => { setActiveTab("inicio"); setDetailView(null); }} />
+      <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} onSuccess={() => { setActiveTab("inicio"); setDetailView(null); setCommunityRefreshKey((k) => k + 1); }} />
 
       {/* Floating AI button */}
       <button
