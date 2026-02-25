@@ -81,8 +81,20 @@ const Index = () => {
     return <AuthPage onOpenLegal={() => setShowLegalFromAuth(true)} />;
   }
 
-  // Most recent active (immediate) CAP alert for the user's region
-  const latestCapAlert: CapAlert | null = capData?.immediate?.[0] ?? null;
+  // Pick the closest active or upcoming CAP alert for the home card
+  const latestCapAlert: CapAlert | null = (() => {
+    const active = capData?.immediate ?? [];
+    const upcoming = capData?.future ?? [];
+    const candidates = [...active, ...upcoming];
+    if (candidates.length === 0) return null;
+    const now = Date.now();
+    candidates.sort((a, b) => {
+      const aTime = a.onset ? Math.abs(new Date(a.onset).getTime() - now) : 0;
+      const bTime = b.onset ? Math.abs(new Date(b.onset).getTime() - now) : 0;
+      return aTime - bTime;
+    });
+    return candidates[0];
+  })();
 
   const handleTabChange = (tab: string) => {
     if (tab === "reportar") {
