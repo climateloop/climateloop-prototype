@@ -76,9 +76,10 @@ const availableTypes = ["typeFlooding", "typeStrongWind", "typeRain", "typeExtre
 interface CommunityReportsProps {
   onOpenReport?: (reportId: string) => void;
   preview?: boolean;
+  refreshKey?: number;
 }
 
-const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
+const CommunityReports = ({ onOpenReport, preview, refreshKey }: CommunityReportsProps) => {
   const { t, locale } = useLanguage();
   const { location: userLoc } = useLocation();
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -138,7 +139,6 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
           setDbReports(
             data
               .filter((r) => !reports.some((m) => m.id === r.id))
-              .filter((r) => r.latitude != null && r.longitude != null)
               .map((r) => ({
                 id: r.id,
                 user: "",
@@ -146,8 +146,8 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
                 description: r.title,
                 time: diff(r.created_at),
                 hasPhoto: !!r.photo_url,
-                lat: r.latitude!,
-                lng: r.longitude!,
+                lat: r.latitude ?? userLoc.lat,
+                lng: r.longitude ?? userLoc.lng,
                 userId: r.user_id,
                 positiveRatings: 0,
                 totalRatings: 0,
@@ -158,7 +158,7 @@ const CommunityReports = ({ onOpenReport, preview }: CommunityReportsProps) => {
           );
         }
       });
-  }, []);
+  }, [refreshKey]);
 
   // DB reports (with real timestamps) come first (newest), then mocks
   const allReports = useMemo(() => {
