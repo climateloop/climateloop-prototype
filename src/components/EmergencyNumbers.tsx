@@ -23,7 +23,6 @@ const EmergencyNumbers = () => {
   const { t } = useLanguage();
   const { location } = useLocation();
   const [numbers, setNumbers] = useState<EmergencyEntry[]>(fallbackData);
-  const [countryCode, setCountryCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -36,7 +35,7 @@ const EmergencyNumbers = () => {
         });
         if (!cancelled && data?.numbers) {
           setNumbers(data.numbers);
-          setCountryCode(data.country_code ?? null);
+          // country_code no longer displayed
         }
       } catch {
         // keep fallback
@@ -55,11 +54,6 @@ const EmergencyNumbers = () => {
           <Phone className="w-4 h-4 text-destructive" />
           <h3 className="text-sm font-semibold text-foreground">{t.emergencyTitle}</h3>
           {loading && <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />}
-          {countryCode && (
-            <span className="ml-auto text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-              {countryCode}
-            </span>
-          )}
         </div>
         <div className="space-y-2">
           {numbers.map((item) => (
