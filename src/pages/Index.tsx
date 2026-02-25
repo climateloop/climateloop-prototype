@@ -140,6 +140,17 @@ const Index = () => {
     if (alert) handleOpenAlertDetail(alert);
   };
 
+  const handleOpenCapAlertFromMap = (capMarkerId: string) => {
+    // Try to find a real CAP alert from the DB data; fall back to first available
+    const allAlerts = [...(capData?.immediate ?? []), ...(capData?.future ?? []), ...(capData?.past ?? [])];
+    // Map marker IDs are like "cap-1", "cap-2" etc — map index to DB alerts
+    const idx = parseInt(capMarkerId.replace("cap-", ""), 10) - 1;
+    const capAlert = allAlerts[idx] ?? allAlerts[0];
+    if (capAlert) {
+      handleOpenCapAlertDetail(capAlert);
+    }
+  };
+
   const handleOpenForecastDetail = () => {
     setDetailView({ type: "forecast" });
   };
@@ -215,7 +226,7 @@ const Index = () => {
             </div>
           )}
           <WeatherCard />
-          <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} />
+          <HomeMap onOpenCommunityDetail={handleOpenCommunityDetail} onOpenCapAlert={handleOpenCapAlertFromMap} />
           <CommunityReports onOpenReport={handleOpenCommunityDetail} preview refreshKey={communityRefreshKey} />
           <IoTStationCard />
           <ForecastComparison onOpenDetail={handleOpenForecastDetail} />
@@ -226,7 +237,7 @@ const Index = () => {
 
     if (activeTab === "comunidade") return <CommunityReports onOpenReport={handleOpenCommunityDetail} refreshKey={communityRefreshKey} />;
     if (activeTab === "alertas") return <AlertsPage onAskAI={handleOpenCapAlertDetail} />;
-    if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} />;
+    if (activeTab === "mapa") return <MapPage onOpenCommunityDetail={handleOpenCommunityDetail} onOpenCapAlert={handleOpenCapAlertFromMap} />;
     if (activeTab === "perfil") return <ProfilePage onOpenContributions={handleOpenContributions} onOpenLocation={handleOpenLocation} onOpenLegal={handleOpenLegal} onLogout={() => supabase.auth.signOut()} />;
     return null;
   };
