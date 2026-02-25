@@ -90,6 +90,21 @@ const emergencyNumbersByCountry: Record<
   ],
 };
 
+// Country names by code (multilingual keys)
+const countryNames: Record<string, Record<string, string>> = {
+  ES: { en: "Spain", es: "España", pt: "Espanha", fr: "Espagne" },
+  BR: { en: "Brazil", es: "Brasil", pt: "Brasil", fr: "Brésil" },
+  PT: { en: "Portugal", es: "Portugal", pt: "Portugal", fr: "Portugal" },
+  FR: { en: "France", es: "Francia", pt: "França", fr: "France" },
+  US: { en: "United States", es: "Estados Unidos", pt: "Estados Unidos", fr: "États-Unis" },
+  GB: { en: "United Kingdom", es: "Reino Unido", pt: "Reino Unido", fr: "Royaume-Uni" },
+  DE: { en: "Germany", es: "Alemania", pt: "Alemanha", fr: "Allemagne" },
+  IT: { en: "Italy", es: "Italia", pt: "Itália", fr: "Italie" },
+  AR: { en: "Argentina", es: "Argentina", pt: "Argentina", fr: "Argentine" },
+  MX: { en: "Mexico", es: "México", pt: "México", fr: "Mexique" },
+  SN: { en: "Senegal", es: "Senegal", pt: "Senegal", fr: "Sénégal" },
+};
+
 // Default (international)
 const defaultNumbers = [
   { labelKey: "emergencyPolice", number: "112" },
@@ -132,7 +147,7 @@ Deno.serve(async (req) => {
     const numbers = emergencyNumbersByCountry[countryCode ?? ""] ?? defaultNumbers;
 
     return new Response(
-      JSON.stringify({ country_code: countryCode, numbers }),
+      JSON.stringify({ country_code: countryCode, country_names: countryCode ? countryNames[countryCode] ?? null : null, numbers }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
