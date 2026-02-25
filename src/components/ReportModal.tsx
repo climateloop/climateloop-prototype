@@ -129,7 +129,7 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
         console.error("Error inserting report:", insertError);
         toast.error(insertError.message);
       } else {
-        toast.success(t.reportSuccess);
+        toast.success(t.reportSuccess, { duration: 2000 });
         resetForm();
         onClose();
 
@@ -374,17 +374,8 @@ const ReportModal = ({ isOpen, onClose }: ReportModalProps) => {
                 disabled={!canSubmit}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm shadow-card hover:shadow-elevated transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSending ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    {t.reportSending}
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    {t.reportSend}
-                  </>
-                )}
+                <Send className="w-4 h-4" />
+                {t.reportSend}
               </button>
 
               <button
